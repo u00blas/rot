@@ -7,6 +7,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
 
+import java.util.Arrays;
+
 @SpringBootApplication
 public class App {
 
@@ -19,10 +21,10 @@ public class App {
     CommandLineRunner runner(CategoryRepository categoryRepository) {
         return args -> {
             System.out.println("Try to save category");
-            Category category = new Category(1L, "Category 1");
-
-
-            categoryRepository.save(category);
+            for (String name : Arrays.asList("Category 1", "Category 2", "Category 3")) {
+                Category category = new Category(name);
+                categoryRepository.save(category);
+            }
 
         };
     }
