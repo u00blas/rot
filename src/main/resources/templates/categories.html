@@ -8,6 +8,34 @@
 <body>
 <div class="container text-center">
     <div><h1>Category List</h1></div>
+    <div class="p-2">
+        <a class="h2" th:href="@{/categories/new}">Create Category</a>
+    </div>
+    <div class="p-2">
+        <a class="h2" th:href="@{/questions}">List Questions</a>
+    </div>
+    <div class="p-2">
+        <a class="h2" th:href="@{/questions/new}">Create Question</a>
+    </div>
+    <table class="table table-striped">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="category : ${categories}">
+            <td th:text="${category.id}"></td>
+            <td th:text="${category.name}"></td>
+            <td>
+                <a class="btn btn-primary" th:href="@{/categories/{id}(id=${category.id})}">Edit</a>
+                <a class="btn btn-danger" th:href="@{/categories/{id}/delete(id=${category.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
 </div>
 </body>
 </html>
