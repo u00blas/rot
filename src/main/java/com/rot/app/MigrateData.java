@@ -1,13 +1,7 @@
 package com.rot.app;
 
 import com.rot.app.category.Category;
-import com.rot.app.category.CategoryRepository;
 import com.rot.app.question.Question;
-import com.rot.app.question.QuestionRepository;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.annotation.Bean;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
@@ -18,51 +12,6 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-@SpringBootApplication
-public class App {
-
-    public static void main(String[] args) {
-
-        SpringApplication.run(App.class, args);
-    }
-
-    @Bean
-    CommandLineRunner runner(CategoryRepository categoryRepository, QuestionRepository questionRepository) {
-        return args -> {
-            System.out.println("Try to save category");
-            List<Category> categoryList = new ArrayList<>();
-            for (String name : Arrays.asList("Category 1", "Category 2", "Category 3")) {
-                Category category = new Category(name);
-                categoryList.add(category);
-                categoryRepository.save(category);
-            }
-            List<Question> questionList = getQuestionsFromCsv();
-            int i = 0;
-            for (String name : Arrays.asList("Question 1", "Question 2", "Question 3")) {
-                Question question = new Question(name, categoryList.get(i));
-                i++;
-                questionRepository.save(question);
-            }
-        };
-    }
-
-    private List<Question> getQuestionsFromCsv() {
-        List<Question> questions = new ArrayList<>();
-        Resource resource = new ClassPathResource("Teil 3 Masterdatei RoT-Modell Interviews.csv");
-        try {
-            File file = resource.getFile();
-            List<String> lines = Files.readAllLines(file.toPath());
-
-            for (String line : lines) {
-                Question question = createQuestionFromCsvLine(line.split(";"));
-                questions.add(question);
-            }
-
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return questions;
-    }
 //0: 1
 //1: Sheet
 //2: Zielgruppe
@@ -137,6 +86,41 @@ public class App {
 //Fragetyp (23), Skala min (24), Skala max (25), Wert1 (26), Wert2 (27), Wert3 (28), Wert4 (29), Wert5 (30)
 //->  1, Nie, Sehr häufig, asdf1, asdf, sdaf, sadf, asdf
 //--------------------------------------------------------------------------------
+
+public class MigrateData {
+    public static List<Category> getCategoryListFromCsv() {
+        List<Category> categoryList = new ArrayList<>();
+
+        Resource resource = new ClassPathResource("Teil 3 Masterdatei RoT-Modell Interviews.csv");
+        try {
+            File file = resource.getFile();
+            List<String> lines = Files.readAllLines(file.toPath());
+            List<String> distinctLines = new ArrayList<>();
+            for (String line : lines) {
+                String[] parts = line.split(";");
+                if (parts.length < 3) {
+                    continue;
+                }
+                if (distinctLines.contains(parts[2])) {
+                    continue;
+                }
+                distinctLines.add(parts[2]);
+                System.out.println(parts[2]);
+                //Category category = createCategoryFromCsvLine(line.split(";"));
+                //categoryList.add(category);
+            }
+
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+
+        return categoryList;
+    }
+
+    private static Category createCategoryFromCsvLine(String[] parts) {
+        return new Category(parts[0]);
+    }
+
     private Question createQuestionFromCsvLine(String[] parts) {
         List<String> sb = new ArrayList<>();
         List<String> temp = new ArrayList<>();
