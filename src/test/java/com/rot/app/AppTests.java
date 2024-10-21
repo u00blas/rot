@@ -5,10 +5,7 @@ import com.rot.app.possibleanswers.PossibleAnswers;
 import com.rot.app.topic.Topic;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.core.io.ClassPathResource;
 
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.List;
 
 @SpringBootTest
@@ -32,7 +29,7 @@ class AppTests {
     }
     @Test
     void load_possible_answers_from_csv() {
-        List<PossibleAnswers> possibleAnswersList = MigrateData.getPossibleAnswersListFromCsv();
+        List<PossibleAnswers> possibleAnswersList = MigrateData.getPossibleAnswersFromCsv();
         for (PossibleAnswers possibleAnswers : possibleAnswersList) {
             System.out.println(possibleAnswers);
         }

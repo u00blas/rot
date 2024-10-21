@@ -1,11 +1,10 @@
-package com.rot.app.possibleanswers;
+package com.rot.app.proposal;
 
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "possible_answers")
-public class PossibleAnswers {
-
+@Table(name = "proposals")
+public class Proposal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -15,16 +14,21 @@ public class PossibleAnswers {
 
     @Column(name = "max_scale")
     private String maxScale;
+
     private String description1;
     private String description2;
     private String description3;
     private String description4;
     private String description5;
 
-    public PossibleAnswers() {
+    public Proposal() {
     }
 
-    public PossibleAnswers(Long id, String minScale, String maxScale, String description1, String description2, String description3, String description4, String description5) {
+    public Proposal(Long id) {
+        this.id = id;
+    }
+
+    public Proposal(Long id, String minScale, String maxScale, String description1, String description2, String description3, String description4, String description5) {
         this.id = id;
         this.minScale = minScale;
         this.maxScale = maxScale;
@@ -35,7 +39,7 @@ public class PossibleAnswers {
         this.description5 = description5;
     }
 
-    public PossibleAnswers(String minScale, String maxScale, String description1, String description2, String description3, String description4, String description5) {
+    public Proposal(String minScale, String maxScale, String description1, String description2, String description3, String description4, String description5) {
         this.minScale = minScale;
         this.maxScale = maxScale;
         this.description1 = description1;
@@ -111,7 +115,7 @@ public class PossibleAnswers {
 
     @Override
     public String toString() {
-        return "PossibleAnswers{" +
+        return "Proposal{" +
                 "id=" + id +
                 ", minScale='" + minScale + '\'' +
                 ", maxScale='" + maxScale + '\'' +

@@ -2,6 +2,10 @@ package com.rot.app;
 
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
+import com.rot.app.possibleanswers.PossibleAnswers;
+import com.rot.app.possibleanswers.PossibleAnswersRepository;
+import com.rot.app.proposal.Proposal;
+import com.rot.app.proposal.ProposalRepository;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -27,8 +31,20 @@ public class App {
     }
 
     @Bean
-    CommandLineRunner runner(CategoryRepository categoryRepository, QuestionRepository questionRepository) {
+    CommandLineRunner runner(CategoryRepository categoryRepository,
+                             PossibleAnswersRepository possibleAnswersRepository,
+                             QuestionRepository questionRepository,
+                             ProposalRepository proposalRepository) {
         return args -> {
+            List<Proposal> proposalList = MigrateData.getProposalsFromCsv();
+            for (Proposal proposal : proposalList) {
+                proposalRepository.save(proposal);
+            }
+
+            List<PossibleAnswers> possibleAnswersList = MigrateData.getPossibleAnswersFromCsv();
+            for (PossibleAnswers possibleAnswers : possibleAnswersList) {
+                possibleAnswersRepository.save(possibleAnswers);
+            }
             System.out.println("Try to save category");
             List<Category> categoryList = new ArrayList<>();
             for (String name : Arrays.asList("Category 1", "Category 2", "Category 3")) {
@@ -63,7 +79,8 @@ public class App {
         }
         return questions;
     }
-//0: 1
+
+    //0: 1
 //1: Sheet
 //2: Zielgruppe
 //3: Thema

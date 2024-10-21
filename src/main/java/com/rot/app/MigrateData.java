@@ -2,6 +2,7 @@ package com.rot.app;
 
 import com.rot.app.category.Category;
 import com.rot.app.possibleanswers.PossibleAnswers;
+import com.rot.app.proposal.Proposal;
 import com.rot.app.question.Question;
 import com.rot.app.topic.Topic;
 import org.springframework.core.io.ClassPathResource;
@@ -234,7 +235,8 @@ public class MigrateData {
         return lines;
     }
 
-    public static List<PossibleAnswers> getPossibleAnswersListFromCsv() {
+
+    public static List<PossibleAnswers> getPossibleAnswersFromCsv() {
         List<PossibleAnswers> possibleAnswersList = new ArrayList<>();
         List<String> lines = getLinesFromCsv();
         List<String> distinctLines = new ArrayList<>();
@@ -259,6 +261,39 @@ public class MigrateData {
 
     private static PossibleAnswers createPossibleAnswersFromCsvLine(String[] parts) {
         return new PossibleAnswers(parts[MigrateData.getColumnIndex("Y") ].trim(),
+                parts[MigrateData.getColumnIndex("Z") ].trim(),
+                parts[MigrateData.getColumnIndex("AA") ].trim(),
+                parts[MigrateData.getColumnIndex("AB") ].trim(),
+                parts[MigrateData.getColumnIndex("AC") ].trim(),
+                parts[MigrateData.getColumnIndex("AD") ].trim(),
+                parts[MigrateData.getColumnIndex("AE") ].trim());
+    }
+
+    public static List<Proposal> getProposalsFromCsv() {
+        List<Proposal> possibleAnswersList = new ArrayList<>();
+        List<String> lines = getLinesFromCsv();
+        List<String> distinctLines = new ArrayList<>();
+        for (String line : lines) {
+            String[] parts = line.split(";");
+            if (parts.length < MigrateData.getColumnIndex("AE")) {
+                continue;
+            }
+            int distinctColumnIndex = MigrateData.getColumnIndex("Y") ;
+            if (distinctLines.contains(parts[distinctColumnIndex])) {
+                continue;
+            } else {
+                if (parts[distinctColumnIndex].isEmpty() || parts[distinctColumnIndex].equals("Skala min")) {
+                    continue;
+                }
+                distinctLines.add(parts[distinctColumnIndex]);
+                possibleAnswersList.add(createProposalFromCsvLine(parts));
+            }
+        }
+        return possibleAnswersList;
+    }
+
+    private static Proposal createProposalFromCsvLine(String[] parts) {
+        return new Proposal(parts[MigrateData.getColumnIndex("Y") ].trim(),
                 parts[MigrateData.getColumnIndex("Z") ].trim(),
                 parts[MigrateData.getColumnIndex("AA") ].trim(),
                 parts[MigrateData.getColumnIndex("AB") ].trim(),
