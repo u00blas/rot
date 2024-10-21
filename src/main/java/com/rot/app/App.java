@@ -2,6 +2,8 @@ package com.rot.app;
 
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
+import com.rot.app.contact.Contact;
+import com.rot.app.contact.ContactRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import com.rot.app.question.Question;
@@ -27,10 +29,21 @@ public class App {
     }
 
     @Bean
-    CommandLineRunner runner(CategoryRepository categoryRepository,
+    CommandLineRunner runner(ContactRepository contactRepository,
+                             CategoryRepository categoryRepository,
                              QuestionRepository questionRepository,
                              ProposalRepository proposalRepository) {
         return args -> {
+
+            for (String name : Arrays.asList("Bosch", "Ikea")) {
+                Contact contact = new Contact();
+                contact.setName(name);
+                contact.setEmail("test");
+                contact.setPhone("test");
+                contact.setComment("test");
+                contactRepository.save(contact);
+            }
+
             List<Proposal> proposalList = MigrateData.getProposalsFromCsv();
             for (Proposal proposal : proposalList) {
                 proposalRepository.save(proposal);
@@ -57,8 +70,8 @@ public class App {
                     for (String[] part : questionParts) {
                         if (part[distinctColumnIndex].equals(question.getName())) {
                             question.setCategory(categoryMap.get(part[MigrateData.getColumnIndex("D") - 1]));
-                            System.out.println("--------------------------------------------- " + part[MigrateData.getColumnIndex("Y") ]);
-                            question.setProposal(proposalMap.get(part[MigrateData.getColumnIndex("Y") ]));
+                            System.out.println("--------------------------------------------- " + part[MigrateData.getColumnIndex("Y")]);
+                            question.setProposal(proposalMap.get(part[MigrateData.getColumnIndex("Y")]));
                         }
                     }
                 } catch (Exception e) {

@@ -5,6 +5,7 @@ import com.rot.app.category.Category;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
@@ -35,5 +36,12 @@ public class ProposalController {
     public String saveProposal(Proposal proposal) {
         proposalRepository.save(proposal);
         return "redirect:/proposals";
+    }
+
+    @GetMapping("/proposals/{id}/edit")
+    public String showEditProposalForm(Model model, @PathVariable("id") Long id) {
+        if(id==null) return "redirect:/proposals";
+        model.addAttribute("proposal", proposalRepository.findById(id).get());
+        return "proposal_form";
     }
 }
