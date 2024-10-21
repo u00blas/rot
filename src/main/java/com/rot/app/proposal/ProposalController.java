@@ -40,8 +40,14 @@ public class ProposalController {
 
     @GetMapping("/proposals/{id}/edit")
     public String showEditProposalForm(Model model, @PathVariable("id") Long id) {
-        if(id==null) return "redirect:/proposals";
+        if (id == null) return "redirect:/proposals";
         model.addAttribute("proposal", proposalRepository.findById(id).get());
         return "proposal_form";
+    }
+
+    @GetMapping("/proposals/{id}/delete")
+    public String deleteProposal(@PathVariable("id") Long id) {
+        proposalRepository.deleteById(id);
+        return "redirect:/proposals";
     }
 }
