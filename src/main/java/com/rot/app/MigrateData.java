@@ -1,7 +1,6 @@
 package com.rot.app;
 
 import com.rot.app.category.Category;
-import com.rot.app.possibleanswers.PossibleAnswers;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.question.Question;
 import com.rot.app.topic.Topic;
@@ -91,6 +90,8 @@ import java.util.*;
 public class MigrateData {
 
     private static Map<String, Integer> columns;
+    private static List<Category> categoryList;
+    private static List<String[]> questionParts;
 
     public static Map<String, Integer> getColumns() {
         if (columns == null) {
@@ -235,40 +236,6 @@ public class MigrateData {
         return lines;
     }
 
-
-    public static List<PossibleAnswers> getPossibleAnswersFromCsv() {
-        List<PossibleAnswers> possibleAnswersList = new ArrayList<>();
-        List<String> lines = getLinesFromCsv();
-        List<String> distinctLines = new ArrayList<>();
-        for (String line : lines) {
-            String[] parts = line.split(";");
-            if (parts.length < MigrateData.getColumnIndex("AE")) {
-                continue;
-            }
-            int distinctColumnIndex = MigrateData.getColumnIndex("Y") ;
-            if (distinctLines.contains(parts[distinctColumnIndex])) {
-                continue;
-            } else {
-                if (parts[distinctColumnIndex].isEmpty() || parts[distinctColumnIndex].equals("Skala min")) {
-                    continue;
-                }
-                distinctLines.add(parts[distinctColumnIndex]);
-                possibleAnswersList.add(createPossibleAnswersFromCsvLine(parts));
-            }
-        }
-        return possibleAnswersList;
-    }
-
-    private static PossibleAnswers createPossibleAnswersFromCsvLine(String[] parts) {
-        return new PossibleAnswers(parts[MigrateData.getColumnIndex("Y") ].trim(),
-                parts[MigrateData.getColumnIndex("Z") ].trim(),
-                parts[MigrateData.getColumnIndex("AA") ].trim(),
-                parts[MigrateData.getColumnIndex("AB") ].trim(),
-                parts[MigrateData.getColumnIndex("AC") ].trim(),
-                parts[MigrateData.getColumnIndex("AD") ].trim(),
-                parts[MigrateData.getColumnIndex("AE") ].trim());
-    }
-
     public static List<Proposal> getProposalsFromCsv() {
         List<Proposal> possibleAnswersList = new ArrayList<>();
         List<String> lines = getLinesFromCsv();
@@ -278,7 +245,7 @@ public class MigrateData {
             if (parts.length < MigrateData.getColumnIndex("AE")) {
                 continue;
             }
-            int distinctColumnIndex = MigrateData.getColumnIndex("Y") ;
+            int distinctColumnIndex = MigrateData.getColumnIndex("Y");
             if (distinctLines.contains(parts[distinctColumnIndex])) {
                 continue;
             } else {
@@ -293,14 +260,15 @@ public class MigrateData {
     }
 
     private static Proposal createProposalFromCsvLine(String[] parts) {
-        return new Proposal(parts[MigrateData.getColumnIndex("Y") ].trim(),
-                parts[MigrateData.getColumnIndex("Z") ].trim(),
-                parts[MigrateData.getColumnIndex("AA") ].trim(),
-                parts[MigrateData.getColumnIndex("AB") ].trim(),
-                parts[MigrateData.getColumnIndex("AC") ].trim(),
-                parts[MigrateData.getColumnIndex("AD") ].trim(),
-                parts[MigrateData.getColumnIndex("AE") ].trim());
+        return new Proposal(parts[MigrateData.getColumnIndex("Y")].trim(),
+                parts[MigrateData.getColumnIndex("Z")].trim(),
+                parts[MigrateData.getColumnIndex("AA")].trim(),
+                parts[MigrateData.getColumnIndex("AB")].trim(),
+                parts[MigrateData.getColumnIndex("AC")].trim(),
+                parts[MigrateData.getColumnIndex("AD")].trim(),
+                parts[MigrateData.getColumnIndex("AE")].trim());
     }
+
 
     public static List<Topic> getTopicListFromCsv() {
         List<Topic> topicList = new ArrayList<>();
@@ -328,60 +296,87 @@ public class MigrateData {
         return new Topic(parts[3]);
     }
 
-    public static List<Category> getCategoryListFromCsv() {
-        List<Category> categoryList = new ArrayList<>();
+    public static List<Category> getCategoriesFromCsv() {
+        if (categoryList == null) {
+            categoryList = new ArrayList<>();
 
-        Resource resource = new ClassPathResource("Teil 3 Masterdatei RoT-Modell Interviews.csv");
-        try {
-            File file = resource.getFile();
-            List<String> lines = Files.readAllLines(file.toPath());
+            List<String> lines = getLinesFromCsv();
             List<String> distinctLines = new ArrayList<>();
             for (String line : lines) {
                 String[] parts = line.split(";");
-                if (parts.length < 3) {
+                if (parts.length < getColumnIndex("D")) {
                     continue;
                 }
-                if (distinctLines.contains(parts[2])) {
-                    continue;
-                }
-                distinctLines.add(parts[2]);
-                System.out.println(parts[2]);
-                //Category category = createCategoryFromCsvLine(line.split(";"));
-                //categoryList.add(category);
-            }
 
-        } catch (IOException e) {
-            throw new RuntimeException(e);
+                int distinctColumnIndex = getColumnIndex("D") - 1;
+                if (distinctLines.contains(parts[distinctColumnIndex])) {
+                    continue;
+                }
+                //System.out.println("parts");
+                if (parts[distinctColumnIndex].isEmpty() || parts[distinctColumnIndex].equals("Thema")) {
+                    continue;
+                }
+                distinctLines.add(parts[distinctColumnIndex]);
+                //System.out.println(parts[distinctColumnIndex]);
+                Category category = createCategoryFromCsvLine(parts);
+                //System.out.println(category);
+                categoryList.add(category);
+            }
         }
 
         return categoryList;
     }
 
     private static Category createCategoryFromCsvLine(String[] parts) {
-        return new Category(parts[0]);
+        return new Category(parts[MigrateData.getColumnIndex("D") - 1]);
     }
 
-    private Question createQuestionFromCsvLine(String[] parts) {
-        List<String> sb = new ArrayList<>();
-        List<String> temp = new ArrayList<>();
-        for (List<Integer> ln : Arrays.asList(
-                Arrays.asList(7, 8, 9, 46, 10, 47, 16),
-                Arrays.asList(1, 2, 13, 3, 44),
-                Arrays.asList(5, 45, 11, 48, 14, 49),
-                Arrays.asList(33, 54, 34, 55, 35, 56),
-                Arrays.asList(22),
-                Arrays.asList(51),
-                Arrays.asList(23),
-                Arrays.asList(24, 25),
-                Arrays.asList(26, 27, 28, 29, 30)
-        )) {
-            for (int n : ln) {
-                temp.add(parts.length <= n ? "" : parts[n]);
+    public static Optional<Category> getCategoryByName(String name) {
+        List<Category> categories = getCategoriesFromCsv();
+        for (Category category : categories) {
+            if (category.getName().equals(name)) {
+                return Optional.of(category);
             }
-            sb.add(String.join(", ", temp));
-            temp.clear();
         }
+        return Optional.empty();
+    }
 
-        return new Question(sb.get(0));
+    public static List<Question> getQuestionsFromCsv() {
+        List<Question> questionList = new ArrayList<>();
+        List<String> lines = getLinesFromCsv();
+        List<String> distinctLines = new ArrayList<>();
+        for (String line : lines) {
+            String[] parts = line.split(";");
+            int distinctColumnIndex = getColumnIndex("W");
+            //System.out.println(parts[distinctColumnIndex]);
+            if (parts.length < distinctColumnIndex) {
+                continue;
+            }
+            if (parts[distinctColumnIndex] == null) {
+                continue;
+            }
+            if (parts[distinctColumnIndex].isEmpty() || parts[distinctColumnIndex].equals("Frage")) {
+                continue;
+            }
+            if (distinctLines.contains(parts[distinctColumnIndex])) {
+                continue;
+            } else {
+                distinctLines.add(parts[distinctColumnIndex]);
+                questionList.add(createQuestionFromCsvLine(parts));
+            }
+        }
+        return questionList;
+    }
+
+    private static Question createQuestionFromCsvLine(String[] parts) {
+        if (questionParts == null) {
+            questionParts = new ArrayList<>();
+        }
+        questionParts.add(parts);
+        return new Question(parts[getColumnIndex("W")].trim());
+    }
+
+    public static List<String[]> getQuestionParts() {
+        return questionParts;
     }
 }

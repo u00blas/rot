@@ -25,7 +25,8 @@
             <tr th:each="question : ${questions}">
                 <td th:text="${question.id}"></td>
                 <td th:text="${question.name}"></td>
-                <td th:text="${question.category.name}"></td>
+                <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
+                <td th:if="${question.category == null}">None</td>
                 <td>
                     <a th:href="@{/questions/{id}(id=${question.id})}">Show</a>
                     <a th:href="@{/questions/{id}/edit(id=${question.id})}">Edit</a>

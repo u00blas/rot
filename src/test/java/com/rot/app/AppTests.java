@@ -1,7 +1,7 @@
 package com.rot.app;
 
 import com.rot.app.category.Category;
-import com.rot.app.possibleanswers.PossibleAnswers;
+import com.rot.app.proposal.Proposal;
 import com.rot.app.topic.Topic;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -13,7 +13,7 @@ class AppTests {
 
     @Test
     void contextLoads() {
-        List<Category> categoryList = MigrateData.getCategoryListFromCsv();
+        List<Category> categoryList = MigrateData.getCategoriesFromCsv();
 
         for (Category category : categoryList) {
             System.out.println(category.getName());
@@ -27,11 +27,19 @@ class AppTests {
             System.out.println(topic.getName());
         }
     }
+
     @Test
-    void load_possible_answers_from_csv() {
-        List<PossibleAnswers> possibleAnswersList = MigrateData.getPossibleAnswersFromCsv();
-        for (PossibleAnswers possibleAnswers : possibleAnswersList) {
-            System.out.println(possibleAnswers);
+    void load_proposals_from_csv() {
+        List<Proposal> proposalList = MigrateData.getProposalsFromCsv();
+        for (Proposal proposal : proposalList) {
+            System.out.println(proposal);
+        }
+    }
+    @Test
+    void load_categories_from_csv() {
+        List<Category> categoryList = MigrateData.getCategoriesFromCsv();
+        for (Category category : categoryList) {
+            System.out.println(category.getName());
         }
     }
 }
