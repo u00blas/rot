@@ -2,6 +2,8 @@ package com.rot.app.question;
 
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
+import com.rot.app.proposal.Proposal;
+import com.rot.app.proposal.ProposalRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,10 +17,14 @@ public class QuestionController {
 
     private final QuestionRepository questionRepository;
     private final CategoryRepository categoryRepository;
+    private final ProposalRepository proposalRepository;
 
-    public QuestionController(QuestionRepository questionRepository, CategoryRepository categoryRepository) {
+    public QuestionController(QuestionRepository questionRepository,
+                              CategoryRepository categoryRepository,
+                              ProposalRepository proposalRepository) {
         this.questionRepository = questionRepository;
         this.categoryRepository = categoryRepository;
+        this.proposalRepository = proposalRepository;
     }
 
     @GetMapping("/questions")
@@ -31,7 +37,9 @@ public class QuestionController {
     @GetMapping("/questions/new")
     public String showCreateQuestionForm(Model model) {
         List<Category> categories = categoryRepository.findAll();
+        List<Proposal> proposals = proposalRepository.findAll();
         model.addAttribute("categories", categories);
+        model.addAttribute("proposals", proposals);
         model.addAttribute("question", new Question());
         return "question_form";
     }
@@ -45,6 +53,8 @@ public class QuestionController {
     @GetMapping("/questions/{id}/edit")
     public String showEditQuestionForm(Model model, @PathVariable("id") Long id) {
         List<Category> categories = categoryRepository.findAll();
+        List<Proposal> proposals = proposalRepository.findAll();
+        model.addAttribute("proposals", proposals);
         model.addAttribute("categories", categories);
         model.addAttribute("question", questionRepository.findById(id).get());
         return "question_form";

@@ -17,7 +17,7 @@ public class ProposalController {
     }
 
     @GetMapping("/proposals")
-    public String proposals(Model model) {
+    public String listAllProposals(Model model) {
         List<Proposal> proposals = proposalRepository.findAll();
         model.addAttribute("proposals", proposals);
         return "proposals";
