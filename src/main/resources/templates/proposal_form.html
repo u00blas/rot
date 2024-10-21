@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Create new Category</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container text-center">
+    <div><h1>Create new Proposal</h1></div>
+    <form th:action="@{/proposals/save}" th:object="${proposal}" method="post">
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">Min Scale</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{minScale}" required/>
+            </div>
+            <label class="col-form-label col-sm-4">Max Scale</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{maxScale}" required/>
+            </div>
+            <label class="col-form-label col-sm-4">Description 1</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{description1}" required/>
+            </div>
+            <label class="col-form-label col-sm-4">Description 2</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{description2}" required/>
+            </div>
+            <label class="col-form-label col-sm-4">Description 3</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{description3}" required/>
+            </div>
+            <label class="col-form-label col-sm-4">Description 4</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{description4}" required/>
+            </div>
+            <label class="col-form-label col-sm-4">Description 5</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{description5}" required/>
+            </div>
+            <div class="p-2">
+                <button type="submit" class="btn btn-primary">Submit</button>
+            </div>
+    </form>
+</div>
+</body>
+</html>
