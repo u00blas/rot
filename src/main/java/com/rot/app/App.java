@@ -57,6 +57,8 @@ public class App {
                     for (String[] part : questionParts) {
                         if (part[distinctColumnIndex].equals(question.getName())) {
                             question.setCategory(categoryMap.get(part[MigrateData.getColumnIndex("D") - 1]));
+                            System.out.println("--------------------------------------------- " + part[MigrateData.getColumnIndex("Y") ]);
+                            question.setProposal(proposalMap.get(part[MigrateData.getColumnIndex("Y") ]));
                         }
                     }
                 } catch (Exception e) {

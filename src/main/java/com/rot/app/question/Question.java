@@ -1,6 +1,7 @@
 package com.rot.app.question;
 
 import com.rot.app.category.Category;
+import com.rot.app.proposal.Proposal;
 import jakarta.persistence.*;
 
 @Entity
@@ -16,6 +17,17 @@ public class Question {
     @ManyToOne
     @JoinColumn(name = "category_id")
     private Category category;
+
+    @ManyToOne
+    @JoinColumn(name = "proposal_id")
+    private Proposal proposal;
+
+    public Question(Long id, String name, Category category, Proposal proposal) {
+        this.id = id;
+        this.name = name;
+        this.category = category;
+        this.proposal = proposal;
+    }
 
     public Question(String name, Category category) {
         this.name = name;
@@ -62,11 +74,21 @@ public class Question {
         this.name = name;
     }
 
+    public Proposal getProposal() {
+        return proposal;
+    }
+
+    public void setProposal(Proposal proposal) {
+        this.proposal = proposal;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", category=" + category +
+                ", proposal=" + proposal +
                 '}';
     }
 }

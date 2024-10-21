@@ -18,6 +18,7 @@
                 <th>Id</th>
                 <th>Name</th>
                 <th>Category</th>
+                <th>Proposals</th>
                 <th>Actions</th>
             </tr>
             </thead>
@@ -27,6 +28,9 @@
                 <td th:text="${question.name}"></td>
                 <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
                 <td th:if="${question.category == null}">None</td>
+                <td th:if="${question.proposal != null}" th:text="${question.proposal.minScale}"></td>
+                <td th:if="${question.proposal == null}">None</td>
+
                 <td>
                     <a th:href="@{/questions/{id}(id=${question.id})}">Show</a>
                     <a th:href="@{/questions/{id}/edit(id=${question.id})}">Edit</a>
