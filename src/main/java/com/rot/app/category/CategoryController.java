@@ -46,7 +46,7 @@ public class CategoryController {
 
     @GetMapping("/categories/{id}/delete")
     public String deleteCategory(@PathVariable("id") Long id, BindingResult result) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "category_form";
         }
         categoryRepository.deleteById(id);

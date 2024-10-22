@@ -33,9 +33,9 @@ public class App {
             for (String name : Arrays.asList("Bosch", "Ikea")) {
                 Contact contact = new Contact();
                 contact.setName(name);
-                contact.setEmail("test");
-                contact.setPhone("test");
-                contact.setComment("test");
+                contact.setEmail(name + "@test.de");
+                contact.setPhone("1234567");
+                contact.setComment(name + " is cool");
                 contactRepository.save(contact);
             }
 

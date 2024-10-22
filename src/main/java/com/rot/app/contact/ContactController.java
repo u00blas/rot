@@ -1,14 +1,16 @@
 package com.rot.app.contact;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/contacts")
 public class ContactController {
 
     private final ContactRepository contactRepository;
@@ -17,24 +19,41 @@ public class ContactController {
         this.contactRepository = contactRepository;
     }
 
-    @GetMapping("/contacts/create")
-    public String showCreateContactForm(Model model) {
-        model.addAttribute("contact", new Contact());
-        return "contact_form";
+    @GetMapping
+    public String listAllContacts(Model model) {
+        List<Contact> contacts = contactRepository.findAll();
+        model.addAttribute("contacts", contacts);
+        return "contacts/contacts";
     }
 
-    @PostMapping("/contacts/save")
-    public String createContact(Contact contact) {
+    @GetMapping("/create")
+    public String showCreateContactForm(Model model) {
+        model.addAttribute("contactDto", new ContactDto());
+        return "contacts/contact_create";
+    }
+
+    @PostMapping("/create")
+    public String createContact(
+            @Valid @ModelAttribute ContactDto contactDto,
+            BindingResult result
+    ) {
+        if (contactRepository.findByEmail(contactDto.getEmail()) != null) {
+            result.addError(
+                    new FieldError("contactDto", "email", contactDto.getEmail(),
+                            false, null, null, "Email already exists"));
+        }
+        if (result.hasErrors()) {
+            return "contacts/contact_create";
+        }
+        Contact contact = new Contact();
+        contact.setName(contactDto.getName());
+        contact.setEmail(contactDto.getEmail());
+        contact.setPhone(contactDto.getPhone());
+        contact.setComment(contactDto.getComment());
         contactRepository.save(contact);
         return "redirect:/contacts";
     }
 
-    @GetMapping("/contacts")
-    public String listAllContacts(Model model) {
-        List<Contact> contacts = contactRepository.findAll();
-        model.addAttribute("contacts", contacts);
-        return "contacts/index";
-    }
 
     @GetMapping("/contacts/{id}/edit")
     public String showEditContactForm(Model model, @PathVariable("id") Long id) {
