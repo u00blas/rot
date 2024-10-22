@@ -17,7 +17,7 @@ public class ContactController {
         this.contactRepository = contactRepository;
     }
 
-    @GetMapping("/contacts/new")
+    @GetMapping("/contacts/create")
     public String showCreateContactForm(Model model) {
         model.addAttribute("contact", new Contact());
         return "contact_form";
@@ -33,7 +33,7 @@ public class ContactController {
     public String listAllContacts(Model model) {
         List<Contact> contacts = contactRepository.findAll();
         model.addAttribute("contacts", contacts);
-        return "contacts";
+        return "contacts/index";
     }
 
     @GetMapping("/contacts/{id}/edit")
