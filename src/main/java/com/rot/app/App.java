@@ -12,12 +12,7 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.Resource;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
 import java.util.*;
 
 @SpringBootApplication
@@ -68,9 +63,8 @@ public class App {
             for (Question question : questions) {
                 try {
                     for (String[] part : questionParts) {
-                        if (part[distinctColumnIndex].equals(question.getName())) {
+                        if (part[distinctColumnIndex].equals(question.getQuestion_de())) {
                             question.setCategory(categoryMap.get(part[MigrateData.getColumnIndex("D") - 1]));
-                            System.out.println("--------------------------------------------- " + part[MigrateData.getColumnIndex("Y")]);
                             question.setProposal(proposalMap.get(part[MigrateData.getColumnIndex("Y")]));
                         }
                     }

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layout}">
+<head>
+    <meta charset="UTF-8">
+    <title>View Question Details</title>
+    <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
+</head>
+<body>
+<div class="container text-center">
+
+    <h1>Question Details</h1>
+    <table class="table table-bordered table-striped table-hover align-left">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Min Scale</th>
+            <th>Max Scale</th>
+            <th>Description 1</th>
+            <th>Description 2</th>
+            <th>Description 3</th>
+            <th>Description 4</th>
+            <th>Description 5</th>
+        </tr>
+        <tr>
+            <td th:text="${question.id}"></td>
+            <td th:text="${question.question_de}"></td>
+            <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
+            <td th:if="${question.category == null}">None</td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.minScale}"></td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.maxScale}"></td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.description1}"></td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.description2}"></td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.description3}"></td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.description4}"></td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.description5}"></td>
+        </tr>
+    </table>
+    <a th:href="@{/questions}">Back</a>
+</div>
+</body>
+</html>

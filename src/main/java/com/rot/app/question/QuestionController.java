@@ -59,4 +59,16 @@ public class QuestionController {
         model.addAttribute("question", questionRepository.findById(id).get());
         return "question_form";
     }
+
+    @GetMapping("/questions/{id}/delete")
+    public String deleteQuestion(@PathVariable("id") Long id) {
+        questionRepository.deleteById(id);
+        return "redirect:/questions";
+    }
+
+    @GetMapping("/questions/{id}/view")
+    public String viewQuestion(@PathVariable("id") Long id, Model model) {
+        model.addAttribute("question", questionRepository.findById(id).get());
+        return "question_view";
+    }
 }

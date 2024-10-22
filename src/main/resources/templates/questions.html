@@ -1,46 +1,44 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <head>
     <meta charset="UTF-8">
     <title>List Questions</title>
     <link rel="stylesheet" type="text/css" th:href="@{/webjars/bootstrap/css/bootstrap.min.css}"/>
 </head>
 <body>
+<div class="container text-left"><h1>Questions</h1></div>
+<div class="container text-right">
+    <a th:href="@{/questions/new}">Create Question</a>
+    <a th:href="@{/}">Back</a>
+</div>
 <div class="container text-center">
-    <div class="p-2">
-        <a class="h2" th:href="@{/questions/new}">Create Question</a>
-        <a class="h2" th:href="@{/}">Back</a>
-    </div>
-    <div><h1>Questions</h1></div>
-    <div>
-        <table>
-            <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Category</th>
-                <th>Proposals</th>
-                <th>Actions</th>
-            </tr>
-            </thead>
-            <tbody>
-            <tr th:each="question : ${questions}">
-                <td th:text="${question.id}"></td>
-                <td th:text="${question.name}"></td>
-                <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
-                <td th:if="${question.category == null}">None</td>
-                <td th:if="${question.proposal != null}" th:text="${question.proposal.minScale}"></td>
-                <td th:if="${question.proposal == null}">None</td>
-                <td>
-                    <a th:href="@{/questions/{id}(id=${question.id})}">Show</a>
+    <table class="table table-bordered table-hover align-left table-striped">
+        <thead class="thead thead-dark">
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Proposals</th>
+            <th width="200px">Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.id}"></td>
+            <td th:text="${question.question_de}"></td>
+            <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
+            <td th:if="${question.category == null}">None</td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.minScale}"></td>
+            <td th:if="${question.proposal == null}">None</td>
+            <td>
+                    <span><a th:href="@{/questions/{id}/view(id=${question.id})}">Show</a>
                     <a th:href="@{/questions/{id}/edit(id=${question.id})}">Edit</a>
-                    <a th:href="@{/questions/{id}/delete(id=${question.id})}">Delete</a>
-                </td>
-            </tr>
-            </tbody>
-        </table>
-        <a class="h2" th:href="@{/}">Back</a>
-    </div>
+                        <a th:href="@{/questions/{id}/delete(id=${question.id})}">Delete</a></span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+    <a class="h2" th:href="@{/}">Back</a>
 </div>
 </body>
 </html>
