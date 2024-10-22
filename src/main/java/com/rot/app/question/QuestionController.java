@@ -6,13 +6,12 @@ import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/questions")
 public class QuestionController {
 
     private final QuestionRepository questionRepository;
@@ -27,11 +26,11 @@ public class QuestionController {
         this.proposalRepository = proposalRepository;
     }
 
-    @GetMapping("/questions")
+    @GetMapping
     public String listAllQuestions(Model model) {
         List<Question> questions = questionRepository.findAll();
         model.addAttribute("questions", questions);
-        return "questions";
+        return "questions/questions";
     }
 
     @GetMapping("/questions/new")

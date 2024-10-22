@@ -2,16 +2,10 @@
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="~{layout :: page_head}"></head>
 <body>
-
-
 <nav th:replace="~{layout :: page_nav}"></nav>
-
-
 <div class="container py-3">
     <h1 class="text-center my-4">List of Contacts</h1>
-
     <a class="btn btn-primary" th:href="@{/contacts/create}">Create Contact</a>
-
     <table class="table">
         <thead>
         <tr>
@@ -31,15 +25,13 @@
             <td th:text="${contact.phone}"></td>
             <td th:text="${contact.comment}"></td>
             <td style="white-space: nowrap">
-                <a class="btn btn-primary btn-sm" th:href="@{/contacts/edit/{id}(id=${contact.id})}">Edit</a>
-                <a class="btn btn-danger btn-sm" th:href="@{/contacts/delete/{id}(id=${contact.id})}">Delete</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/contacts/edit(id=${contact.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/contacts/delete(id=${contact.id})}">Delete</a>
             </td>
         </tr>
         </tbody>
     </table>
 </div>
-
 <footer th:replace="~{layout :: page_footer}"></footer>
-
 </body>
 </html>

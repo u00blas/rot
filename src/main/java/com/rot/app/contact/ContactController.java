@@ -27,7 +27,7 @@ public class ContactController {
     }
 
     @GetMapping("/create")
-    public String showCreateContactForm(Model model) {
+    public String showCreateContactPage(Model model) {
         model.addAttribute("contactDto", new ContactDto());
         return "contacts/contact_create";
     }
@@ -55,14 +55,53 @@ public class ContactController {
     }
 
 
-    @GetMapping("/contacts/{id}/edit")
-    public String showEditContactForm(Model model, @PathVariable("id") Long id) {
-        model.addAttribute("contact", contactRepository.findById(id).get());
-        return "contact_form";
+    @GetMapping("/edit")
+    public String showEditPage(Model model, @RequestParam Long id) {
+        Contact contact = contactRepository.findById(id).orElse(null);
+        if (contact == null) {
+            return "redirect:/contacts";
+        }
+        model.addAttribute("contact", contact);
+
+        ContactDto contactDto = new ContactDto();
+        contactDto.setName(contact.getName());
+        contactDto.setEmail(contact.getEmail());
+        contactDto.setPhone(contact.getPhone());
+        contactDto.setComment(contact.getComment());
+
+        model.addAttribute("contactDto", contactDto);
+
+        return "contacts/contact_edit";
     }
 
-    @GetMapping("/contacts/{id}/delete")
-    public String deleteContact(@PathVariable("id") Long id) {
+    @PostMapping("/edit")
+    public String editContact(
+            Model model,
+            @RequestParam Long id,
+            @Valid @ModelAttribute ContactDto contactDto,
+            BindingResult result
+    ) {
+
+        Contact contact = contactRepository.findById(id).orElse(null);
+        if (contact == null) {
+            return "redirect:/contacts";
+        }
+
+        model.addAttribute("contact", contact);
+
+        if (result.hasErrors()) {
+            return "contacts/contact_edit";
+        }
+        contact.setName(contactDto.getName());
+        contact.setEmail(contactDto.getEmail());
+        contact.setPhone(contactDto.getPhone());
+        contact.setComment(contactDto.getComment());
+        contactRepository.save(contact);
+        return "redirect:/contacts";
+    }
+
+    @GetMapping("/delete")
+    public String deleteContact(@RequestParam Long id) {
         contactRepository.deleteById(id);
         return "redirect:/contacts";
     }

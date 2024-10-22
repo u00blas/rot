@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+<nav th:replace="~{layout :: page_nav}"></nav>
+<div class="container py-3">
+    <h1 class="text-center my-4">List of Questions</h1>
+    <a class="btn btn-primary" th:href="@{/questions/create}">Create Question</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Category</th>
+            <th>Proposals</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.id}"></td>
+            <td th:text="${question.question_de}"></td>
+            <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
+            <td th:if="${question.category == null}">None</td>
+            <td th:if="${question.proposal != null}" th:text="${question.proposal.minScale}"></td>
+            <td th:if="${question.proposal == null}">None</td>
+            <td style="white-space: nowrap">
+                <a class="btn btn-primary btn-sm" th:href="@{/questions/edit(id=${question.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/questions/delete(id=${question.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{layout :: page_footer}"></footer>
+</body>
+</html>
