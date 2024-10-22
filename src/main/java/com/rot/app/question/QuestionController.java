@@ -4,6 +4,8 @@ import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -18,17 +20,43 @@ public class QuestionController {
     private final CategoryRepository categoryRepository;
     private final ProposalRepository proposalRepository;
 
+
     public QuestionController(QuestionRepository questionRepository,
                               CategoryRepository categoryRepository,
-                              ProposalRepository proposalRepository) {
+                              ProposalRepository proposalRepository
+    ) {
         this.questionRepository = questionRepository;
         this.categoryRepository = categoryRepository;
         this.proposalRepository = proposalRepository;
+
     }
+
+    /*@GetMapping
+    public String listAllQuestions(Model model) {
+        List<Question> questions = questionRepository.findAll();
+        model.addAttribute("questions", questions);
+        return "questions/questions";
+    }*/
+
 
     @GetMapping
     public String listAllQuestions(Model model) {
-        List<Question> questions = questionRepository.findAll();
+        return getOnePage(model, 1);
+    }
+
+    @GetMapping("/page")
+    public String getOnePage(Model model, @RequestParam int pageNumber) {
+        Page<Question> page = questionRepository.findAll(PageRequest.of(pageNumber-1, 20));
+
+        int totalPages = page.getTotalPages();
+        if (pageNumber > totalPages) {
+            return "redirect:/questions?pageNumber=" + (totalPages - 1) + "&pageSize=" + 20;
+        }
+        long totalItems = page.getTotalElements();
+        List<Question> questions = page.getContent();
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", totalPages);
+        model.addAttribute("totalItems", totalItems);
         model.addAttribute("questions", questions);
         return "questions/questions";
     }

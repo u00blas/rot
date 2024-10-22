@@ -6,7 +6,7 @@
 <div class="container py-3">
     <h1 class="text-center my-4">List of Questions</h1>
     <a class="btn btn-primary" th:href="@{/questions/create}">Create Question</a>
-    <table class="table">
+    <table class="table table-striped table-advanced table-hover">
         <thead>
         <tr>
             <th>ID</th>
@@ -31,7 +31,16 @@
         </tr>
         </tbody>
     </table>
+    <footer style="font-size: large" class="panel-footer">
+        Total Items [[${totalItems}]] : Page [[${currentPage}]] of [[${totalPages}]]
+        &nbsp; &nbsp; - &nbsp;
+        <span th:each="i: ${#numbers.sequence(1, totalPages)}">
+        <a th:href="@{/questions/page(pageNumber=${i})}">[[${i}]]</a>
+        &nbsp; &nbsp;
+    </span>
+    </footer>
 </div>
+
 <footer th:replace="~{layout :: page_footer}"></footer>
 </body>
 </html>
