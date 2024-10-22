@@ -11,8 +11,9 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(nullable = false, unique = true, length = 255)
-    private String question_de;
+
+    @Column(name = "question_de")
+    private String questionDe;
 
     @ManyToOne
     @JoinColumn(name = "category_id")
@@ -22,15 +23,15 @@ public class Question {
     @JoinColumn(name = "proposal_id")
     private Proposal proposal;
 
-    public Question(Long id, String question_de, Category category, Proposal proposal) {
+    public Question(Long id, String questionDe, Category category, Proposal proposal) {
         this.id = id;
-        this.question_de = question_de;
+        this.questionDe = questionDe;
         this.category = category;
         this.proposal = proposal;
     }
 
-    public Question(String question_de, Category category) {
-        this.question_de = question_de;
+    public Question(String questionDe, Category category) {
+        this.questionDe = questionDe;
         this.category = category;
     }
 
@@ -49,13 +50,13 @@ public class Question {
         this.id = id;
     }
 
-    public Question(String question_de) {
-        this.question_de = question_de;
+    public Question(String questionDe) {
+        this.questionDe = questionDe;
     }
 
-    public Question(Long id, String question_de) {
+    public Question(Long id, String questionDe) {
         this.id = id;
-        this.question_de = question_de;
+        this.questionDe = questionDe;
     }
 
     public Long getId() {
@@ -66,12 +67,12 @@ public class Question {
         this.id = id;
     }
 
-    public String getQuestion_de() {
-        return question_de;
+    public String getQuestionDe() {
+        return questionDe;
     }
 
-    public void setQuestion_de(String question_de) {
-        this.question_de = question_de;
+    public void setQuestionDe(String questionDe) {
+        this.questionDe = questionDe;
     }
 
     public Proposal getProposal() {
@@ -86,7 +87,7 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "id=" + id +
-                ", question_de='" + question_de + '\'' +
+                ", questionDe='" + questionDe + '\'' +
                 ", category=" + category +
                 ", proposal=" + proposal +
                 '}';

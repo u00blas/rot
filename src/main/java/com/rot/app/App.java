@@ -63,7 +63,7 @@ public class App {
             for (Question question : questions) {
                 try {
                     for (String[] part : questionParts) {
-                        if (part[distinctColumnIndex].equals(question.getQuestion_de())) {
+                        if (part[distinctColumnIndex].equals(question.getQuestionDe())) {
                             question.setCategory(categoryMap.get(part[MigrateData.getColumnIndex("D") - 1]));
                             question.setProposal(proposalMap.get(part[MigrateData.getColumnIndex("Y")]));
                         }

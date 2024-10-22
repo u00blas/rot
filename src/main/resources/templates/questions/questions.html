@@ -19,7 +19,7 @@
         <tbody class="table-group-divider">
         <tr th:each="question : ${questions}">
             <td th:text="${question.id}"></td>
-            <td th:text="${question.question_de}"></td>
+            <td th:text="${question.questionDe}"></td>
             <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
             <td th:if="${question.category == null}">None</td>
             <td th:if="${question.proposal != null}" th:text="${question.proposal.minScale}"></td>

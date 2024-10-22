@@ -4,10 +4,13 @@ import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
+import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -31,14 +34,6 @@ public class QuestionController {
 
     }
 
-    /*@GetMapping
-    public String listAllQuestions(Model model) {
-        List<Question> questions = questionRepository.findAll();
-        model.addAttribute("questions", questions);
-        return "questions/questions";
-    }*/
-
-
     @GetMapping
     public String listAllQuestions(Model model) {
         return getOnePage(model, 1);
@@ -46,8 +41,7 @@ public class QuestionController {
 
     @GetMapping("/page")
     public String getOnePage(Model model, @RequestParam int pageNumber) {
-        Page<Question> page = questionRepository.findAll(PageRequest.of(pageNumber-1, 20));
-
+        Page<Question> page = questionRepository.findAll(PageRequest.of(pageNumber - 1, 20));
         int totalPages = page.getTotalPages();
         if (pageNumber > totalPages) {
             return "redirect:/questions?pageNumber=" + (totalPages - 1) + "&pageSize=" + 20;
@@ -61,18 +55,33 @@ public class QuestionController {
         return "questions/questions";
     }
 
-    @GetMapping("/questions/new")
+    @GetMapping("/create")
     public String showCreateQuestionForm(Model model) {
         List<Category> categories = categoryRepository.findAll();
         List<Proposal> proposals = proposalRepository.findAll();
         model.addAttribute("categories", categories);
         model.addAttribute("proposals", proposals);
-        model.addAttribute("question", new Question());
-        return "question_form";
+        model.addAttribute("questionDto", new QuestionDto());
+        return "questions/question_create";
     }
 
-    @PostMapping("/questions/save")
-    public String saveQuestion(Question question) {
+    @PostMapping("/create")
+    public String createQuestion(
+            @Valid @ModelAttribute QuestionDto questionDto,
+            BindingResult result
+    ) {
+        if (questionRepository.findByQuestionDe(questionDto.getQuestionDe()) != null) {
+            result.addError(
+                    new FieldError("questionDto", "email", questionDto.getQuestionDe(),
+                            false, null, null, "Question already exists"));
+        }
+        if (result.hasErrors()) {
+            return "questions/question_create";
+        }
+        Question question = new Question();
+        question.setQuestionDe(questionDto.getQuestionDe());
+        question.setCategory(questionDto.getCategory());
+        question.setProposal(questionDto.getProposal());
         questionRepository.save(question);
         return "redirect:/questions";
     }
