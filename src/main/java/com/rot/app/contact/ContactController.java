@@ -79,9 +79,7 @@ public class ContactController {
             Model model,
             @RequestParam Long id,
             @Valid @ModelAttribute ContactDto contactDto,
-            BindingResult result
-    ) {
-
+            BindingResult result) {
         Contact contact = contactRepository.findById(id).orElse(null);
         if (contact == null) {
             return "redirect:/contacts";

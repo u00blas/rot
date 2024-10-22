@@ -86,14 +86,50 @@ public class QuestionController {
         return "redirect:/questions";
     }
 
-    @GetMapping("/questions/{id}/edit")
-    public String showEditQuestionForm(Model model, @PathVariable("id") Long id) {
+    @GetMapping("/edit")
+    public String showEditQuestionForm(Model model, @RequestParam Long id) {
+        Question question = questionRepository.findById(id).orElse(null);
+        if (question == null) {
+            return "redirect:/questions";
+        }
+        model.addAttribute("question", question);
         List<Category> categories = categoryRepository.findAll();
         List<Proposal> proposals = proposalRepository.findAll();
         model.addAttribute("proposals", proposals);
         model.addAttribute("categories", categories);
-        model.addAttribute("question", questionRepository.findById(id).get());
-        return "question_form";
+        QuestionDto questionDto = new QuestionDto();
+        questionDto.setQuestionDe(question.getQuestionDe());
+        questionDto.setCategory(question.getCategory());
+        questionDto.setProposal(question.getProposal());
+        model.addAttribute("questionDto", questionDto);
+        return "questions/question_edit";
+    }
+
+    @PostMapping("/edit")
+    public String editQuestion(
+            Model model,
+            @RequestParam Long id,
+            @Valid @ModelAttribute QuestionDto questionDto,
+            BindingResult result) {
+        Question question = questionRepository.findById(id).orElse(null);
+        if (question == null) {
+            return "redirect:/questions";
+        }
+        model.addAttribute("question", question);
+        if (!question.getQuestionDe().equals(questionDto.getQuestionDe())
+                && questionRepository.findByQuestionDe(questionDto.getQuestionDe()) != null) {
+            result.addError(
+                    new FieldError("questionDto", "questionDe", questionDto.getQuestionDe(),
+                            false, null, null, "Question already exists"));
+        }
+        if (result.hasErrors()) {
+            return "questions/question_edit";
+        }
+        question.setQuestionDe(questionDto.getQuestionDe());
+        question.setCategory(questionDto.getCategory());
+        question.setProposal(questionDto.getProposal());
+        questionRepository.save(question);
+        return "redirect:/questions";
     }
 
     @GetMapping("/questions/{id}/delete")
