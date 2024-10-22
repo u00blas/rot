@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+<nav th:replace="~{layout :: page_nav}"></nav>
+<div class="container py-3">
+    <h1 class="text-center my-4">List of Surveys</h1>
+    <a class="btn btn-primary" th:href="@{/surveys/create}">Create Survey</a>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+            <th>Description</th>
+            <th>Questions</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="survey : ${surveys}">
+            <td th:text="${survey.id}"></td>
+            <td th:text="${survey.name}"></td>
+            <td th:text="${survey.description}"></td>
+            <td th:text="${survey.question.questionDe}"></td>
+            <td style="white-space: nowrap">
+                <a class="btn btn-primary btn-sm" th:href="@{/contacts/edit(id=${survey.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/contacts/delete(id=${survey.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{layout :: page_footer}"></footer>
+</body>
+</html>

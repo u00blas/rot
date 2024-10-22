@@ -8,6 +8,8 @@ import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
+import com.rot.app.surveys.Survey;
+import com.rot.app.surveys.SurveyRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -27,7 +29,8 @@ public class App {
     CommandLineRunner runner(ContactRepository contactRepository,
                              CategoryRepository categoryRepository,
                              QuestionRepository questionRepository,
-                             ProposalRepository proposalRepository) {
+                             ProposalRepository proposalRepository,
+                             SurveyRepository surveyRepository) {
         return args -> {
 
             for (String name : Arrays.asList("Bosch", "Ikea")) {
@@ -76,6 +79,17 @@ public class App {
                 } catch (Exception e) {
                     System.out.println("Question already exists: " + question);
                 }
+            }
+            int start = 0;
+            int end = 5;
+            for (String name : Arrays.asList("Survey 1", "Survey 2", "Survey 3")) {
+                Survey survey = new Survey();
+                survey.setName(name);
+                survey.setDescription("Test Description for " + name);
+                survey.setQuestions(questionRepository.findAll().subList(start, end));
+                surveyRepository.save(survey);
+                start += 15;
+                end += 15;
             }
         };
     }
