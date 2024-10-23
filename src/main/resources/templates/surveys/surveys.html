@@ -17,14 +17,15 @@
         </tr>
         </thead>
         <tbody class="table-group-divider">
-        <tr th:each="survey : ${surveys}">
-            <td th:text="${survey.id}"></td>
-            <td th:text="${survey.name}"></td>
-            <td th:text="${survey.description}"></td>
-            <td th:text="${survey.question.questionDe}"></td>
+        <tr th:each="surveyDto : ${surveyDtos}">
+            <td th:text="${surveyDto.id}"></td>
+            <td th:text="${surveyDto.name}"></td>
+            <td th:text="${surveyDto.description}"></td>
+            <td th:text="${surveyDto.questionCount}"></td>
             <td style="white-space: nowrap">
-                <a class="btn btn-primary btn-sm" th:href="@{/contacts/edit(id=${survey.id})}">Edit</a>
-                <a class="btn btn-danger btn-sm" th:href="@{/contacts/delete(id=${survey.id})}">Delete</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/surveys/details(id=${surveyDto.id})}">Details</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/surveys/edit(id=${surveyDto.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/surveys/delete(id=${surveyDto.id})}">Delete</a>
             </td>
         </tr>
         </tbody>

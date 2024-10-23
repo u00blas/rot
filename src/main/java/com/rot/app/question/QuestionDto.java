@@ -20,6 +20,10 @@ public class QuestionDto {
         this.proposal = proposal;
     }
 
+    public static QuestionDto fromQuestion(Question question) {
+        return new QuestionDto(question.getQuestionDe(), question.getCategory(), question.getProposal());
+    }
+
     public @NotEmpty(message = "Question cannot be empty") String getQuestionDe() {
         return questionDe;
     }

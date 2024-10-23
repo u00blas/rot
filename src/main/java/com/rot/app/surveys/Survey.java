@@ -4,6 +4,8 @@ import com.rot.app.question.Question;
 import jakarta.persistence.*;
 
 import java.util.Collection;
+import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "surveys")
@@ -15,15 +17,14 @@ public class Survey {
     private String name;
     private String description;
 
-    @OneToMany
-    @JoinColumn(name = "survey_id")
-    private Collection<Question> questions;
+    @ManyToMany
+    @JoinTable(name = "survey_question", joinColumns = @JoinColumn(name = "survey_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
+    private List<Question> questions;
 
     public Survey() {
     }
 
-    public Survey(Long id, String name, String description, Collection<Question> questions) {
-        this.id = id;
+    public Survey(String name, String description, List<Question> questions) {
         this.name = name;
         this.description = description;
         this.questions = questions;
@@ -53,11 +54,11 @@ public class Survey {
         this.description = description;
     }
 
-    public Collection<Question> getQuestions() {
+    public List<Question> getQuestions() {
         return questions;
     }
 
-    public void setQuestions(Collection<Question> questions) {
+    public void setQuestions(List<Question> questions) {
         this.questions = questions;
     }
 
