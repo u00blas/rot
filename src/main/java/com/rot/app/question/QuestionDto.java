@@ -6,6 +6,7 @@ import jakarta.validation.constraints.NotEmpty;
 
 public class QuestionDto {
 
+    private Long id;
     @NotEmpty(message = "Question cannot be empty")
     private String questionDe;
     private Category category;
@@ -20,8 +21,15 @@ public class QuestionDto {
         this.proposal = proposal;
     }
 
+    public QuestionDto(Long id, String questionDe, Category category, Proposal proposal) {
+        this.id = id;
+        this.questionDe = questionDe;
+        this.category = category;
+        this.proposal = proposal;
+    }
+
     public static QuestionDto fromQuestion(Question question) {
-        return new QuestionDto(question.getQuestionDe(), question.getCategory(), question.getProposal());
+        return new QuestionDto(question.getId(), question.getQuestionDe(), question.getCategory(), question.getProposal());
     }
 
     public @NotEmpty(message = "Question cannot be empty") String getQuestionDe() {
@@ -46,5 +54,13 @@ public class QuestionDto {
 
     public void setProposal(Proposal proposal) {
         this.proposal = proposal;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
