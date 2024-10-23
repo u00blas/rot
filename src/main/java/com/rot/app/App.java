@@ -8,8 +8,12 @@ import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
+import com.rot.app.questionnaire.Questionnaire;
+import com.rot.app.questionnaire.QuestionnaireRepository;
 import com.rot.app.surveys.Survey;
 import com.rot.app.surveys.SurveyRepository;
+import com.rot.app.user.User;
+import com.rot.app.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -26,13 +30,21 @@ public class App {
     }
 
     @Bean
-    CommandLineRunner runner(ContactRepository contactRepository,
+    CommandLineRunner runner(UserRepository userRepository,
+                             ContactRepository contactRepository,
                              CategoryRepository categoryRepository,
                              QuestionRepository questionRepository,
                              ProposalRepository proposalRepository,
-                             SurveyRepository surveyRepository) {
+                             SurveyRepository surveyRepository,
+                             QuestionnaireRepository questionnaireRepository) {
         return args -> {
 
+            for (String name : Arrays.asList("Meier", "Meyer", "Mustermann")) {
+                User user = new User();
+                user.setUsername(name);
+                user.setPassword(name);
+                userRepository.save(user);
+            }
             for (String name : Arrays.asList("Bosch", "Ikea")) {
                 Contact contact = new Contact();
                 contact.setName(name);
@@ -91,6 +103,14 @@ public class App {
                 start += 15;
                 end += 15;
             }
+
+            Questionnaire questionnaire = new Questionnaire();
+            questionnaire.setUser(userRepository.findAll().get(0));
+            questionnaire.setSurvey(surveyRepository.findAll().get(0));
+            questionnaireRepository.save(questionnaire);
+
+
+
         };
     }
 
