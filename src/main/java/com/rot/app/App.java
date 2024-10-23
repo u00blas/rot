@@ -1,5 +1,7 @@
 package com.rot.app;
 
+import com.rot.app.answer.Answer;
+import com.rot.app.answer.AnswerRepository;
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
 import com.rot.app.contact.Contact;
@@ -36,7 +38,8 @@ public class App {
                              QuestionRepository questionRepository,
                              ProposalRepository proposalRepository,
                              SurveyRepository surveyRepository,
-                             QuestionnaireRepository questionnaireRepository) {
+                             QuestionnaireRepository questionnaireRepository,
+                             AnswerRepository answerRepository) {
         return args -> {
 
             for (String name : Arrays.asList("Meier", "Meyer", "Mustermann")) {
@@ -104,13 +107,23 @@ public class App {
                 end += 15;
             }
 
+            Survey survey = surveyRepository.findAll().get(0);
+            List<Answer> answers = new ArrayList<>();
+/*            for (Question question : survey.getQuestions()) {
+                System.out.println(question);
+                Answer answer = new Answer();
+                answer.setQuestion(question);
+                answer.setProposal(question.getProposal());
+                answer.setSurvey(survey);
+                answer.setSelectedAnswerId(0);
+                answerRepository.save(answer);
+                answers.add(answer);
+            }*/
             Questionnaire questionnaire = new Questionnaire();
             questionnaire.setUser(userRepository.findAll().get(0));
-            questionnaire.setSurvey(surveyRepository.findAll().get(0));
+            questionnaire.setSurvey(survey);
+            questionnaire.setAnswers(answers);
             questionnaireRepository.save(questionnaire);
-
-
-
         };
     }
 

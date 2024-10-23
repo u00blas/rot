@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+<nav th:replace="~{layout :: page_nav}"></nav>
+<div class="container py-3">
+    <h1 class="text-center my-4">List of Answers</h1>
+    <table class="table">
+        <thead>
+        <tr>
+            <th>ID</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="answer : ${answers}">
+            <td th:text="${answer.id}"></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{layout :: page_footer}"></footer>
+</body>
+</html>

@@ -1,8 +1,11 @@
 package com.rot.app.questionnaire;
 
+import com.rot.app.answer.Answer;
 import com.rot.app.user.User;
 import com.rot.app.surveys.Survey;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "questionnaires")
@@ -19,13 +22,19 @@ public class Questionnaire {
     @OneToOne
     private Survey survey;
 
+    @OneToMany
+    @JoinColumn(name = "questionnaire_id")
+    private List<Answer> answers;
+
+
     public Questionnaire() {
     }
 
-    public Questionnaire(Long id, User user, Survey survey) {
+    public Questionnaire(Long id, User user, Survey survey, List<Answer> answers) {
         this.id = id;
         this.user = user;
         this.survey = survey;
+        this.answers = answers;
     }
 
     public Long getId() {
@@ -52,12 +61,21 @@ public class Questionnaire {
         this.survey = survey;
     }
 
+    public List<Answer> getAnswers() {
+        return answers;
+    }
+
+    public void setAnswers(List<Answer> answers) {
+        this.answers = answers;
+    }
+
     @Override
     public String toString() {
         return "Questionnaire{" +
                 "id=" + id +
                 ", user=" + user +
                 ", survey=" + survey +
+                ", answers=" + answers +
                 '}';
     }
 }
