@@ -34,9 +34,9 @@
                     <td>
                         <input th:name="|books[${itemStat.index}].proposals|" th:value="${book.getProposals()}"/>
                     </td>
-                    <td th:each="proposal : ${book.getProposals()}">
+                    <td th:each="proposal, stat : ${book.getProposals()}">
                         <input type="radio" th:name="|books[${itemStat.index}].id|"
-                               th:field="*{books[__${itemStat.index}__].answer}" th:value="${proposal}"
+                               th:field="*{books[__${itemStat.index}__].answer}" th:value="${stat.index}"
                                th:text="${proposal}"/>
                     </td>
                 </tr>
