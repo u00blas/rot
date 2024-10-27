@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+<nav th:replace="~{layout :: page_nav}"></nav>
+<div class="container py-3">
+    <form method="post" th:action="@{/askings/save}" th:object="${askings}">
+        <h1 class="text-center my-4">List of Askings</h1>
+        <a class="btn btn-primary" th:href="@{/askings/}">Create Asking</a>
+        <table class="table">
+            <thead>
+            <tr>
+                <th>Question</th>
+                <th>Proposals</th>
+                <th>Answer</th>
+            </tr>
+            </thead>
+            <tbody class="table-group-divider">
+            <tr th:each="asking : ${askings}">
+                <td th:text="${asking.question}" th:value="${asking.question}"></td>
+                <td th:text="${asking.proposals}"></td>
+                <td>
+                    <span th:each="proposal : ${asking.proposals}">
+                <input type="radio" th:name="${asking.question}" th:text="${proposal}"/>
+            </span>
+                </td>
+                <td th:text="${asking.answer}"></td>
+                <td style="white-space: nowrap">
+                    <a class="btn btn-primary btn-sm" th:href="@{/askings/edit(id=${asking.question})}">Edit</a>
+                    <a class="btn btn-danger btn-sm" th:href="@{/askings/delete(id=${asking.question})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+<footer th:replace="~{layout :: page_footer}"></footer>
+</body>
+</html>

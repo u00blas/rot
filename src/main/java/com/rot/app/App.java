@@ -1,6 +1,7 @@
 package com.rot.app;
 
 import com.rot.app.answer.Answer;
+import com.rot.app.answer.AnswerDto;
 import com.rot.app.answer.AnswerRepository;
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
@@ -103,6 +104,17 @@ public class App {
                 survey.setDescription("Test Description for " + name);
                 survey.setQuestions(questionRepository.findAll().subList(start, end));
                 surveyRepository.save(survey);
+                for (Question question : survey.getQuestions()) {
+                    Answer answer = new Answer();
+                    answer.setQuestion(question.getQuestionDe());
+                    answer.setAnswer1("Test Answer 1");
+                    answer.setAnswer2("Test Answer 2");
+                    answer.setAnswer3("Test Answer 3");
+                    answer.setAnswer4("Test Answer 4");
+                    answer.setAnswer5("Test Answer 5");
+                    answer.setAnswerNumber(0);
+                    answerRepository.save(answer);
+                }
                 start += 15;
                 end += 15;
             }

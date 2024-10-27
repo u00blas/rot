@@ -13,30 +13,27 @@ public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @ManyToOne
-    @JoinColumn(name = "question_id")
-    private Question question;
-    @ManyToOne
-    @JoinColumn(name = "proposal_id")
-    private Proposal proposal;
-    @ManyToOne
-    @JoinColumn(name = "survey_id")
-    private Survey survey;
-    @ManyToOne
-    @JoinColumn(name = "questionnaire_id")
-    private Questionnaire questionnaire;
-    private Integer selectedAnswerId;
+    private String question;
+    private String answer1;
+    private String answer2;
+    private String answer3;
+    private String answer4;
+    private String answer5;
+    @Column(name = "answer_number")
+    private int answerNumber;
 
     public Answer() {
     }
 
-    public Answer(Long id, Question question, Proposal proposal, Survey survey, Questionnaire questionnaire, Integer selectedAnswerId) {
+    public Answer(Long id, String question, String answer1, String answer2, String answer3, String answer4, String answer5, int answerNumber) {
         this.id = id;
         this.question = question;
-        this.proposal = proposal;
-        this.survey = survey;
-        this.questionnaire = questionnaire;
-        this.selectedAnswerId = selectedAnswerId;
+        this.answer1 = answer1;
+        this.answer2 = answer2;
+        this.answer3 = answer3;
+        this.answer4 = answer4;
+        this.answer5 = answer5;
+        this.answerNumber = answerNumber;
     }
 
     public Long getId() {
@@ -47,55 +44,73 @@ public class Answer {
         this.id = id;
     }
 
-    public Question getQuestion() {
+    public String getQuestion() {
         return question;
     }
 
-    public void setQuestion(Question question) {
+    public void setQuestion(String question) {
         this.question = question;
     }
 
-    public Proposal getProposal() {
-        return proposal;
+    public String getAnswer1() {
+        return answer1;
     }
 
-    public void setProposal(Proposal proposal) {
-        this.proposal = proposal;
+    public void setAnswer1(String answer1) {
+        this.answer1 = answer1;
     }
 
-    public Survey getSurvey() {
-        return survey;
+    public String getAnswer2() {
+        return answer2;
     }
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
+    public void setAnswer2(String answer2) {
+        this.answer2 = answer2;
     }
 
-    public Questionnaire getQuestionnaire() {
-        return questionnaire;
+    public String getAnswer3() {
+        return answer3;
     }
 
-    public void setQuestionnaire(Questionnaire questionnaire) {
-        this.questionnaire = questionnaire;
+    public void setAnswer3(String answer3) {
+        this.answer3 = answer3;
     }
 
-    public Integer getSelectedAnswerId() {
-        return selectedAnswerId;
+    public String getAnswer4() {
+        return answer4;
     }
 
-    public void setSelectedAnswerId(Integer selectedAnswerId) {
-        this.selectedAnswerId = selectedAnswerId;
+    public void setAnswer4(String answer4) {
+        this.answer4 = answer4;
+    }
+
+    public String getAnswer5() {
+        return answer5;
+    }
+
+    public void setAnswer5(String answer5) {
+        this.answer5 = answer5;
+    }
+
+    public int getAnswerNumber() {
+        return answerNumber;
+    }
+
+    public void setAnswerNumber(int answerNumber) {
+        this.answerNumber = answerNumber;
     }
 
     @Override
     public String toString() {
         return "Answer{" +
                 "id=" + id +
-                ", question=" + question +
-                ", proposal=" + proposal +
-                ", survey=" + survey +
-                ", questionnaire=" + questionnaire +
-                ", selectedAnswerId=" + selectedAnswerId +
+                ", question='" + question + '\'' +
+                ", answer1='" + answer1 + '\'' +
+                ", answer2='" + answer2 + '\'' +
+                ", answer3='" + answer3 + '\'' +
+                ", answer4='" + answer4 + '\'' +
+                ", answer5='" + answer5 + '\'' +
+                ", answerNumber=" + answerNumber +
                 '}';
     }
 }
