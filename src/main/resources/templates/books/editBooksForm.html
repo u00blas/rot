@@ -10,6 +10,9 @@
         <fieldset>
             <input type="submit" id="submitButton" th:value="Save">
             <input type="reset" id="resetButton" name="reset" th:value="Reset"/>
+            <input type="text" th:field="*{title}" th:text="${form.title}" />
+            <p th:if="${#fields.hasErrors('title')}" th:errors="*{title}"></p>
+            <br/>
             <table>
                 <thead>
                 <tr>
@@ -35,9 +38,12 @@
                         <input th:name="|books[${itemStat.index}].proposals|" th:value="${book.getProposals()}"/>
                     </td>
                     <td th:each="proposal, stat : ${book.getProposals()}">
-                        <input type="radio" th:name="|books[${itemStat.index}].id|"
+                        <label for="answer">[[${proposal}]]</label>
+                        <input type="radio" id="answer" th:name="|books[${itemStat.index}].id|"
                                th:field="*{books[__${itemStat.index}__].answer}" th:value="${stat.index}"
                                th:text="${proposal}"/>
+                        <p th:if="*{#fields.hasErrors('books[__${itemStat.index}__].answer')}" th:errors="*{books[__${itemStat.index}__].answer}"></p>
+
                     </td>
                 </tr>
                 </tbody>

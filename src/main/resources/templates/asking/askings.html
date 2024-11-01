@@ -21,7 +21,7 @@
                 <td th:text="${asking.proposals}"></td>
                 <td>
                     <span th:each="proposal : ${asking.proposals}">
-                <input type="radio" th:name="${asking.question}" th:text="${proposal}"/>
+                <input type="radio" th:name="${asking.question}" th:text="${proposal}"/><br/>
             </span>
                 </td>
                 <td th:text="${asking.answer}"></td>

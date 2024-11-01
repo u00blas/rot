@@ -1,5 +1,9 @@
 package com.rot.app.books;
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotEmpty;
+import jakarta.validation.constraints.NotNull;
+
 import java.util.List;
 import java.util.Objects;
 
@@ -10,6 +14,7 @@ public class Book {
     private String title;
     private String author;
     private List<String> proposals;
+    @NotNull(message = "Die Antwort darf nicht leer sein")
     private String answer;
 
     public Book() {

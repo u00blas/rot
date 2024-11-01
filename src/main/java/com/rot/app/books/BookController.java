@@ -1,7 +1,9 @@
 package com.rot.app.books;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -42,7 +44,12 @@ public class BookController {
     }
 
     @PostMapping("/save")
-    public String saveBooks(@ModelAttribute BooksCreationDto form, Model model) {
+    public String saveBooks(@Valid @ModelAttribute BooksCreationDto form, BindingResult result, Model model) {
+        System.out.println("Result " + result.toString());
+        result.getModel().forEach((key, value) -> System.out.println(key + " " + value));
+        if (result.hasErrors()) {
+            return "books/createBooksForm";
+        }
 
         bookService.saveAll(form.getBooks());
         form.getBooks().forEach(System.out::println);
