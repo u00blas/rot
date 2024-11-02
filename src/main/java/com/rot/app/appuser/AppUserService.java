@@ -9,6 +9,8 @@ import org.springframework.stereotype.Service;
 @Service
 public class AppUserService implements UserDetailsService {
 
+    // Using generated security password: cc905e43-6b9d-4b09-9c62-9a027a2a4700
+
     private final AppUserRepository appUserRepository;
 
     public AppUserService(AppUserRepository appUserRepository) {
