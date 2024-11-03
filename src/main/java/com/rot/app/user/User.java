@@ -3,7 +3,7 @@ package com.rot.app.user;
 import jakarta.persistence.*;
 
 @Entity
-@Table(name = "users")
+@Table(name = "link_users")
 public class User {
 
     @Id

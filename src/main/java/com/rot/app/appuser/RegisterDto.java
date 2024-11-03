@@ -21,7 +21,6 @@ public class RegisterDto {
     private String confirmPassword;
 
 
-
     public @NotEmpty String getFirstName() {
         return firstName;
     }
@@ -76,5 +75,11 @@ public class RegisterDto {
 
     public void setConfirmPassword(String confirmPassword) {
         this.confirmPassword = confirmPassword;
+    }
+
+    public AppUser toAppUser() {
+
+        return new AppUser(0, firstName, lastName, email, phone, address, password, "USER", null);
+
     }
 }
