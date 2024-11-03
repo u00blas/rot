@@ -13,6 +13,8 @@ import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
 import com.rot.app.questionnaire.Questionnaire;
 import com.rot.app.questionnaire.QuestionnaireRepository;
+import com.rot.app.session.Session;
+import com.rot.app.session.SessionRepository;
 import com.rot.app.surveys.Survey;
 import com.rot.app.surveys.SurveyRepository;
 import com.rot.app.user.User;
@@ -40,9 +42,16 @@ public class App {
                              ProposalRepository proposalRepository,
                              SurveyRepository surveyRepository,
                              QuestionnaireRepository questionnaireRepository,
-                             AnswerRepository answerRepository) {
+                             AnswerRepository answerRepository, SessionRepository sessionRepository) {
         return args -> {
-
+            for (String data : Arrays.asList("date", "lkejbvlekrjbv")) {
+                Session session = new Session();
+                session.setSessionId("2h45f88def90ff8");
+                session.setCreatedAt(new Date());
+                session.setExpiresAt(new Date());
+                session.setData(data);
+                sessionRepository.save(session);
+            }
             /*for (String name : Arrays.asList("Meier", "Meyer", "Mustermann")) {
                 User user = new User();
                 user.setUsername(name);

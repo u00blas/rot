@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org">
 <head th:fragment="page_head">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -23,12 +24,12 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                 <li class="nav-item">
-                    <a class="nav-link text-dark" href="/">Home</a>
-                </li>
-                <!--<li class="nav-item">
                     <a class="nav-link text-dark" href="/questions">Questions</a>
                 </li>
                 <li class="nav-item">
+                    <a class="nav-link text-dark" href="/">Home</a>
+                </li>
+                <!--<li class="nav-item">
                     <a class="nav-link text-dark" href="/proposals">Proposals</a>
                 </li>
                 <li class="nav-item">
@@ -60,14 +61,15 @@
                  <a class="nav-link text-dark" href="/privacy">Privacy</a>
              </li>-->
             <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
-
                 <li class="nav-item ">
                     <a class="btn btn-outline-primary me-2 " href="/register">Register</a>
                 </li>
                 <li class="nav-item ">
-                    <a class="btn btn-primary " href="/login">Login</a>
+                    <a class="btn btn-primary me-2" href="/login">Login</a>
                 </li>
-
+                <li class="nav-item ">
+                    <a class="btn btn-primary me-2" href="/logout">Logout</a>
+                </li>
             </ul>
         </div>
     </div>

@@ -16,6 +16,8 @@ public class SecurityConig {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.authorizeHttpRequests(auth -> auth
                         .requestMatchers("/").permitAll()
+                        .requestMatchers("/sessions").permitAll()
+                        .requestMatchers("/sessions/*").permitAll()
                         .requestMatchers("/register").permitAll()
                         .requestMatchers("/contact").permitAll()
                         .requestMatchers("/login").permitAll()
