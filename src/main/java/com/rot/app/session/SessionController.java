@@ -25,8 +25,8 @@ public class SessionController {
 
     @GetMapping("/{session_id}")
     public String session(@PathVariable("session_id") String id, Model model) {
-        List<Session> sessions = sessionService.findBySessionId(id);
-        model.addAttribute("sessions", sessions);
+        Session session = sessionService.findBySessionId(id);
+        model.addAttribute("sessionobject", session);
         return "sessions/session";
     }
 

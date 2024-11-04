@@ -13,8 +13,7 @@ import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
 import com.rot.app.questionnaire.Questionnaire;
 import com.rot.app.questionnaire.QuestionnaireRepository;
-import com.rot.app.session.Session;
-import com.rot.app.session.SessionRepository;
+import com.rot.app.session.*;
 import com.rot.app.surveys.Survey;
 import com.rot.app.surveys.SurveyRepository;
 import com.rot.app.user.User;
@@ -42,17 +41,14 @@ public class App {
                              ProposalRepository proposalRepository,
                              SurveyRepository surveyRepository,
                              QuestionnaireRepository questionnaireRepository,
-                             AnswerRepository answerRepository, SessionRepository sessionRepository) {
+                             AnswerRepository answerRepository,
+                             SessionRepository sessionRepository,
+                             SessionPageRepository sessionPageRepository,
+                             SessionQuestionRepository sessionQuestionRepository,
+                             SessionProposalRepository sessionProposalRepository) {
         return args -> {
-            for (String data : Arrays.asList("date", "lkejbvlekrjbv")) {
-                Session session = new Session();
-                session.setSessionId("2h45f88def90ff8");
-                session.setCreatedAt(new Date());
-                session.setExpiresAt(new Date());
-                session.setData(data);
-                sessionRepository.save(session);
-            }
-            /*for (String name : Arrays.asList("Meier", "Meyer", "Mustermann")) {
+
+            for (String name : Arrays.asList("Meier", "Meyer", "Mustermann")) {
                 User user = new User();
                 user.setUsername(name);
                 user.setPassword(name);
@@ -105,6 +101,47 @@ public class App {
                     System.out.println("Question already exists: " + question);
                 }
             }
+
+            for (int proposal : Arrays.asList(1, 2, 3)) {
+                SessionProposal sessionProposal = new SessionProposal();
+                sessionProposal.setMinScale("Minimum Scale " + proposal);
+                sessionProposal.setMaxScale("Maximum Scale " + proposal * 100);
+                sessionProposal.setDescription1("Description 1 " + proposal * 10);
+                sessionProposal.setDescription2("Description 2 " + proposal * 20);
+                sessionProposal.setDescription3("Description 3 " + proposal * 40);
+                sessionProposal.setDescription4("Description 4 " + proposal * 80);
+                sessionProposal.setDescription5("Description 5 " + proposal * 100);
+                sessionProposalRepository.save(sessionProposal);
+
+            }
+
+            for (String question : Arrays.asList("what?", "who?", "why?", "where?", "when?", "how?", "which?", "who is this?", "what is this?", "where is this?", "why is this?", "when is this?", "how is this?")) {
+                SessionQuestion sessionQuestion = new SessionQuestion();
+                sessionQuestion.setQuestion(question);
+                sessionQuestion.setProposals(sessionProposalRepository.findAll());
+                sessionQuestionRepository.save(sessionQuestion);
+            }
+            int pos = 0;
+
+            for (Integer i : Arrays.asList(1, 2, 3)) {
+                SessionPage sessionPage = new SessionPage();
+                sessionPage.setPageId(i);
+                sessionPage.setData("Page " + i);
+                sessionPage.setQuestions(sessionQuestionRepository.findAll().subList(pos, pos + 2));
+                pos += 3;
+                sessionPageRepository.save(sessionPage);
+            }
+            for (String s : Arrays.asList("2h45f88def90ff8", "4h45f88def90ff8", "6h45f88def90ff8")) {
+                Session session = new Session();
+                session.setSessionId(s);
+                session.setCreatedAt(new Date());
+                session.setExpiresAt(new Date());
+                session.setData("Session " + s);
+                session.setPages(sessionPageRepository.findAll());
+                sessionRepository.save(session);
+            }
+
+
             int start = 0;
             int end = 5;
             for (String name : Arrays.asList("Survey 1", "Survey 2", "Survey 3")) {
@@ -135,7 +172,7 @@ public class App {
             questionnaire.setUser(userRepository.findAll().get(0));
             questionnaire.setSurvey(survey);
             questionnaire.setAnswers(answers);
-            questionnaireRepository.save(questionnaire);*/
+            questionnaireRepository.save(questionnaire);
         };
     }
 

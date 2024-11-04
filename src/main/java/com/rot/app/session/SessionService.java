@@ -2,6 +2,7 @@ package com.rot.app.session;
 
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 @Service
@@ -13,8 +14,8 @@ public class SessionService {
         this.sessionRepository = sessionRepository;
     }
 
-    public List<Session> findBySessionId(String sessionId) {
-        return sessionRepository.findAll().stream()
-                .filter(session -> session.getSessionId().equals(sessionId)).toList();
+    public Session findBySessionId(String sessionId) {
+        return sessionRepository.findBySessionId(sessionId);
+
     }
 }
