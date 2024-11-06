@@ -15,7 +15,7 @@ public class SessionPage {
     @Column(name = "page_id")
     private Integer pageId;
     private String data;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "session_page_question",
             joinColumns = @JoinColumn(name = "page_id"),
             inverseJoinColumns = @JoinColumn(name = "question_id"))

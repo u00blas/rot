@@ -134,8 +134,7 @@ public class App {
             for (String s : Arrays.asList("2h45f88def90ff8", "4h45f88def90ff8", "6h45f88def90ff8")) {
                 Session session = new Session();
                 session.setSessionId(s);
-                session.setCreatedAt(new Date());
-                session.setExpiresAt(new Date());
+
                 session.setData("Session " + s);
                 session.setPages(sessionPageRepository.findAll());
                 sessionRepository.save(session);

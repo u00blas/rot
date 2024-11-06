@@ -15,9 +15,7 @@ public class Session {
     private Long id;
     @Column(name = "session_id")
     private String sessionId;
-    private Date createdAt;
-    private Date expiresAt;
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "session_page",
             joinColumns = @JoinColumn(name = "session_id"),
             inverseJoinColumns = @JoinColumn(name = "page_id"))
@@ -27,11 +25,9 @@ public class Session {
     public Session() {
     }
 
-    public Session(Long id, String sessionId, Date createdAt, Date expiresAt, List<SessionPage> pages, String data) {
+    public Session(Long id, String sessionId, List<SessionPage> pages, String data) {
         this.id = id;
         this.sessionId = sessionId;
-        this.createdAt = createdAt;
-        this.expiresAt = expiresAt;
         this.pages = pages;
         this.data = data;
     }
@@ -50,22 +46,6 @@ public class Session {
 
     public void setSessionId(String sessionId) {
         this.sessionId = sessionId;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
-
-    public Date getExpiresAt() {
-        return expiresAt;
-    }
-
-    public void setExpiresAt(Date expiresAt) {
-        this.expiresAt = expiresAt;
     }
 
     public List<SessionPage> getPages() {
@@ -89,8 +69,6 @@ public class Session {
         return "Session{" +
                 "id=" + id +
                 ", sessionId='" + sessionId + '\'' +
-                ", createdAt=" + createdAt +
-                ", expiresAt=" + expiresAt +
                 ", pages=" + pages +
                 ", data='" + data + '\'' +
                 '}';

@@ -15,7 +15,7 @@ public class SessionQuestion {
 
     private String question;
 
-    @ManyToMany
+    @ManyToMany(cascade = CascadeType.MERGE)
     @JoinTable(name = "session_question_proposal",
             joinColumns = @JoinColumn(name = "question_id"),
             inverseJoinColumns = @JoinColumn(name = "proposal_id"))
