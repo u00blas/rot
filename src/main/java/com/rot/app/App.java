@@ -45,7 +45,8 @@ public class App {
                              SessionRepository sessionRepository,
                              SessionPageRepository sessionPageRepository,
                              SessionQuestionRepository sessionQuestionRepository,
-                             SessionProposalRepository sessionProposalRepository) {
+                             SessionProposalRepository sessionProposalRepository,
+                             SubProposalRepository subProposalRepository) {
         return args -> {
 
             for (String name : Arrays.asList("Meier", "Meyer", "Mustermann")) {
@@ -102,20 +103,61 @@ public class App {
                 }
             }
 
-            for (int proposal : Arrays.asList(1, 2, 3)) {
-                SessionProposal sessionProposal = new SessionProposal();
-                sessionProposal.setMinScale("Minimum Scale " + proposal);
-                sessionProposal.setMaxScale("Maximum Scale " + proposal * 100);
-                sessionProposal.setDescription1("Description 1 " + proposal * 10);
-                sessionProposal.setDescription2("Description 2 " + proposal * 20);
-                sessionProposal.setDescription3("Description 3 " + proposal * 40);
-                sessionProposal.setDescription4("Description 4 " + proposal * 80);
-                sessionProposal.setDescription5("Description 5 " + proposal * 100);
-                sessionProposalRepository.save(sessionProposal);
-
+            for (String name : Arrays.asList("Immer", "Nahezu immer", "Selten", "Nahezu selten", "10%",
+                    "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%")) {
+                SubProposal subProposal = new SubProposal();
+                subProposal.setProposalLabel(name);
+                subProposalRepository.save(subProposal);
             }
 
-            for (String question : Arrays.asList("what?", "who?", "why?", "where?", "when?", "how?", "which?", "who is this?", "what is this?", "where is this?", "why is this?", "when is this?", "how is this?")) {
+            for (int proposal : Arrays.asList(1, 2, 3)) {
+                SessionProposal sessionProposal = new SessionProposal();
+                sessionProposal.setMinScale("Von " + proposal * 10 + "%");
+                sessionProposal.setMaxScale("Bis " + proposal * 100 + "%");
+                //sessionProposal.setSubQuestion("...sind Sie glücklich? " + proposal);
+                List<SubProposal> subProposals = new ArrayList<>();
+                subProposals.add(subProposalRepository.findByProposalLabel("Immer"));
+                subProposals.add(subProposalRepository.findByProposalLabel("Nahezu immer"));
+                subProposals.add(subProposalRepository.findByProposalLabel("Selten"));
+                sessionProposal.setSubProposals(subProposals);
+                sessionProposalRepository.save(sessionProposal);
+            }
+
+            {
+                SessionQuestion sessionQuestion = new SessionQuestion();
+                sessionQuestion.setQuestion("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?");
+                sessionQuestionRepository.save(sessionQuestion);
+            }
+            {
+                SessionQuestion sessionQuestion = new SessionQuestion();
+                sessionQuestion.setQuestion("Wie würden Sie die Zusammenarbeit der unterschiedlichen Beschäftigungsgruppen beschreiben?");
+                SessionProposal sessionProposal = new SessionProposal();
+                //sessionProposal.setSubQuestion("Die Zusammenarbeit…zwischen jüngeren und älteren Beschäftigten ist…");
+                sessionProposal.setMinScale("Von sehr schlecht");
+                sessionProposal.setMaxScale("bis sehr gut");
+                List<SubProposal> subProposals = new ArrayList<>();
+                for (String name : Arrays.asList("Sehr schlecht", "Schlecht", "Gut", "Besser", "Sehr gut")) {
+                    SubProposal subProposal = new SubProposal();
+                    subProposal.setProposalLabel(name);
+                    subProposals.add(subProposal);
+                }
+                sessionProposal.setSubProposals(subProposals);
+                sessionQuestion.setProposals(Arrays.asList(sessionProposal));
+  //              sessionQuestionRepository.save(sessionQuestion);
+            }
+            {
+                SessionQuestion sessionQuestion = new SessionQuestion();
+                sessionQuestion.setQuestion("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?");
+                sessionQuestionRepository.save(sessionQuestion);
+            }
+            {
+                SessionQuestion sessionQuestion = new SessionQuestion();
+                sessionQuestion.setQuestion("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?");
+                sessionQuestionRepository.save(sessionQuestion);
+            }
+            for (String question : Arrays.asList("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?",
+                    "Wie würden Sie die Zusammenarbeit der unterschiedlichen Beschäftigungsgruppen beschreiben?",
+                    "Was ist Ihre Lieblingsfarbe", "Was ist Ihre Lieblingsstadt?", "Sind Sie zufrieden?", "Schlafen Sie genug?", "which?", "who is this?", "what is this?", "where is this?", "why is this?", "when is this?", "how is this?")) {
                 SessionQuestion sessionQuestion = new SessionQuestion();
                 sessionQuestion.setQuestion(question);
                 sessionQuestion.setProposals(sessionProposalRepository.findAll());
@@ -126,8 +168,8 @@ public class App {
             for (Integer i : Arrays.asList(1, 2, 3)) {
                 SessionPage sessionPage = new SessionPage();
                 sessionPage.setPageId(i);
-                sessionPage.setData("Page " + i);
-                sessionPage.setQuestions(sessionQuestionRepository.findAll().subList(pos, pos + 2));
+                //sessionPage.setData("Page " + i);
+               // sessionPage.setQuestions(sessionQuestionRepository.findAll().subList(pos, pos + 2));
                 pos += 3;
                 sessionPageRepository.save(sessionPage);
             }
@@ -135,7 +177,7 @@ public class App {
                 Session session = new Session();
                 session.setSessionId(s);
 
-                session.setData("Session " + s);
+                session.setData("In dieser Session wollen wir Antworten auf unsere Fragen bekommen.");
                 session.setPages(sessionPageRepository.findAll());
                 sessionRepository.save(session);
             }
@@ -172,7 +214,8 @@ public class App {
             questionnaire.setSurvey(survey);
             questionnaire.setAnswers(answers);
             questionnaireRepository.save(questionnaire);
-        };
+        }
+                ;
     }
 
 

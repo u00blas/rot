@@ -16,7 +16,7 @@ public class SessionPageService {
     }
 
     public void saveSessionPage(SessionPage sessionPage) {
-        List<SessionQuestion> questions = sessionPage.getQuestions();
+        //List<SessionQuestion> questions = sessionPage.getQuestions();
         //sessionQuestionRepository.saveAll(questions);
         sessionPageRepository.save(sessionPage);
     }

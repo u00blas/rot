@@ -1,9 +1,8 @@
 package com.rot.app.session;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "session_proposals")
@@ -13,26 +12,25 @@ public class SessionProposal {
     @GeneratedValue
     private Long id;
 
+    private String description;
     private String minScale;
     private String maxScale;
-    private String description1;
-    private String description2;
-    private String description3;
-    private String description4;
-    private String description5;
+
+    @ManyToMany(cascade = CascadeType.MERGE)
+    @JoinTable(name = "session_proposal_proposal",
+            joinColumns = @JoinColumn(name = "proposal_id"),
+            inverseJoinColumns = @JoinColumn(name = "session_proposal_id"))
+    private List<SubProposal> subProposals;
 
     public SessionProposal() {
     }
 
-    public SessionProposal(Long id, String minScale, String maxScale, String description1, String description2, String description3, String description4, String description5) {
+    public SessionProposal(Long id, String description, String minScale, String maxScale, List<SubProposal> subProposals) {
         this.id = id;
+        this.description = description;
         this.minScale = minScale;
         this.maxScale = maxScale;
-        this.description1 = description1;
-        this.description2 = description2;
-        this.description3 = description3;
-        this.description4 = description4;
-        this.description5 = description5;
+        this.subProposals = subProposals;
     }
 
     public Long getId() {
@@ -41,6 +39,14 @@ public class SessionProposal {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getMinScale() {
@@ -59,57 +65,22 @@ public class SessionProposal {
         this.maxScale = maxScale;
     }
 
-    public String getDescription1() {
-        return description1;
+    public List<SubProposal> getSubProposals() {
+        return subProposals;
     }
 
-    public void setDescription1(String description1) {
-        this.description1 = description1;
-    }
-
-    public String getDescription2() {
-        return description2;
-    }
-
-    public void setDescription2(String description2) {
-        this.description2 = description2;
-    }
-
-    public String getDescription3() {
-        return description3;
-    }
-
-    public void setDescription3(String description3) {
-        this.description3 = description3;
-    }
-
-    public String getDescription4() {
-        return description4;
-    }
-
-    public void setDescription4(String description4) {
-        this.description4 = description4;
-    }
-
-    public String getDescription5() {
-        return description5;
-    }
-
-    public void setDescription5(String description5) {
-        this.description5 = description5;
+    public void setSubProposals(List<SubProposal> subProposals) {
+        this.subProposals = subProposals;
     }
 
     @Override
     public String toString() {
         return "SessionProposal{" +
                 "id=" + id +
+                ", description='" + description + '\'' +
                 ", minScale='" + minScale + '\'' +
                 ", maxScale='" + maxScale + '\'' +
-                ", description1='" + description1 + '\'' +
-                ", description2='" + description2 + '\'' +
-                ", description3='" + description3 + '\'' +
-                ", description4='" + description4 + '\'' +
-                ", description5='" + description5 + '\'' +
+                ", subProposals=" + subProposals +
                 '}';
     }
 }

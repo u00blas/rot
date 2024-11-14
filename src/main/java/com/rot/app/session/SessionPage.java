@@ -12,24 +12,27 @@ public class SessionPage {
     @Id
     @GeneratedValue
     private Long id;
+
     @Column(name = "page_id")
     private Integer pageId;
-    private String data;
+
+    private String description;
+
     @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "session_page_question",
+    @JoinTable(name = "session_page_questions",
             joinColumns = @JoinColumn(name = "page_id"),
             inverseJoinColumns = @JoinColumn(name = "question_id"))
-    private List<SessionQuestion> questions;
-
+    private List<SessionQuestion> sessionQuestions;
 
     public SessionPage() {
     }
 
-    public SessionPage(Long id, Integer pageId, String data, List<SessionQuestion> questions) {
+
+    public SessionPage(Long id, Integer pageId, String description, List<SessionQuestion> sessionQuestions) {
         this.id = id;
         this.pageId = pageId;
-        this.data = data;
-        this.questions = questions;
+        this.description = description;
+        this.sessionQuestions = sessionQuestions;
     }
 
     public Long getId() {
@@ -48,20 +51,20 @@ public class SessionPage {
         this.pageId = pageId;
     }
 
-    public String getData() {
-        return data;
+    public String getDescription() {
+        return description;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public List<SessionQuestion> getQuestions() {
-        return questions;
+    public List<SessionQuestion> getSessionQuestions() {
+        return sessionQuestions;
     }
 
-    public void setQuestions(List<SessionQuestion> questions) {
-        this.questions = questions;
+    public void setSessionQuestions(List<SessionQuestion> sessionQuestions) {
+        this.sessionQuestions = sessionQuestions;
     }
 
     @Override
@@ -69,8 +72,8 @@ public class SessionPage {
         return "SessionPage{" +
                 "id=" + id +
                 ", pageId=" + pageId +
-                ", data='" + data + '\'' +
-                ", questions=" + questions +
+                ", description='" + description + '\'' +
+                ", sessionQuestions=" + sessionQuestions +
                 '}';
     }
 }

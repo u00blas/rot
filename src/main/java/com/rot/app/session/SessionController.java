@@ -24,15 +24,15 @@ public class SessionController {
     @GetMapping("/{session_id}")
     public String session(@PathVariable("session_id") String id, Model model) {
         Session session = sessionService.findBySessionId(id);
-        System.out.println("=".repeat(80));
-        System.out.println(session);
-        System.out.println("=".repeat(80));
+        List<SessionPage> pages = session.getPages().stream().filter(page -> page.getPageId() == 1).toList();
+        model.addAttribute("pageNumber", 1);
+        model.addAttribute("currentPage", pages.get(0));
         model.addAttribute("sessionobject", session);
         return "sessions/session";
     }
 
     @PostMapping("/save")
-    public String saveSession(@ModelAttribute Session session,Model model) {
+    public String saveSession(@ModelAttribute Session session, Model model) {
 
         System.out.println(session);
         sessionService.saveSession(session);
