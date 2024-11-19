@@ -132,15 +132,19 @@ public class QuestionController {
         return "redirect:/questions";
     }
 
-    @GetMapping("/questions/{id}/delete")
-    public String deleteQuestion(@PathVariable("id") Long id) {
+    @GetMapping("/questions/delete")
+    public String deleteQuestion(@RequestParam Long id) {
         questionRepository.deleteById(id);
         return "redirect:/questions";
     }
 
-    @GetMapping("/questions/{id}/view")
-    public String viewQuestion(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("question", questionRepository.findById(id).get());
-        return "question_view";
+    @GetMapping("/questions/details")
+    public String details(@RequestParam Long id, Model model) {
+        Question question = questionRepository.findById(id).orElse(null);
+        if (question == null) {
+            return "redirect:/questions";
+        }
+        model.addAttribute("question", question);
+        return "questions/details";
     }
 }
