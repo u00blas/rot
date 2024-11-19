@@ -1,6 +1,7 @@
 package com.rot.app.migration;
 
 import com.rot.app.category.Category;
+import com.rot.app.category.CategoryRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import com.rot.app.proposal.replayoption.ReplayOption;
@@ -11,9 +12,11 @@ import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestion.SubquestionRepository;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
+import java.util.stream.Stream;
 
 @Service
 public class MigrationService {
@@ -23,16 +26,18 @@ public class MigrationService {
     private final QuestionRepository questionRepository;
     private final SubquestionRepository subquestionRepository;
     private final SubquestionContainerRepository subquestionContainerRepository;
+    private final CategoryRepository categoryRepository;
 
     public MigrationService(ReplayOptionRepository replayOptionRepository,
                             ProposalRepository proposalRepository,
                             QuestionRepository questionRepository,
-                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository) {
+                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository, CategoryRepository categoryRepository) {
         this.replayOptionRepository = replayOptionRepository;
         this.proposalRepository = proposalRepository;
         this.questionRepository = questionRepository;
         this.subquestionRepository = subquestionRepository;
         this.subquestionContainerRepository = subquestionContainerRepository;
+        this.categoryRepository = categoryRepository;
     }
 
 
@@ -167,52 +172,6 @@ public class MigrationService {
             proposalRepository.save(proposal);
         });
         return proposalRepository.findAll();
-    }
-
-    public void createQuestions() {
-        List<String> lines = MigrateRawData.getLinesFromCsv();
-        Question question = null;
-        Question remQuestion = null;
-
-        String j_rem = null;
-        for (int i = 2; i <= 143; i++) {
-            String[] parts = lines.get(i).split(";");
-            //Check for subquestion
-            String j = parts[8];
-            if (j_rem != null && j_rem.equals(j)) {
-                System.out.println("Subquestion found at " + i + ". -> Question: " + parts[22]);
-            } else {
-                System.out.println("Question found at " + i + ". -> Question: " + parts[22]);
-            }
-            j_rem = j;
-
-            if (parts.length >= 30) {
-                System.out.println("---question---".repeat(10));
-
-                if (!parts[8].isEmpty() && !parts[24].isEmpty()) {
-                    if (question != null) {
-                        questionRepository.save(question);
-                    }
-                    question = new Question(parts[22]);
-
-                    Subquestion subquestion = new Subquestion();
-                    subquestion.setQuestionDe(parts[22]);
-                    subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
-                    //question.setSubquestion(subquestion);
-
-                    System.out.println(i + ". -> Question: " + parts[22]);
-                }
-                if (parts[8].isEmpty()) {
-
-                    if (question != null) {
-
-                    }
-
-                    System.out.println("  " + i + ". -> Subquestion: " + parts[22]);
-                }
-
-            }
-        }
     }
 
     public List<Subquestion> createSubquestions() {
@@ -392,5 +351,47 @@ public class MigrationService {
 
         subquestionContainerRepository.saveAll(subquestionContainers);
         return subquestionContainerRepository.findAll();
+    }
+
+
+    public List<Question> createQuestions2() {
+
+        List<Question> questions = new ArrayList<>();
+
+        List<String> lines = MigrateRawData.getLinesFromCsv();
+        Stream.of(new Pair(2, 10), new Pair(16, 62), new Pair(71, 120), new Pair(127, 128), new Pair(132, 133)).forEach(pair -> {
+            {
+                for (int i = pair.start; i < pair.end; i++) {
+                    String[] parts = lines.get(i).split(";");
+                    Question question = new Question(parts[22]);
+                    Category category = categoryRepository.findByName(parts[3]);
+                    SubquestionContainer subquestionContainer = subquestionContainerRepository.findByQuestion(parts[22]);
+                    question.setSubquestionContainer(subquestionContainer);
+                    question.setCategory(category);
+                    question.setNewNumber(parts[8]);
+                    questions.add(question);
+                }
+            }
+        });
+        return questions;
+    }
+
+    private Integer integer(String part) {
+        if (part != null) {
+            if (part.matches("\\d+")) {
+                return Integer.parseInt(part);
+            }
+        }
+        return null;
+    }
+
+    class Pair {
+        private int start;
+        private int end;
+
+        public Pair(int start, int end) {
+            this.start = start;
+            this.end = end;
+        }
     }
 }

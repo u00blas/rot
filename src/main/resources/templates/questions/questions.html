@@ -12,7 +12,7 @@
             <th>ID</th>
             <th>Name</th>
             <th>Category</th>
-            <th>Proposals</th>
+            <th>Subquestion Container</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -23,8 +23,7 @@
             <td th:if="${question.questionDe != null&& question.questionDe.length() <= 40}" th:text="${question.questionDe}"></td>
             <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
             <td th:if="${question.category == null}">None</td>
-            <td th:if="${question.proposal != null}" th:text="${question.proposal.minScale}"></td>
-            <td th:if="${question.proposal == null}">None</td>
+            <td th:text="${question.subquestionContainer}"></td>
             <td style="white-space: nowrap">
                 <a class="btn btn-primary btn-sm" th:href="@{/questions/edit(id=${question.id})}">Edit</a>
                 <a class="btn btn-danger btn-sm" th:href="@{/questions/delete(id=${question.id})}">Delete</a>

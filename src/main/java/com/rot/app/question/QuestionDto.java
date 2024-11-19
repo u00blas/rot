@@ -2,6 +2,7 @@ package com.rot.app.question;
 
 import com.rot.app.category.Category;
 import com.rot.app.proposal.Proposal;
+import com.rot.app.subquestioncontainer.SubquestionContainer;
 import jakarta.validation.constraints.NotEmpty;
 
 public class QuestionDto {
@@ -10,26 +11,20 @@ public class QuestionDto {
     @NotEmpty(message = "Question cannot be empty")
     private String questionDe;
     private Category category;
-    private Proposal proposal;
+    private SubquestionContainer subquestionContainer;
 
     public QuestionDto() {
     }
 
-    public QuestionDto(String questionDe, Category category, Proposal proposal) {
-        this.questionDe = questionDe;
-        this.category = category;
-        this.proposal = proposal;
-    }
-
-    public QuestionDto(Long id, String questionDe, Category category, Proposal proposal) {
+    public QuestionDto(Long id, String questionDe, Category category, SubquestionContainer subquestionContainer) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
-        this.proposal = proposal;
+        this.subquestionContainer = subquestionContainer;
     }
 
     public static QuestionDto fromQuestion(Question question) {
-        return new QuestionDto(question.getId(), question.getQuestionDe(), question.getCategory(), question.getProposal());
+        return new QuestionDto(question.getId(), question.getQuestionDe(), question.getCategory(), question.getSubquestionContainer());
     }
 
     public @NotEmpty(message = "Question cannot be empty") String getQuestionDe() {
@@ -48,12 +43,12 @@ public class QuestionDto {
         this.category = category;
     }
 
-    public Proposal getProposal() {
-        return proposal;
+    public SubquestionContainer getSubquestionContainer() {
+        return subquestionContainer;
     }
 
-    public void setProposal(Proposal proposal) {
-        this.proposal = proposal;
+    public void setSubquestionContainer(SubquestionContainer subquestionContainer) {
+        this.subquestionContainer = subquestionContainer;
     }
 
     public Long getId() {

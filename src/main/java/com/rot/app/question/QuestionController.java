@@ -81,7 +81,7 @@ public class QuestionController {
         Question question = new Question();
         question.setQuestionDe(questionDto.getQuestionDe());
         question.setCategory(questionDto.getCategory());
-        question.setProposal(questionDto.getProposal());
+        question.setSubquestionContainer(questionDto.getSubquestionContainer());
         questionRepository.save(question);
         return "redirect:/questions";
     }
@@ -100,7 +100,7 @@ public class QuestionController {
         QuestionDto questionDto = new QuestionDto();
         questionDto.setQuestionDe(question.getQuestionDe());
         questionDto.setCategory(question.getCategory());
-        questionDto.setProposal(question.getProposal());
+        questionDto.setSubquestionContainer(question.getSubquestionContainer());
         model.addAttribute("questionDto", questionDto);
         return "questions/question_edit";
     }
@@ -127,7 +127,7 @@ public class QuestionController {
         }
         question.setQuestionDe(questionDto.getQuestionDe());
         question.setCategory(questionDto.getCategory());
-        question.setProposal(questionDto.getProposal());
+        question.setSubquestionContainer(questionDto.getSubquestionContainer());
         questionRepository.save(question);
         return "redirect:/questions";
     }

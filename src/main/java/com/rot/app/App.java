@@ -21,6 +21,7 @@ import com.rot.app.questionnaire.QuestionnaireRepository;
 import com.rot.app.session.*;
 import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
+import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
 import com.rot.app.surveys.Survey;
 import com.rot.app.surveys.SurveyRepository;
 import com.rot.app.user.User;
@@ -54,7 +55,8 @@ public class App {
                              SessionQuestionRepository sessionQuestionRepository,
                              SessionProposalRepository sessionProposalRepository,
                              SubProposalRepository subProposalRepository,
-                             RawCsvRepository rawCsvRepository, MigrationService migrationService) {
+                             RawCsvRepository rawCsvRepository, MigrationService migrationService,
+                             SubquestionContainerRepository subquestionContainerRepository) {
         return args -> {
 
             List<Proposal> proposals = migrationService.createProposals();
@@ -96,7 +98,9 @@ public class App {
             for (Category category : categorys) {
                 categoryMap.put(category.getName(), category);
             }
-            List<Question> questions = MigrateData.getQuestionsFromCsv();
+            List<Question> questions = migrationService.createQuestions2();
+
+
             List<String[]> questionParts = MigrateData.getQuestionParts();
             int distinctColumnIndex = MigrateData.getColumnIndex("W");
             for (Question question : questions) {
@@ -104,7 +108,8 @@ public class App {
                     for (String[] part : questionParts) {
                         if (part[distinctColumnIndex].equals(question.getQuestionDe())) {
                             question.setCategory(categoryMap.get(part[MigrateData.getColumnIndex("D") - 1]));
-                            question.setProposal(proposalMap.get(part[MigrateData.getColumnIndex("Y")]));
+                            SubquestionContainer subquestionContainer = subquestionContainerRepository.findByQuestion(question.getQuestionDe());
+                            question.setSubquestionContainer(subquestionContainer);
                         }
                     }
                 } catch (Exception e) {
@@ -228,9 +233,9 @@ public class App {
             questionnaire.setSurvey(survey);
             questionnaire.setAnswers(answers);
             questionnaireRepository.save(questionnaire);
-
-            migrationService.createQuestions();
         };
+
+
     }
 
 

@@ -260,8 +260,8 @@ public class MigrateData {
     }
 
     private static Proposal createProposalFromCsvLine(String[] parts) {
-        return new Proposal(null,"",parts[MigrateData.getColumnIndex("Y")].trim(),
-                parts[MigrateData.getColumnIndex("Z")].trim(),null,
+        return new Proposal(null, "", parts[MigrateData.getColumnIndex("Y")].trim(),
+                parts[MigrateData.getColumnIndex("Z")].trim(), null,
                 parts[MigrateData.getColumnIndex("AA")].trim(),
                 parts[MigrateData.getColumnIndex("AB")].trim(),
                 parts[MigrateData.getColumnIndex("AC")].trim(),
@@ -339,33 +339,6 @@ public class MigrateData {
             }
         }
         return Optional.empty();
-    }
-
-    public static List<Question> getQuestionsFromCsv() {
-        List<Question> questionList = new ArrayList<>();
-        List<String> lines = getLinesFromCsv();
-        List<String> distinctLines = new ArrayList<>();
-        for (String line : lines) {
-            String[] parts = line.split(";");
-            int distinctColumnIndex = getColumnIndex("W");
-            //System.out.println(parts[distinctColumnIndex]);
-            if (parts.length < distinctColumnIndex) {
-                continue;
-            }
-            if (parts[distinctColumnIndex] == null) {
-                continue;
-            }
-            if (parts[distinctColumnIndex].isEmpty() || parts[distinctColumnIndex].equals("Frage")) {
-                continue;
-            }
-            if (distinctLines.contains(parts[distinctColumnIndex])) {
-                continue;
-            } else {
-                distinctLines.add(parts[distinctColumnIndex]);
-                questionList.add(createQuestionFromCsvLine(parts));
-            }
-        }
-        return questionList;
     }
 
     private static Question createQuestionFromCsvLine(String[] parts) {

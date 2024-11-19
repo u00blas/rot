@@ -3,6 +3,7 @@ package com.rot.app.question;
 import com.rot.app.category.Category;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.subquestion.Subquestion;
+import com.rot.app.subquestioncontainer.SubquestionContainer;
 import jakarta.persistence.*;
 
 @Entity
@@ -20,12 +21,9 @@ public class Question {
     @JoinColumn(name = "category_id")
     private Category category;
 
-    @ManyToOne
-    @JoinColumn(name = "proposal_id")
-    private Proposal proposal;
+    @OneToOne
+    private SubquestionContainer subquestionContainer;
 
-    @ManyToOne
-    private Subquestion subquestion;
     private String questionEn;
     private String page;
     private String newNumber;
@@ -35,44 +33,16 @@ public class Question {
     public Question() {
     }
 
-    public Question(Long id, String questionDe, Category category, Proposal proposal, Subquestion subquestion, String questionEn, String page, String newNumber, String ownNumber, String sequenceNumber) {
+    public Question(Long id, String questionDe, Category category, SubquestionContainer subquestionContainer, String questionEn, String page, String newNumber, String ownNumber, String sequenceNumber) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
-        this.proposal = proposal;
-        this.subquestion = subquestion;
+        this.subquestionContainer = subquestionContainer;
         this.questionEn = questionEn;
         this.page = page;
         this.newNumber = newNumber;
         this.ownNumber = ownNumber;
         this.sequenceNumber = sequenceNumber;
-    }
-
-    public Question(Long id, String questionDe, Category category, Proposal proposal, Subquestion subquestion, String questionEn, String page) {
-        this.id = id;
-        this.questionDe = questionDe;
-        this.category = category;
-        this.proposal = proposal;
-        this.subquestion = subquestion;
-        this.questionEn = questionEn;
-        this.page = page;
-    }
-
-    public Question(Long id, String questionDe, Category category, Proposal proposal, Subquestion subquestion, String questionEn) {
-        this.id = id;
-        this.questionDe = questionDe;
-        this.category = category;
-        this.proposal = proposal;
-        this.subquestion = subquestion;
-        this.questionEn = questionEn;
-    }
-
-    public Question(Long id, String questionDe, Category category, Proposal proposal, Subquestion subquestion) {
-        this.id = id;
-        this.questionDe = questionDe;
-        this.category = category;
-        this.proposal = proposal;
-        this.subquestion = subquestion;
     }
 
     public Question(String w) {
@@ -103,75 +73,66 @@ public class Question {
         this.category = category;
     }
 
-    public Proposal getProposal() {
-        return proposal;
+    public SubquestionContainer getSubquestionContainer() {
+        return subquestionContainer;
     }
 
-    public void setProposal(Proposal proposal) {
-        this.proposal = proposal;
-    }
-
-    public Subquestion getSubquestion() {
-        return subquestion;
-    }
-
-    public void setSubquestion(Subquestion subquestion) {
-        this.subquestion = subquestion;
-    }
-
-    @Override
-    public String toString() {
-        return "Question{" +
-                "id=" + id +
-                ", questionDe='" + questionDe + '\'' +
-                ", category=" + category +
-                ", proposal=" + proposal +
-                ", subquestion=" + subquestion +
-                ", questionEn='" + questionEn + '\'' +
-                ", page='" + page + '\'' +
-                ", newNumber='" + newNumber + '\'' +
-                ", ownNumber='" + ownNumber + '\'' +
-                ", sequenceNumber='" + sequenceNumber + '\'' +
-                '}';
-    }
-
-    public void setQuestionEn(String questionEn) {
-        this.questionEn = questionEn;
+    public void setSubquestionContainer(SubquestionContainer subquestionContainer) {
+        this.subquestionContainer = subquestionContainer;
     }
 
     public String getQuestionEn() {
         return questionEn;
     }
 
-    public void setPage(String page) {
-        this.page = page;
+    public void setQuestionEn(String questionEn) {
+        this.questionEn = questionEn;
     }
 
     public String getPage() {
         return page;
     }
 
-    public void setNewNumber(String newNumber) {
-        this.newNumber = newNumber;
+    public void setPage(String page) {
+        this.page = page;
     }
 
     public String getNewNumber() {
         return newNumber;
     }
 
-    public void setOwnNumber(String ownNumber) {
-        this.ownNumber = ownNumber;
+    public void setNewNumber(String newNumber) {
+        this.newNumber = newNumber;
     }
 
     public String getOwnNumber() {
         return ownNumber;
     }
 
-    public void setSequenceNumber(String sequenceNumber) {
-        this.sequenceNumber = sequenceNumber;
+    public void setOwnNumber(String ownNumber) {
+        this.ownNumber = ownNumber;
     }
 
     public String getSequenceNumber() {
         return sequenceNumber;
+    }
+
+    public void setSequenceNumber(String sequenceNumber) {
+        this.sequenceNumber = sequenceNumber;
+    }
+
+    @Override
+    public String toString() {
+        return "Question{" +
+                "id=" + id +
+                ", newNumber='" + newNumber + '\'' +
+                ", questionDe='" + questionDe + '\'' +
+                ", category=" + category +
+                ", subquestionContainer=" + subquestionContainer +
+                ", questionEn='" + questionEn + '\'' +
+                ", page='" + page + '\'' +
+                ", ownNumber='" + ownNumber + '\'' +
+                ", sequenceNumber='" + sequenceNumber + '\'' +
+                '}';
     }
 }
