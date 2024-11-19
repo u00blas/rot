@@ -22,6 +22,7 @@ public class Proposal {
     private String maxScale;
 
     @ManyToMany
+    @Column(name = "replay_options")
     private List<ReplayOption> replayOptions;
 
     private String description1;

@@ -7,10 +7,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 
 import java.util.List;
 
 @Controller
+@RequestMapping("/proposals")
 public class ProposalController {
 
     private final ProposalRepository proposalRepository;
@@ -19,17 +21,17 @@ public class ProposalController {
         this.proposalRepository = proposalRepository;
     }
 
-    @GetMapping("/proposals")
+    @GetMapping
     public String listAllProposals(Model model) {
         List<Proposal> proposals = proposalRepository.findAll();
         model.addAttribute("proposals", proposals);
-        return "proposals";
+        return "proposals/index";
     }
 
-    @GetMapping("/proposals/new")
+    @GetMapping("/proposals/create")
     public String showProposalsForm(Model model) {
         model.addAttribute("proposal", new Proposal());
-        return "proposal_form";
+        return "proposals/create";
     }
 
     @PostMapping("/proposals/save")
@@ -42,7 +44,7 @@ public class ProposalController {
     public String showEditProposalForm(Model model, @PathVariable("id") Long id) {
         if (id == null) return "redirect:/proposals";
         model.addAttribute("proposal", proposalRepository.findById(id).get());
-        return "proposal_form";
+        return "proposals/edit";
     }
 
     @GetMapping("/proposals/{id}/delete")
