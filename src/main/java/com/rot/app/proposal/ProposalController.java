@@ -4,10 +4,7 @@ package com.rot.app.proposal;
 import com.rot.app.category.Category;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -28,27 +25,29 @@ public class ProposalController {
         return "proposals/index";
     }
 
-    @GetMapping("/proposals/create")
+    @GetMapping("/create")
     public String showProposalsForm(Model model) {
         model.addAttribute("proposal", new Proposal());
         return "proposals/create";
     }
 
-    @PostMapping("/proposals/save")
+    @PostMapping("/save")
     public String saveProposal(Proposal proposal) {
         proposalRepository.save(proposal);
         return "redirect:/proposals";
     }
 
-    @GetMapping("/proposals/{id}/edit")
-    public String showEditProposalForm(Model model, @PathVariable("id") Long id) {
+    @GetMapping("/edit")
+    public String showEditProposalForm(Model model, @RequestParam Long id) {
         if (id == null) return "redirect:/proposals";
-        model.addAttribute("proposal", proposalRepository.findById(id).get());
+        Proposal proposal = proposalRepository.findById(id).orElse(null);
+        if (proposal == null) return "redirect:/proposals";
+        model.addAttribute("proposal", proposal);
         return "proposals/edit";
     }
 
-    @GetMapping("/proposals/{id}/delete")
-    public String deleteProposal(@PathVariable("id") Long id) {
+    @GetMapping("/proposals/delete")
+    public String deleteProposal(@RequestParam Long id) {
         proposalRepository.deleteById(id);
         return "redirect:/proposals";
     }
