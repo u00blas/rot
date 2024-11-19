@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Raw Data</title>
+</head>
+<body>
+<a href="/">Home</a>
+<h1>Raw Data</h1>
+<table>
+    <tr>
+        <th>Id</th>
+        <th>Data</th>
+    </tr>
+    <tr th:each="raw : ${raws}">
+        <td th:text="${raw.id}"></td>
+        <td th:text="${raw}"></td>
+    </tr>
+</table>
+</body>
+</html>

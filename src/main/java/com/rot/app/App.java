@@ -1,14 +1,19 @@
 package com.rot.app;
 
 import com.rot.app.answer.Answer;
-import com.rot.app.answer.AnswerDto;
 import com.rot.app.answer.AnswerRepository;
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
 import com.rot.app.contact.Contact;
 import com.rot.app.contact.ContactRepository;
+import com.rot.app.migration.MigrateData;
+import com.rot.app.migration.MigrateRawData;
+import com.rot.app.migration.MigrationService;
+import com.rot.app.migration.raw.RawCsv;
+import com.rot.app.migration.raw.RawCsvRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
+import com.rot.app.proposal.replayoption.ReplayOption;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
 import com.rot.app.questionnaire.Questionnaire;
@@ -38,16 +43,26 @@ public class App {
                              ContactRepository contactRepository,
                              CategoryRepository categoryRepository,
                              QuestionRepository questionRepository,
-                             ProposalRepository proposalRepository,
                              SurveyRepository surveyRepository,
+                             ProposalRepository proposalRepository,
                              QuestionnaireRepository questionnaireRepository,
                              AnswerRepository answerRepository,
                              SessionRepository sessionRepository,
                              SessionPageRepository sessionPageRepository,
                              SessionQuestionRepository sessionQuestionRepository,
                              SessionProposalRepository sessionProposalRepository,
-                             SubProposalRepository subProposalRepository) {
+                             SubProposalRepository subProposalRepository,
+                             RawCsvRepository rawCsvRepository, MigrationService migrationService) {
         return args -> {
+
+            List<Proposal> proposals = migrationService.createProposals();
+
+
+            List<String> lines = MigrateRawData.getLinesFromCsv();
+            for (String line : lines) {
+                RawCsv rawCsv = MigrateRawData.createRawCsvFromLine(line);
+                rawCsvRepository.save(rawCsv);
+            }
 
             for (String name : Arrays.asList("Meier", "Meyer", "Mustermann")) {
                 User user = new User();
@@ -64,12 +79,8 @@ public class App {
                 contactRepository.save(contact);
             }
 
-            List<Proposal> proposalList = MigrateData.getProposalsFromCsv();
-            for (Proposal proposal : proposalList) {
-                proposalRepository.save(proposal);
-            }
             Map<String, Proposal> proposalMap = new HashMap<>();
-            for (Proposal proposal : proposalList) {
+            for (Proposal proposal : proposalRepository.findAll()) {
                 proposalMap.put(proposal.getMinScale(), proposal);
             }
 
@@ -143,7 +154,7 @@ public class App {
                 }
                 sessionProposal.setSubProposals(subProposals);
                 sessionQuestion.setProposals(Arrays.asList(sessionProposal));
-  //              sessionQuestionRepository.save(sessionQuestion);
+                //              sessionQuestionRepository.save(sessionQuestion);
             }
             {
                 SessionQuestion sessionQuestion = new SessionQuestion();
@@ -169,7 +180,7 @@ public class App {
                 SessionPage sessionPage = new SessionPage();
                 sessionPage.setPageId(i);
                 //sessionPage.setData("Page " + i);
-               // sessionPage.setQuestions(sessionQuestionRepository.findAll().subList(pos, pos + 2));
+                // sessionPage.setQuestions(sessionQuestionRepository.findAll().subList(pos, pos + 2));
                 pos += 3;
                 sessionPageRepository.save(sessionPage);
             }
@@ -214,8 +225,9 @@ public class App {
             questionnaire.setSurvey(survey);
             questionnaire.setAnswers(answers);
             questionnaireRepository.save(questionnaire);
-        }
-                ;
+
+            migrationService.createQuestions();
+        };
     }
 
 

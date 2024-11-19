@@ -1,6 +1,9 @@
 package com.rot.app.proposal;
 
+import com.rot.app.proposal.replayoption.ReplayOption;
 import jakarta.persistence.*;
+
+import java.util.List;
 
 @Entity
 @Table(name = "proposals")
@@ -9,11 +12,17 @@ public class Proposal {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @Column(unique = true, nullable = false)
+    private String name;
+
     @Column(name = "min_scale")
     private String minScale;
 
     @Column(name = "max_scale")
     private String maxScale;
+
+    @ManyToMany
+    private List<ReplayOption> replayOptions;
 
     private String description1;
     private String description2;
@@ -24,24 +33,12 @@ public class Proposal {
     public Proposal() {
     }
 
-    public Proposal(Long id) {
+    public Proposal(Long id, String name, String minScale, String maxScale, List<ReplayOption> replayOptions, String description1, String description2, String description3, String description4, String description5) {
         this.id = id;
-    }
-
-    public Proposal(Long id, String minScale, String maxScale, String description1, String description2, String description3, String description4, String description5) {
-        this.id = id;
+        this.name = name;
         this.minScale = minScale;
         this.maxScale = maxScale;
-        this.description1 = description1;
-        this.description2 = description2;
-        this.description3 = description3;
-        this.description4 = description4;
-        this.description5 = description5;
-    }
-
-    public Proposal(String minScale, String maxScale, String description1, String description2, String description3, String description4, String description5) {
-        this.minScale = minScale;
-        this.maxScale = maxScale;
+        this.replayOptions = replayOptions;
         this.description1 = description1;
         this.description2 = description2;
         this.description3 = description3;
@@ -55,6 +52,14 @@ public class Proposal {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public String getMinScale() {
@@ -71,6 +76,14 @@ public class Proposal {
 
     public void setMaxScale(String maxScale) {
         this.maxScale = maxScale;
+    }
+
+    public List<ReplayOption> getReplayOptions() {
+        return replayOptions;
+    }
+
+    public void setReplayOptions(List<ReplayOption> replayOptions) {
+        this.replayOptions = replayOptions;
     }
 
     public String getDescription1() {
@@ -117,8 +130,10 @@ public class Proposal {
     public String toString() {
         return "Proposal{" +
                 "id=" + id +
+                ", name='" + name + '\'' +
                 ", minScale='" + minScale + '\'' +
                 ", maxScale='" + maxScale + '\'' +
+                ", replayOptions=" + replayOptions +
                 ", description1='" + description1 + '\'' +
                 ", description2='" + description2 + '\'' +
                 ", description3='" + description3 + '\'' +

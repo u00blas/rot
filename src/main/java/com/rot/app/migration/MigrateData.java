@@ -1,4 +1,4 @@
-package com.rot.app;
+package com.rot.app.migration;
 
 import com.rot.app.category.Category;
 import com.rot.app.proposal.Proposal;
@@ -260,8 +260,8 @@ public class MigrateData {
     }
 
     private static Proposal createProposalFromCsvLine(String[] parts) {
-        return new Proposal(parts[MigrateData.getColumnIndex("Y")].trim(),
-                parts[MigrateData.getColumnIndex("Z")].trim(),
+        return new Proposal(null,"",parts[MigrateData.getColumnIndex("Y")].trim(),
+                parts[MigrateData.getColumnIndex("Z")].trim(),null,
                 parts[MigrateData.getColumnIndex("AA")].trim(),
                 parts[MigrateData.getColumnIndex("AB")].trim(),
                 parts[MigrateData.getColumnIndex("AC")].trim(),
@@ -379,4 +379,5 @@ public class MigrateData {
     public static List<String[]> getQuestionParts() {
         return questionParts;
     }
+
 }
