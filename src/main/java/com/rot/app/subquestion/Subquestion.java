@@ -1,4 +1,4 @@
-package com.rot.app.question.subquestion;
+package com.rot.app.subquestion;
 
 import com.rot.app.proposal.Proposal;
 import jakarta.persistence.*;

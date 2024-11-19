@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+<nav th:replace="~{layout :: page_nav}"></nav>
+<div class="container py-3">
+    <h1 class="text-center my-4">List of Subquestions</h1>
+    <a class="btn btn-primary" th:href="@{/questions/create}">Create Subquestion</a>
+    <table class="table table-striped table-advanced table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Name</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="proposal : ${proposals}">
+            <td th:text="${proposal.id}"></td>
+            <td th:text="${proposal.name}"></td>
+            <td th:text="${proposal.minScale}"></td>
+            <td th:text="${proposal.maxScale}"></td>
+            <td th:text="${proposal.replayOptions}"></td>
+            <td style="white-space: nowrap">
+                <a class="btn btn-primary btn-sm" th:href="@{/proposals/edit(id=${proposal.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/proposals/delete(id=${proposal.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{layout :: page_footer}"></footer>
+</body>
+</html>

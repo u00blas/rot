@@ -7,7 +7,7 @@ import com.rot.app.proposal.replayoption.ReplayOption;
 import com.rot.app.proposal.replayoption.ReplayOptionRepository;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
-import com.rot.app.question.subquestion.Subquestion;
+import com.rot.app.subquestion.Subquestion;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;

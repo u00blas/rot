@@ -2,7 +2,7 @@ package com.rot.app.question;
 
 import com.rot.app.category.Category;
 import com.rot.app.proposal.Proposal;
-import com.rot.app.question.subquestion.Subquestion;
+import com.rot.app.subquestion.Subquestion;
 import jakarta.persistence.*;
 
 @Entity
