@@ -26,6 +26,7 @@
             <td th:text="${question.subquestionContainer}"></td>
             <td style="white-space: nowrap">
                 <a class="btn btn-primary btn-sm" th:href="@{/questions/edit(id=${question.id})}">Edit</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/questions/details(id=${question.id})}">Details</a>
                 <a class="btn btn-danger btn-sm" th:href="@{/questions/delete(id=${question.id})}">Delete</a>
             </td>
         </tr>

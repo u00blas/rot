@@ -13,7 +13,6 @@ import com.rot.app.migration.raw.RawCsv;
 import com.rot.app.migration.raw.RawCsvRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
-import com.rot.app.proposal.replayoption.ReplayOption;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
 import com.rot.app.questionnaire.Questionnaire;
@@ -98,7 +97,7 @@ public class App {
             for (Category category : categorys) {
                 categoryMap.put(category.getName(), category);
             }
-            List<Question> questions = migrationService.createQuestions2();
+            List<Question> questions = migrationService.createQuestions();
 
 
             List<String[]> questionParts = MigrateData.getQuestionParts();

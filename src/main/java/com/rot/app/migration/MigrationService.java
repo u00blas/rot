@@ -12,7 +12,6 @@ import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestion.SubquestionRepository;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
-import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -354,7 +353,7 @@ public class MigrationService {
     }
 
 
-    public List<Question> createQuestions2() {
+    public List<Question> createQuestions() {
 
         List<Question> questions = new ArrayList<>();
 
@@ -364,6 +363,7 @@ public class MigrationService {
                 for (int i = pair.start; i < pair.end; i++) {
                     String[] parts = lines.get(i).split(";");
                     Question question = new Question(parts[22]);
+                    question.setPage(parts[7]);
                     Category category = categoryRepository.findByName(parts[3]);
                     SubquestionContainer subquestionContainer = subquestionContainerRepository.findByQuestion(parts[22]);
                     question.setSubquestionContainer(subquestionContainer);

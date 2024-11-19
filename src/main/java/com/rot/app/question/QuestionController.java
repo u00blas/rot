@@ -52,7 +52,7 @@ public class QuestionController {
         model.addAttribute("totalPages", totalPages);
         model.addAttribute("totalItems", totalItems);
         model.addAttribute("questions", questions);
-        return "questions/questions";
+        return "questions/index";
     }
 
     @GetMapping("/create")
@@ -132,13 +132,13 @@ public class QuestionController {
         return "redirect:/questions";
     }
 
-    @GetMapping("/questions/delete")
+    @GetMapping("/delete")
     public String deleteQuestion(@RequestParam Long id) {
         questionRepository.deleteById(id);
         return "redirect:/questions";
     }
 
-    @GetMapping("/questions/details")
+    @GetMapping("/details")
     public String details(@RequestParam Long id, Model model) {
         Question question = questionRepository.findById(id).orElse(null);
         if (question == null) {

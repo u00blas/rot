@@ -38,8 +38,8 @@
                     <tr th:each="question : ${surveyDto.questions}">
                         <td th:text="${question.id}"></td>
                         <td th:text="${question.questionDe}"></td>
-                        <td th:if="${question.proposal != null}" th:text="${question.proposal}"></td>
-                        <td th:if="${question.proposal == null}">None</td>
+                        <td th:if="${question.subquestionContainer != null}" th:text="${question.subquestionContainer}"></td>
+                        <td th:if="${question.subquestionContainer == null}">None</td>
                     </tr>
                     </tbody>
                 </table>
