@@ -8,12 +8,12 @@ import com.rot.app.proposal.replayoption.ReplayOptionRepository;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
 import com.rot.app.subquestion.Subquestion;
+import com.rot.app.subquestion.SubquestionRepository;
+import com.rot.app.subquestioncontainer.SubquestionContainer;
+import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @Service
 public class MigrationService {
@@ -21,11 +21,18 @@ public class MigrationService {
     private final ReplayOptionRepository replayOptionRepository;
     private final ProposalRepository proposalRepository;
     private final QuestionRepository questionRepository;
+    private final SubquestionRepository subquestionRepository;
+    private final SubquestionContainerRepository subquestionContainerRepository;
 
-    public MigrationService(ReplayOptionRepository replayOptionRepository, ProposalRepository proposalRepository, QuestionRepository questionRepository) {
+    public MigrationService(ReplayOptionRepository replayOptionRepository,
+                            ProposalRepository proposalRepository,
+                            QuestionRepository questionRepository,
+                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository) {
         this.replayOptionRepository = replayOptionRepository;
         this.proposalRepository = proposalRepository;
         this.questionRepository = questionRepository;
+        this.subquestionRepository = subquestionRepository;
+        this.subquestionContainerRepository = subquestionContainerRepository;
     }
 
 
@@ -189,7 +196,7 @@ public class MigrationService {
                     question = new Question(parts[22]);
 
                     Subquestion subquestion = new Subquestion();
-                    subquestion.setQuestion(parts[22]);
+                    subquestion.setQuestionDe(parts[22]);
                     subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                     //question.setSubquestion(subquestion);
 
@@ -206,5 +213,184 @@ public class MigrationService {
 
             }
         }
+    }
+
+    public List<Subquestion> createSubquestions() {
+
+
+        List<Subquestion> subquestions = new ArrayList<>();
+
+        List<String> questions = new ArrayList<>();
+        questions.add("Die Zusammenarbeit…zwischen jüngeren und älteren Beschäftigten ist…");
+        questions.add("zwischen Leitungspersonal und Personal ohne Leitungsfunktion ist…");
+        questions.add("zwischen Frauen und Männern ist…");
+        questions.add("zwischen Akademikern und Nicht-Akademikern ist…");
+
+        for (int i = 0; i < questions.size(); i++) {
+            Subquestion subquestion = new Subquestion();
+            subquestion.setHeader("Wie würden Sie die Zusammenarbeit der unterschiedlichen Beschäftigungsgruppen beschreiben?");
+            subquestion.setPosition(i);
+            subquestion.setQuestionDe(questions.get(i));
+            subquestion.setProposal(proposalRepository.findByName("sehr schlecht sehr gut"));
+            subquestions.add(subquestion);
+        }
+
+        subquestionRepository.saveAll(subquestions);
+
+        return subquestionRepository.findAll();
+    }
+
+    public List<SubquestionContainer> createSubquestionContainers() {
+
+        List<SubquestionContainer> subquestionContainers = new ArrayList<>();
+
+        List<String> lines = MigrateRawData.getLinesFromCsv();
+        {
+            for (int i = 2; i < 9; i++) {
+                String[] parts = lines.get(i).split(";");
+                SubquestionContainer subquestionContainer = new SubquestionContainer();
+                subquestionContainer.setQuestion(parts[22]);
+                Subquestion subquestion = new Subquestion();
+                subquestion.setHeader(parts[22]);
+                subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
+                Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                subquestionContainer.setSubquestions(List.of(savedSubquestion));
+                subquestionContainers.add(subquestionContainer);
+            }
+        }
+        {
+            SubquestionContainer subquestionContainer = null;
+            List<Subquestion> subquestions = new ArrayList<>();
+            for (int i = 9; i < 16; i++) {
+                String[] parts = lines.get(i).split(";");
+
+                if (i == 9) {
+                    subquestionContainer = new SubquestionContainer();
+                    subquestionContainer.setQuestion(parts[22]);
+                } else {
+                    Subquestion subquestion = new Subquestion();
+                    subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setQuestionDe(parts[22]);
+                    subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
+                    Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                    subquestions.add(savedSubquestion);
+                }
+            }
+            subquestionContainer.setSubquestions(subquestions);
+            subquestionContainers.add(subquestionContainer);
+        }
+        {
+            for (int i = 16; i < 61; i++) {
+                String[] parts = lines.get(i).split(";");
+                SubquestionContainer subquestionContainer = new SubquestionContainer();
+                subquestionContainer.setQuestion(parts[22]);
+                Subquestion subquestion = new Subquestion();
+                subquestion.setHeader(parts[22]);
+                subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
+                Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                subquestionContainer.setSubquestions(List.of(savedSubquestion));
+                subquestionContainers.add(subquestionContainer);
+            }
+        }
+        {
+            SubquestionContainer subquestionContainer = null;
+            List<Subquestion> subquestions = new ArrayList<>();
+            for (int i = 61; i < 71; i++) {
+                String[] parts = lines.get(i).split(";");
+
+                if (i == 61) {
+                    subquestionContainer = new SubquestionContainer();
+                    subquestionContainer.setQuestion(parts[22]);
+                } else {
+                    Subquestion subquestion = new Subquestion();
+                    subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setQuestionDe(parts[22]);
+                    subquestion.setProposal(proposalRepository.findByName("ja nein"));
+                    Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                    subquestions.add(savedSubquestion);
+                }
+            }
+            subquestionContainer.setSubquestions(subquestions);
+            subquestionContainers.add(subquestionContainer);
+        }
+        {
+            for (int i = 71; i < 119; i++) {
+                String[] parts = lines.get(i).split(";");
+                SubquestionContainer subquestionContainer = new SubquestionContainer();
+                subquestionContainer.setQuestion(parts[22]);
+                Subquestion subquestion = new Subquestion();
+                subquestion.setHeader(parts[22]);
+                subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
+                Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                subquestionContainer.setSubquestions(List.of(savedSubquestion));
+                subquestionContainers.add(subquestionContainer);
+            }
+        }
+        {
+            SubquestionContainer subquestionContainer = null;
+            List<Subquestion> subquestions = new ArrayList<>();
+            for (int i = 119; i < 127; i++) {
+                String[] parts = lines.get(i).split(";");
+
+                if (i == 119) {
+                    subquestionContainer = new SubquestionContainer();
+                    subquestionContainer.setQuestion(parts[22]);
+                } else {
+                    Subquestion subquestion = new Subquestion();
+                    subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setQuestionDe(parts[22]);
+                    subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
+                    Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                    subquestions.add(savedSubquestion);
+                }
+            }
+            subquestionContainer.setSubquestions(subquestions);
+            subquestionContainers.add(subquestionContainer);
+        }
+        {
+            SubquestionContainer subquestionContainer = null;
+            List<Subquestion> subquestions = new ArrayList<>();
+            for (int i = 127; i < 132; i++) {
+                String[] parts = lines.get(i).split(";");
+
+                if (i == 127) {
+                    subquestionContainer = new SubquestionContainer();
+                    subquestionContainer.setQuestion(parts[22]);
+                } else {
+                    Subquestion subquestion = new Subquestion();
+                    subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setQuestionDe(parts[22]);
+                    subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
+                    Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                    subquestions.add(savedSubquestion);
+                }
+            }
+            subquestionContainer.setSubquestions(subquestions);
+            subquestionContainers.add(subquestionContainer);
+        }
+        {
+            SubquestionContainer subquestionContainer = null;
+            List<Subquestion> subquestions = new ArrayList<>();
+            for (int i = 132; i < 143; i++) {
+                String[] parts = lines.get(i).split(";");
+
+                if (i == 132) {
+                    subquestionContainer = new SubquestionContainer();
+                    subquestionContainer.setQuestion(parts[22]);
+                } else {
+                    Subquestion subquestion = new Subquestion();
+                    subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setQuestionDe(parts[22]);
+                    subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
+                    Subquestion savedSubquestion = subquestionRepository.save(subquestion);
+                    subquestions.add(savedSubquestion);
+                }
+            }
+            subquestionContainer.setSubquestions(subquestions);
+            subquestionContainers.add(subquestionContainer);
+        }
+
+        subquestionContainerRepository.saveAll(subquestionContainers);
+        return subquestionContainerRepository.findAll();
     }
 }

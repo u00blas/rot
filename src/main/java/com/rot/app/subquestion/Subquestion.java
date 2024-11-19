@@ -11,7 +11,9 @@ public class Subquestion {
     @GeneratedValue
     private Long id;
 
-    private String question;
+    private String header;
+    private Integer position;
+    private String questionDe;
     @ManyToOne
     private Proposal proposal;
 
@@ -20,9 +22,11 @@ public class Subquestion {
     public Subquestion() {
     }
 
-    public Subquestion(Long id, String question, Proposal proposal, Integer answer) {
+    public Subquestion(Long id, String header, Integer position, String questionDe, Proposal proposal, Integer answer) {
         this.id = id;
-        this.question = question;
+        this.header = header;
+        this.position = position;
+        this.questionDe = questionDe;
         this.proposal = proposal;
         this.answer = answer;
     }
@@ -35,12 +39,28 @@ public class Subquestion {
         this.id = id;
     }
 
-    public String getQuestion() {
-        return question;
+    public String getHeader() {
+        return header;
     }
 
-    public void setQuestion(String question) {
-        this.question = question;
+    public void setHeader(String header) {
+        this.header = header;
+    }
+
+    public Integer getPosition() {
+        return position;
+    }
+
+    public void setPosition(Integer position) {
+        this.position = position;
+    }
+
+    public String getQuestionDe() {
+        return questionDe;
+    }
+
+    public void setQuestionDe(String questionDe) {
+        this.questionDe = questionDe;
     }
 
     public Proposal getProposal() {
@@ -63,7 +83,9 @@ public class Subquestion {
     public String toString() {
         return "Subquestion{" +
                 "id=" + id +
-                ", question='" + question + '\'' +
+                ", header='" + header + '\'' +
+                ", position=" + position +
+                ", questionDe='" + questionDe + '\'' +
                 ", proposal=" + proposal +
                 ", answer=" + answer +
                 '}';

@@ -19,6 +19,8 @@ import com.rot.app.question.QuestionRepository;
 import com.rot.app.questionnaire.Questionnaire;
 import com.rot.app.questionnaire.QuestionnaireRepository;
 import com.rot.app.session.*;
+import com.rot.app.subquestion.Subquestion;
+import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.surveys.Survey;
 import com.rot.app.surveys.SurveyRepository;
 import com.rot.app.user.User;
@@ -56,7 +58,8 @@ public class App {
         return args -> {
 
             List<Proposal> proposals = migrationService.createProposals();
-
+            List<Subquestion> subquestions = migrationService.createSubquestions();
+            List<SubquestionContainer> subquestionContainers = migrationService.createSubquestionContainers();
 
             List<String> lines = MigrateRawData.getLinesFromCsv();
             for (String line : lines) {

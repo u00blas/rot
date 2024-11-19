@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+<nav th:replace="~{layout :: page_nav}"></nav>
+<div class="container py-3">
+    <h1 class="text-center my-4">List of Subquestion Containers</h1>
+    <a class="btn btn-primary" th:href="@{/subquestionContainers/create}">Create Subquestion Container</a>
+    <table class="table table-striped table-advanced table-hover">
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Question</th>
+            <th>Subquestion Container</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody class="table-group-divider">
+        <tr th:each="subquestionContainer : ${subquestionContainers}">
+            <td th:text="${subquestionContainer.id}"></td>
+            <td th:if="${subquestionContainer.question != null&& subquestionContainer.question.length() > 40}"
+                th:text="${subquestionContainer.question.substring(0, 40)+'...'}"></td>
+            <td th:if="${subquestionContainer.question != null&& subquestionContainer.question.length() <= 40}"
+                th:text="${subquestionContainer.question}"></td>
+            <td th:text="${subquestionContainer.subquestions}"></td>
+            <td style="white-space: nowrap">
+                <a class="btn btn-primary btn-sm" th:href="@{/subquestionContainers/edit(id=${subquestionContainer.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/subquestionContainers/delete(id=${subquestionContainer.id})}">Delete</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{layout :: page_footer}"></footer>
+</body>
+</html>
