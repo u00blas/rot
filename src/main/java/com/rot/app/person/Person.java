@@ -1,6 +1,7 @@
 package com.rot.app.person;
 
 import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
 
 @Entity
 @Table(name = "persons")

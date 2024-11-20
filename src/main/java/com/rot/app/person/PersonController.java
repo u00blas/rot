@@ -1,11 +1,10 @@
 package com.rot.app.person;
 
+import jakarta.validation.Valid;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -23,14 +22,14 @@ public class PersonController {
     public String index(Model model) {
         List<Person> persons = personRepository.findAll();
         List<PersonDto> personDtos = persons.stream().map(PersonDto::toDto).toList();
-        model.addAttribute("persons", persons);
+        //model.addAttribute("persons", persons);
         model.addAttribute("personDtos", personDtos);
         return "persons/index";
     }
 
     @GetMapping("/create")
     public String create(Model model) {
-        model.addAttribute("person", new Person());
+        //model.addAttribute("person", new Person());
         model.addAttribute("personDto", new PersonDto());
         return "persons/edit";
     }
@@ -41,15 +40,24 @@ public class PersonController {
         Person person = personRepository.findById(id).orElse(null);
         if (person == null) return "redirect:/persons";
         PersonDto personDto = PersonDto.toDto(person);
-        model.addAttribute("person", person);
+        //model.addAttribute("person", person);
         model.addAttribute("personDto", personDto);
         return "persons/edit";
     }
 
     @PostMapping("/save")
-    public String save(PersonDto personDto) {
+    public String save(@Valid @ModelAttribute PersonDto personDto, BindingResult result) {
+        if(result.hasErrors()) {
+            return "persons/edit";
+        }
         Person person = PersonDto.fromDto(personDto);
         personRepository.save(person);
+        return "redirect:/persons";
+    }
+
+    @GetMapping("/delete")
+    public String delete(@RequestParam Long id) {
+        personRepository.deleteById(id);
         return "redirect:/persons";
     }
 }

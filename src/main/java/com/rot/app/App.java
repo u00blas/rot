@@ -64,7 +64,11 @@ public class App {
             List.of("Hans Meier","Olaf Huber","Max Mustermann").forEach(s -> {
                 Person person = new Person();
                 person.setName(s);
-                person.setEmail(s + "@test.de");
+                String[] parts = s.split(" ");
+                String f=parts[0];
+                String n=parts[1];
+                String e=f.toLowerCase()+"."+n.toLowerCase()+"@test.de";
+                person.setEmail(e);
                 person.setPhone("1234567");
                 person.setComment(s + " is cool");
                 personRepository.save(person);

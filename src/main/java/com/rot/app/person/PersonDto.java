@@ -1,9 +1,14 @@
 package com.rot.app.person;
 
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.Size;
+
 public class PersonDto {
 
     private Long id;
+    @Size(min = 2, message = "Name must be at least 2 characters long")
     private String name;
+    @Email
     private String email;
     private String phone;
     private String comment;
