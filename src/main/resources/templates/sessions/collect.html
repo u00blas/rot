@@ -21,21 +21,15 @@
                 <p th:text="${sessionResult.id}"></p>
                 <p th:text="${sessionResult.sessionName}"></p>
                 <p th:text="${sessionResult.subquestion}"></p>
-                <div th:each="replay : ${sessionResult.subquestion.proposal.replayOptions}">
-                    <p th:text="${replay.id}"></p>
-                    <p th:text="${'Replay: '+replay.name}"></p>
-                </div>
-                <input type="text" th:field="*{sessionResults[__${itemStat.index}__].answer}"/>
-                <!-- <input type="hidden" th:field="${sessionResult.id}"/>
-                 <input type="hidden" th:field="${sessionResult.sessionName}"/>
-                 <input type="hidden" th:field="${sessionResult.participant}"/>
-                 <input type="hidden" th:field="${sessionResult.subquestion}"/>-->
-                <!--<div th:each="replay : ${sessionResult.replayOptions}">
-                    <input type="hidden" th:field="${replay.id}"/>
-                    <input type="hidden" th:field="${replay.name}"/>
-                    <input type="hidden" th:field="${replay.proposal}"/>
-                    <input type="text" th:field="${sessionResult.answer}"/>
-                </div>-->
+                <ul class="list-group list-group-flush"
+                    th:each="replay, itemStat2 : ${sessionResult.subquestion.proposal.replayOptions}">
+                    <li class="form-check">
+                        <input class="form-check-input" type="radio" th:name="${sessionResult.subquestion.id}"
+                               id="${replay.id}" th:value="${itemStat2.index + 1}" th:field="*{sessionResults[__${itemStat.index}__].answer}">
+                        <label class="form-check-label" for="${replay.id}" th:text="${replay.name}"></label>
+                    </li>
+                </ul>
+                <!--<input type="text" th:field="*{sessionResults[__${itemStat.index}__].answer}"/>-->
             </div>
             <button type="submit">Submit</button>
         </fieldset>
@@ -54,8 +48,8 @@
                                 th:each="replay : ${subquestion.proposal.replayOptions}">
                                 <li class="form-check">
                                     <input class="form-check-input" type="radio" th:name="${subquestion.id}"
-                                           id="${replay.id}">
-                                    <label class="form-check-label" for="${replay.id}" th:text="${replay.name}"></label>
+                                           th:id="${replay.id}">
+                                    <label class="form-check-label" th:for="${replay.id}" th:text="${replay.name}"></label>
                                 </li>
                             </ul>
                         </div>

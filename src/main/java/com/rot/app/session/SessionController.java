@@ -61,7 +61,7 @@ public class SessionController {
     }
 
     @PostMapping("/collect")
-    public String collect(@ModelAttribute SessionResultContainer sessionResultContainer) {
+    public String collect(@ModelAttribute SessionResultContainer sessionResultContainer, Model model) {
         sessionResultContainer.getSessionResults()
                 .forEach(sessionResult -> {
                     sessionResultRepository.findById(sessionResult.getId())
@@ -72,6 +72,7 @@ public class SessionController {
                                 sessionResultRepository.save(sessionResult);
                             });
                 });
-        return "redirect:/sessions";
+        model.addAttribute("conclusion", "Thank you for your answers!");
+        return "sessions/greetings";
     }
 }
