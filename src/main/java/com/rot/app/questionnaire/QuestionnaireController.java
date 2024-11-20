@@ -15,9 +15,9 @@ public class QuestionnaireController {
     }
 
     @GetMapping
-    public String getQuestionnaires(Model model) {
+    public String index(Model model) {
         model.addAttribute("questionnaires", questionnaireRepository.findAll());
-        return "questionnaires/questionnaire_list";
+        return "questionnaires/index";
     }
 
 }

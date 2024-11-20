@@ -10,16 +10,20 @@
         <thead>
         <tr>
             <th>ID</th>
-            <th>User</th>
-            <th>Survey</th>
+            <th>Name</th>
+            <th>Questions</th>
+            <th>Actions</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
         <tr th:each="questionnaire : ${questionnaires}">
             <td th:text="${questionnaire.id}"></td>
-            <td th:if="${questionnaire.user != null}" th:text="${questionnaire.user}"></td>
-            <td th:if="${questionnaire.user == null}">None</td>
-            <td th:if="${questionnaire.survey != null}" th:text="${questionnaire.survey}"></td>
+            <td th:text="${questionnaire.name}"></td>
+            <td th:text="${questionnaire.questions}"></td>
+            <td style="white-space: nowrap">
+                <a class="btn btn-primary btn-sm" th:href="@{/questionnaires/edit(id=${questionnaire.id})}">Edit</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/questionnaires/delete(id=${questionnaire.id})}">Delete</a>
+            </td>
         </tr>
         </tbody>
     </table>

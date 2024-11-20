@@ -1,6 +1,7 @@
 package com.rot.app.questionnaire;
 
 import com.rot.app.answer.Answer;
+import com.rot.app.question.Question;
 import com.rot.app.user.User;
 import com.rot.app.surveys.Survey;
 import jakarta.persistence.*;
@@ -14,27 +15,17 @@ public class Questionnaire {
     @Id
     @GeneratedValue
     private Long id;
-
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @OneToOne
-    private Survey survey;
-
-    @OneToMany
-    @JoinColumn(name = "questionnaire_id")
-    private List<Answer> answers;
-
+    private String name;
+    @ManyToMany
+    private List<Question> questions;
 
     public Questionnaire() {
     }
 
-    public Questionnaire(Long id, User user, Survey survey, List<Answer> answers) {
+    public Questionnaire(Long id, String name, List<Question> questions) {
         this.id = id;
-        this.user = user;
-        this.survey = survey;
-        this.answers = answers;
+        this.name = name;
+        this.questions = questions;
     }
 
     public Long getId() {
@@ -45,37 +36,28 @@ public class Questionnaire {
         this.id = id;
     }
 
-    public User getUser() {
-        return user;
+    public String getName() {
+        return name;
     }
 
-    public void setUser(User user) {
-        this.user = user;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Survey getSurvey() {
-        return survey;
+    public List<Question> getQuestions() {
+        return questions;
     }
 
-    public void setSurvey(Survey survey) {
-        this.survey = survey;
-    }
-
-    public List<Answer> getAnswers() {
-        return answers;
-    }
-
-    public void setAnswers(List<Answer> answers) {
-        this.answers = answers;
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
     }
 
     @Override
     public String toString() {
         return "Questionnaire{" +
                 "id=" + id +
-                ", user=" + user +
-                ", survey=" + survey +
-                ", answers=" + answers +
+                ", name='" + name + '\'' +
+                ", questions=" + questions +
                 '}';
     }
 }

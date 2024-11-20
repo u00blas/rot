@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{layout :: page_head}"></head>
+<body>
+<nav th:replace="~{layout :: page_nav}"></nav>
+<div class="container py-3">
+    <h1 class="text-center my-4">Session [[${sessionDto.sessionName}]]</h1>
+    <h1 class="text-center my-4">Participant [[${sessionDto.participant.name}]]</h1>
+    <h1 class="text-center my-4">Survey [[${sessionDto.survey.name}]]</h1>
+    <h1 class="text-center my-4">Questionnaire [[${sessionDto.survey.questionnaire.name}]]</h1>
+    <div class="progress">
+        <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0"
+             aria-valuemax="100">25%
+        </div>
+    </div>
+    <div th:each="question : ${sessionDto.survey.questionnaire.questions}">
+        <div class="row">
+            <div class="card">
+                <div class="card-header" th:text="${question.questionDe}"></div>
+                <div class="card-body" th:each="subquestion : ${question.subquestionContainer.subquestions}">
+                    <div class="card">
+                        <div class="card-header" th:if="${subquestion.questionDe != null}"
+                             th:text="${question.questionDe}"></div>
+                        <div class="card-body">
+                            <ul class="list-group list-group-flush"
+                                th:each="replay : ${subquestion.proposal.replayOptions}">
+                                <li class="form-check">
+                                    <input class="form-check-input" type="radio" th:name="${subquestion.id}"
+                                           id="${replay.id}">
+                                    <label class="form-check-label" for="${replay.id}" th:text="${replay.name}"></label>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<footer th:replace="~{layout :: page_footer}"></footer>
+</body>
+</html>

@@ -50,24 +50,25 @@ public class App {
                              SurveyRepository surveyRepository,
                              ProposalRepository proposalRepository,
                              QuestionnaireRepository questionnaireRepository,
-                             AnswerRepository answerRepository,
+                             //AnswerRepository answerRepository,
                              SessionRepository sessionRepository,
-                             SessionPageRepository sessionPageRepository,
-                             SessionQuestionRepository sessionQuestionRepository,
-                             SessionProposalRepository sessionProposalRepository,
-                             SubProposalRepository subProposalRepository,
-                             RawCsvRepository rawCsvRepository, MigrationService migrationService,
+                             //SessionPageRepository sessionPageRepository,
+                             //SessionQuestionRepository sessionQuestionRepository,
+                             //SessionProposalRepository sessionProposalRepository,
+                             //SubProposalRepository subProposalRepository,
+                             RawCsvRepository rawCsvRepository,
+                             MigrationService migrationService,
                              SubquestionContainerRepository subquestionContainerRepository,
                              PersonRepository personRepository) {
         return args -> {
 
-            List.of("Hans Meier","Olaf Huber","Max Mustermann").forEach(s -> {
+            List.of("Hans Meier", "Olaf Huber", "Max Mustermann").forEach(s -> {
                 Person person = new Person();
                 person.setName(s);
                 String[] parts = s.split(" ");
-                String f=parts[0];
-                String n=parts[1];
-                String e=f.toLowerCase()+"."+n.toLowerCase()+"@test.de";
+                String f = parts[0];
+                String n = parts[1];
+                String e = f.toLowerCase() + "." + n.toLowerCase() + "@test.de";
                 person.setEmail(e);
                 person.setPhone("1234567");
                 person.setComment(s + " is cool");
@@ -137,117 +138,38 @@ public class App {
                 }
             }
 
-            for (String name : Arrays.asList("Immer", "Nahezu immer", "Selten", "Nahezu selten", "10%",
-                    "20%", "30%", "40%", "50%", "60%", "70%", "80%", "90%", "100%")) {
-                SubProposal subProposal = new SubProposal();
-                subProposal.setProposalLabel(name);
-                subProposalRepository.save(subProposal);
-            }
-
-            for (int proposal : Arrays.asList(1, 2, 3)) {
-                SessionProposal sessionProposal = new SessionProposal();
-                sessionProposal.setMinScale("Von " + proposal * 10 + "%");
-                sessionProposal.setMaxScale("Bis " + proposal * 100 + "%");
-                //sessionProposal.setSubQuestion("...sind Sie glücklich? " + proposal);
-                List<SubProposal> subProposals = new ArrayList<>();
-                subProposals.add(subProposalRepository.findByProposalLabel("Immer"));
-                subProposals.add(subProposalRepository.findByProposalLabel("Nahezu immer"));
-                subProposals.add(subProposalRepository.findByProposalLabel("Selten"));
-                sessionProposal.setSubProposals(subProposals);
-                sessionProposalRepository.save(sessionProposal);
-            }
-
-            {
-                SessionQuestion sessionQuestion = new SessionQuestion();
-                sessionQuestion.setQuestion("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?");
-                sessionQuestionRepository.save(sessionQuestion);
-            }
-            {
-                SessionQuestion sessionQuestion = new SessionQuestion();
-                sessionQuestion.setQuestion("Wie würden Sie die Zusammenarbeit der unterschiedlichen Beschäftigungsgruppen beschreiben?");
-                SessionProposal sessionProposal = new SessionProposal();
-                //sessionProposal.setSubQuestion("Die Zusammenarbeit…zwischen jüngeren und älteren Beschäftigten ist…");
-                sessionProposal.setMinScale("Von sehr schlecht");
-                sessionProposal.setMaxScale("bis sehr gut");
-                List<SubProposal> subProposals = new ArrayList<>();
-                for (String name : Arrays.asList("Sehr schlecht", "Schlecht", "Gut", "Besser", "Sehr gut")) {
-                    SubProposal subProposal = new SubProposal();
-                    subProposal.setProposalLabel(name);
-                    subProposals.add(subProposal);
+            List<Questionnaire> questionnaires = migrationService.createQuestionnaires();
+            for (Questionnaire questionnaire : questionnaires) {
+                try {
+                    questionnaire.setQuestions(questionRepository.findAll().subList(0, 3));
+                    questionnaireRepository.save(questionnaire);
+                } catch (Exception e) {
+                    System.out.println("Questionnaire already exists: " + questionnaire);
                 }
-                sessionProposal.setSubProposals(subProposals);
-                sessionQuestion.setProposals(Arrays.asList(sessionProposal));
-                //              sessionQuestionRepository.save(sessionQuestion);
-            }
-            {
-                SessionQuestion sessionQuestion = new SessionQuestion();
-                sessionQuestion.setQuestion("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?");
-                sessionQuestionRepository.save(sessionQuestion);
-            }
-            {
-                SessionQuestion sessionQuestion = new SessionQuestion();
-                sessionQuestion.setQuestion("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?");
-                sessionQuestionRepository.save(sessionQuestion);
-            }
-            for (String question : Arrays.asList("Haben Sie regelmäßige Kontakte zu anderen Mitarbeitenden im Unternehmen?",
-                    "Wie würden Sie die Zusammenarbeit der unterschiedlichen Beschäftigungsgruppen beschreiben?",
-                    "Was ist Ihre Lieblingsfarbe", "Was ist Ihre Lieblingsstadt?", "Sind Sie zufrieden?", "Schlafen Sie genug?", "which?", "who is this?", "what is this?", "where is this?", "why is this?", "when is this?", "how is this?")) {
-                SessionQuestion sessionQuestion = new SessionQuestion();
-                sessionQuestion.setQuestion(question);
-                sessionQuestion.setProposals(sessionProposalRepository.findAll());
-                sessionQuestionRepository.save(sessionQuestion);
-            }
-            int pos = 0;
-
-            for (Integer i : Arrays.asList(1, 2, 3)) {
-                SessionPage sessionPage = new SessionPage();
-                sessionPage.setPageId(i);
-                //sessionPage.setData("Page " + i);
-                // sessionPage.setQuestions(sessionQuestionRepository.findAll().subList(pos, pos + 2));
-                pos += 3;
-                sessionPageRepository.save(sessionPage);
-            }
-            for (String s : Arrays.asList("2h45f88def90ff8", "4h45f88def90ff8", "6h45f88def90ff8")) {
-                Session session = new Session();
-                session.setSessionId(s);
-
-                session.setData("In dieser Session wollen wir Antworten auf unsere Fragen bekommen.");
-                session.setPages(sessionPageRepository.findAll());
-                sessionRepository.save(session);
             }
 
-
-            int start = 0;
-            int end = 5;
-            for (String name : Arrays.asList("Survey 1", "Survey 2", "Survey 3")) {
-                Survey survey = new Survey();
-                survey.setName(name);
-                survey.setDescription("Test Description for " + name);
-                survey.setQuestions(questionRepository.findAll().subList(start, end));
-                surveyRepository.save(survey);
-                for (Question question : survey.getQuestions()) {
-                    Answer answer = new Answer();
-                    answer.setQuestion(question.getQuestionDe());
-                    answer.setAnswer1("Test Answer 1");
-                    answer.setAnswer2("Test Answer 2");
-                    answer.setAnswer3("Test Answer 3");
-                    answer.setAnswer4("Test Answer 4");
-                    answer.setAnswer5("Test Answer 5");
-                    answer.setAnswerNumber(0);
-                    answerRepository.save(answer);
+            List<Survey> surveys = migrationService.createSurveys();
+            for (Survey survey : surveys) {
+                try {
+                    survey.setQuestionnaire(questionnaireRepository.findAll().get(0));
+                    surveyRepository.save(survey);
+                } catch (Exception e) {
+                    System.out.println("Survey already exists: " + survey);
                 }
-                start += 15;
-                end += 15;
             }
 
-            Survey survey = surveyRepository.findAll().get(0);
-            List<Answer> answers = new ArrayList<>();
+            List<Session> sessions = migrationService.createSessions();
+            for (int i=0;i<sessions.size();i++) {
+                Session session = sessions.get(i);
+                try {
+                    session.setParticipant(personRepository.findAll().get(i));
+                    session.setSurvey(surveyRepository.findAll().get(0));
+                    sessionRepository.save(session);
+                } catch (Exception e) {
+                    System.out.println("Session already exists: " + session);
+                }
+            }
 
-            Questionnaire questionnaire = new Questionnaire();
-            questionnaire.setUser(userRepository.findAll().get(0));
-            questionnaire.setSurvey(survey);
-            questionnaire.setAnswers(answers);
-            questionnaireRepository.save(questionnaire);
         };
 
 

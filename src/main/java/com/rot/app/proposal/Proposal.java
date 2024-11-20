@@ -1,6 +1,6 @@
 package com.rot.app.proposal;
 
-import com.rot.app.proposal.replayoption.ReplayOption;
+import com.rot.app.replayoption.ReplayOption;
 import jakarta.persistence.*;
 
 import java.util.List;

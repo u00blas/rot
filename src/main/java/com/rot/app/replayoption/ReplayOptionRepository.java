@@ -1,4 +1,4 @@
-package com.rot.app.proposal.replayoption;
+package com.rot.app.replayoption;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 

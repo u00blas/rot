@@ -4,14 +4,20 @@ import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
-import com.rot.app.proposal.replayoption.ReplayOption;
-import com.rot.app.proposal.replayoption.ReplayOptionRepository;
+import com.rot.app.questionnaire.Questionnaire;
+import com.rot.app.questionnaire.QuestionnaireRepository;
+import com.rot.app.replayoption.ReplayOption;
+import com.rot.app.replayoption.ReplayOptionRepository;
 import com.rot.app.question.Question;
 import com.rot.app.question.QuestionRepository;
+import com.rot.app.session.Session;
+import com.rot.app.session.SessionRepository;
 import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestion.SubquestionRepository;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
+import com.rot.app.surveys.Survey;
+import com.rot.app.surveys.SurveyRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -26,17 +32,23 @@ public class MigrationService {
     private final SubquestionRepository subquestionRepository;
     private final SubquestionContainerRepository subquestionContainerRepository;
     private final CategoryRepository categoryRepository;
+    private final QuestionnaireRepository questionnaireRepository;
+    private final SurveyRepository surveyRepository;
+    private final SessionRepository sessionRepository;
 
     public MigrationService(ReplayOptionRepository replayOptionRepository,
                             ProposalRepository proposalRepository,
                             QuestionRepository questionRepository,
-                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository, CategoryRepository categoryRepository) {
+                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository, CategoryRepository categoryRepository, QuestionnaireRepository questionnaireRepository, SurveyRepository surveyRepository, SessionRepository sessionRepository) {
         this.replayOptionRepository = replayOptionRepository;
         this.proposalRepository = proposalRepository;
         this.questionRepository = questionRepository;
         this.subquestionRepository = subquestionRepository;
         this.subquestionContainerRepository = subquestionContainerRepository;
         this.categoryRepository = categoryRepository;
+        this.questionnaireRepository = questionnaireRepository;
+        this.surveyRepository = surveyRepository;
+        this.sessionRepository = sessionRepository;
     }
 
 
@@ -384,6 +396,57 @@ public class MigrationService {
             }
         }
         return null;
+    }
+
+    public List<Questionnaire> createQuestionnaires() {
+
+        List<Questionnaire> questionnaires = new ArrayList<>();
+
+        List.of("Fragebogen 1", "Fragebogen 2", "Fragebogen 3").forEach(name -> {
+            Questionnaire questionnaire = new Questionnaire();
+            questionnaire.setName(name);
+            questionnaires.add(questionnaire);
+        });
+        questionnaireRepository.saveAll(questionnaires);
+        return questionnaireRepository.findAll();
+    }
+
+    public List<Survey> createSurveys() {
+        List<Survey> surveys = new ArrayList<>();
+        List.of("Umfrage 1", "Umfrage 2", "Umfrage 3").forEach(name -> {
+            Survey survey = new Survey();
+            survey.setName(name);
+            survey.setDescription(name + " Description");
+            surveys.add(survey);
+        });
+        surveyRepository.saveAll(surveys);
+        return surveyRepository.findAll();
+
+    }
+
+    public List<Session> createSessions() {
+        List<Session> sessions = new ArrayList<>();
+        {
+            Session session = new Session();
+            session.setSessionName("a1b2c3d4e5f6");
+            session.setCreationDate(new Date());
+            sessions.add(session);
+        }
+        {
+            Session session = new Session();
+            session.setSessionName("b1b2c3d4e5f6");
+            session.setCreationDate(new Date());
+            sessions.add(session);
+        }
+        {
+            Session session = new Session();
+            session.setSessionName("c1b2c3d4e5f6");
+            session.setCreationDate(new Date());
+            sessions.add(session);
+        }
+
+        sessionRepository.saveAll(sessions);
+        return sessionRepository.findAll();
     }
 
     class Pair {

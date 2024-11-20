@@ -1,4 +1,4 @@
-package com.rot.app.proposal.replayoption;
+package com.rot.app.replayoption;
 
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;

@@ -1,5 +1,7 @@
 package com.rot.app.session;
 
+import com.rot.app.person.Person;
+import com.rot.app.surveys.Survey;
 import jakarta.persistence.*;
 
 
@@ -13,23 +15,27 @@ public class Session {
     @Id
     @GeneratedValue
     private Long id;
-    @Column(name = "session_id")
-    private String sessionId;
-    @ManyToMany(cascade = CascadeType.MERGE)
-    @JoinTable(name = "session_page",
-            joinColumns = @JoinColumn(name = "session_id"),
-            inverseJoinColumns = @JoinColumn(name = "page_id"))
-    private List<SessionPage> pages;
-    private String data;
+    @Column(unique = true, nullable = false)
+    private String sessionName;
+    private Date creationDate;
+    private Date expirationDate;
+    private Date lastAccessDate;
+    @ManyToOne
+    private Person participant;
+    @ManyToOne
+    private Survey survey;
 
     public Session() {
     }
 
-    public Session(Long id, String sessionId, List<SessionPage> pages, String data) {
+    public Session(Long id, String sessionName, Date creationDate, Date expirationDate, Date lastAccessDate, Person participant, Survey survey) {
         this.id = id;
-        this.sessionId = sessionId;
-        this.pages = pages;
-        this.data = data;
+        this.sessionName = sessionName;
+        this.creationDate = creationDate;
+        this.expirationDate = expirationDate;
+        this.lastAccessDate = lastAccessDate;
+        this.participant = participant;
+        this.survey = survey;
     }
 
     public Long getId() {
@@ -40,37 +46,64 @@ public class Session {
         this.id = id;
     }
 
-    public String getSessionId() {
-        return sessionId;
+    public String getSessionName() {
+        return sessionName;
     }
 
-    public void setSessionId(String sessionId) {
-        this.sessionId = sessionId;
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
     }
 
-    public List<SessionPage> getPages() {
-        return pages;
+    public Date getCreationDate() {
+        return creationDate;
     }
 
-    public void setPages(List<SessionPage> pages) {
-        this.pages = pages;
+    public void setCreationDate(Date creationDate) {
+        this.creationDate = creationDate;
     }
 
-    public String getData() {
-        return data;
+    public Date getExpirationDate() {
+        return expirationDate;
     }
 
-    public void setData(String data) {
-        this.data = data;
+    public void setExpirationDate(Date expirationDate) {
+        this.expirationDate = expirationDate;
+    }
+
+    public Date getLastAccessDate() {
+        return lastAccessDate;
+    }
+
+    public void setLastAccessDate(Date lastAccessDate) {
+        this.lastAccessDate = lastAccessDate;
+    }
+
+    public Person getParticipant() {
+        return participant;
+    }
+
+    public void setParticipant(Person participant) {
+        this.participant = participant;
+    }
+
+    public Survey getSurvey() {
+        return survey;
+    }
+
+    public void setSurvey(Survey survey) {
+        this.survey = survey;
     }
 
     @Override
     public String toString() {
         return "Session{" +
                 "id=" + id +
-                ", sessionId='" + sessionId + '\'' +
-                ", pages=" + pages +
-                ", data='" + data + '\'' +
+                ", sessionName='" + sessionName + '\'' +
+                ", creationDate=" + creationDate +
+                ", expirationDate=" + expirationDate +
+                ", lastAccessDate=" + lastAccessDate +
+                ", participant=" + participant +
+                ", survey=" + survey +
                 '}';
     }
 }

@@ -1,6 +1,7 @@
 package com.rot.app.surveys;
 
 import com.rot.app.question.Question;
+import com.rot.app.questionnaire.Questionnaire;
 import jakarta.persistence.*;
 
 import java.util.Collection;
@@ -12,22 +13,21 @@ import java.util.Set;
 public class Survey {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue
     private Long id;
     private String name;
     private String description;
-
-    @ManyToMany
-    @JoinTable(name = "survey_question", joinColumns = @JoinColumn(name = "survey_id"), inverseJoinColumns = @JoinColumn(name = "question_id"))
-    private List<Question> questions;
+    @ManyToOne
+    private Questionnaire questionnaire;
 
     public Survey() {
     }
 
-    public Survey(String name, String description, List<Question> questions) {
+    public Survey(Long id, String name, String description, Questionnaire questionnaire) {
+        this.id = id;
         this.name = name;
         this.description = description;
-        this.questions = questions;
+        this.questionnaire = questionnaire;
     }
 
     public Long getId() {
@@ -54,12 +54,12 @@ public class Survey {
         this.description = description;
     }
 
-    public List<Question> getQuestions() {
-        return questions;
+    public Questionnaire getQuestionnaire() {
+        return questionnaire;
     }
 
-    public void setQuestions(List<Question> questions) {
-        this.questions = questions;
+    public void setQuestionnaire(Questionnaire questionnaire) {
+        this.questionnaire = questionnaire;
     }
 
     @Override
@@ -68,7 +68,7 @@ public class Survey {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", questions=" + questions +
+                ", questionnaire=" + questionnaire +
                 '}';
     }
 }

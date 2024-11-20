@@ -1,44 +1,59 @@
 package com.rot.app.session;
 
+import com.rot.app.question.Question;
+import com.rot.app.questionnaire.Questionnaire;
+import com.rot.app.sessionresult.SessionResult;
+import com.rot.app.sessionresult.SessionResultRepository;
+import com.rot.app.subquestion.Subquestion;
+import com.rot.app.subquestioncontainer.SubquestionContainer;
+import com.rot.app.surveys.Survey;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Controller
 @RequestMapping("/sessions")
 public class SessionController {
 
-    private final SessionService sessionService;
+    private final SessionRepository sessionRepository;
+    private final SessionResultRepository sessionResultRepository;
 
-    public SessionController(SessionService sessionService) {
-        this.sessionService = sessionService;
+    public SessionController(SessionRepository sessionRepository, SessionResultRepository sessionResultRepository) {
+        this.sessionRepository = sessionRepository;
+        this.sessionResultRepository = sessionResultRepository;
     }
 
-    /*@GetMapping
-    public String sessions() {
-        return "sessions/session";
-    }*/
-
-    @GetMapping("/{session_id}")
-    public String session(@PathVariable("session_id") String id, Model model) {
-        Session session = sessionService.findBySessionId(id);
-        List<SessionPage> pages = session.getPages().stream().filter(page -> page.getPageId() == 1).toList();
-        model.addAttribute("pageNumber", 1);
-        model.addAttribute("currentPage", pages.get(0));
-        model.addAttribute("sessionobject", session);
-        return "sessions/session";
+    @GetMapping
+    public String index(Model model) {
+        model.addAttribute("sessions", sessionRepository.findAll());
+        return "sessions/index";
     }
 
-    @PostMapping("/save")
-    public String saveSession(@ModelAttribute Session session, Model model) {
-
-        System.out.println(session);
-        sessionService.saveSession(session);
-
-        model.addAttribute("sessionobject", session);
-        return "sessions/session";
+    @GetMapping("/collect/{sessionName}")
+    public String collect(@PathVariable String sessionName, Model model) {
+        Session session = sessionRepository.findBySessionName(sessionName);
+        if (session == null) {
+            return "redirect:/sessions";
+        }
+        List<SessionResult> sessionResultList = sessionResultRepository.findBySessionName(sessionName);
+        if (sessionResultList.isEmpty()) {
+            List<SessionResult> sessionResults = new ArrayList<>();
+            for (Question question : session.getSurvey().getQuestionnaire().getQuestions()) {
+                for (Subquestion subquestion : question.getSubquestionContainer().getSubquestions()) {
+                    SessionResult sessionResult = new SessionResult();
+                    sessionResult.setSessionName(sessionName);
+                    sessionResult.setSubquestion(subquestion);
+                    sessionResults.add(sessionResult);
+                }
+            }
+            sessionResultRepository.saveAll(sessionResults);
+        }
+        List<SessionResult> sessionResults = sessionResultRepository.findBySessionName(sessionName);
+        model.addAttribute("sessionResults", sessionResults);
+        model.addAttribute("sessionDto", session);
+        return "sessions/collect";
     }
-
 }
