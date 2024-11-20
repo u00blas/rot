@@ -11,16 +11,12 @@ public class Proposal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(unique = true, nullable = false)
     private String name;
-
     @Column(name = "min_scale")
     private String minScale;
-
     @Column(name = "max_scale")
     private String maxScale;
-
     @ManyToMany
     @Column(name = "replay_options")
     private List<ReplayOption> replayOptions;

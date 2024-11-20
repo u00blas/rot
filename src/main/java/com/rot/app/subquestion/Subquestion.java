@@ -10,7 +10,6 @@ public class Subquestion {
     @Id
     @GeneratedValue
     private Long id;
-
     private String header;
     private Integer position;
     private String questionDe;

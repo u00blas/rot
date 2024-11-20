@@ -11,12 +11,9 @@ public class SessionResult {
     @Id
     @GeneratedValue
     private Long id;
-
     private String sessionName;
-
     @ManyToOne
     private Subquestion subquestion;
-
     private String answer;
 
     public SessionResult() {

@@ -3,6 +3,7 @@ package com.rot.app.session;
 import com.rot.app.question.Question;
 import com.rot.app.questionnaire.Questionnaire;
 import com.rot.app.sessionresult.SessionResult;
+import com.rot.app.sessionresult.SessionResultContainer;
 import com.rot.app.sessionresult.SessionResultRepository;
 import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
@@ -52,8 +53,25 @@ public class SessionController {
             sessionResultRepository.saveAll(sessionResults);
         }
         List<SessionResult> sessionResults = sessionResultRepository.findBySessionName(sessionName);
-        model.addAttribute("sessionResults", sessionResults);
+        SessionResultContainer sessionResultContainer = new SessionResultContainer();
+        sessionResultContainer.setSessionResults(sessionResults);
+        model.addAttribute("sessionResultContainer", sessionResultContainer);
         model.addAttribute("sessionDto", session);
         return "sessions/collect";
+    }
+
+    @PostMapping("/collect")
+    public String collect(@ModelAttribute SessionResultContainer sessionResultContainer) {
+        sessionResultContainer.getSessionResults()
+                .forEach(sessionResult -> {
+                    sessionResultRepository.findById(sessionResult.getId())
+                            .ifPresent(existingSessionResult -> {
+                                sessionResult.setSessionName(existingSessionResult.getSessionName());
+                                sessionResult.setSubquestion(existingSessionResult.getSubquestion());
+                                //sessionResult.setAnswer(existingSessionResult.getAnswer());
+                                sessionResultRepository.save(sessionResult);
+                            });
+                });
+        return "redirect:/sessions";
     }
 }
