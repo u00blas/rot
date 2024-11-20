@@ -5,26 +5,35 @@
 <nav th:replace="~{layout :: page_nav}"></nav>
 <div class="container py-3">
     <h1 class="text-center my-4">Question Details</h1>
-    <a class="btn btn-primary" th:href="@{/questions}">Back</a>
 
-    <br>
 
-    <p th:text="${question.category.name}"></p>
-    <p th:text="${question.page}"></p>
-    <p th:text="${question.questionDe}"></p>
-    <div th:each="subquestionContainer : ${question.subquestionContainer}">
-        <div th:each="subquestion : ${subquestionContainer.subquestions}">
-            <p th:text="${subquestion.position}"></p>
-            <p th:text="${subquestion.questionDe}"></p>
-            <p th:text="${subquestion.proposal.name}"></p>
-            <div th:each="replayOption : ${subquestion.proposal.replayOptions}">
-                <p th:text="${replayOption.name}"></p>
+    <a th:href="@{/questions}" class="btn btn-primary">Back</a>
+    <div class="card">
+        <div class="card-header"
+             th:text="${'Target Group '+question.targetGroup+ ', Category '+question.category.name + ', Page '+ question.page}"></div>
+        <div class="card-body">
+            <h5 class="card-title"
+                th:text="${question.questionDe}"></h5>
+            <div th:each="subquestionContainer : ${question.subquestionContainer}">
+                <div th:each="subquestion : ${subquestionContainer.subquestions}">
+                    <div class="card" style="width: 40rem;">
+                        <div class="card-header" th:if="${subquestion.questionDe != null}"
+                             th:text="${subquestion.questionDe}"></div>
+                        <div class="card-header"
+                             th:text="${'(From ' + subquestion.proposal.minScale + ' to ' + subquestion.proposal.maxScale + ')'}"></div>
+                        <ul class="list-group list-group-flush"
+                            th:each="replay : ${subquestion.proposal.replayOptions}">
+                            <li class="form-check">
+                                <input class="form-check-input" type="radio" th:name="${subquestion.id}"
+                                       id="${replay.id}">
+                                <label class="form-check-label" for="${replay.id}" th:text="${replay.name}"></label>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
             </div>
-
         </div>
     </div>
-
-
 </div>
 <footer th:replace="~{layout :: page_footer}"></footer>
 </body>

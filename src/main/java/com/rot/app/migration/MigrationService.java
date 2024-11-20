@@ -367,6 +367,7 @@ public class MigrationService {
                     Category category = categoryRepository.findByName(parts[3]);
                     SubquestionContainer subquestionContainer = subquestionContainerRepository.findByQuestion(parts[22]);
                     question.setSubquestionContainer(subquestionContainer);
+                    question.setTargetGroup(parts[2]);
                     question.setCategory(category);
                     question.setNewNumber(parts[8]);
                     questions.add(question);

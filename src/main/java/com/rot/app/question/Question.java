@@ -29,11 +29,12 @@ public class Question {
     private String newNumber;
     private String ownNumber;
     private String sequenceNumber;
+    private String targetGroup;
 
     public Question() {
     }
 
-    public Question(Long id, String questionDe, Category category, SubquestionContainer subquestionContainer, String questionEn, String page, String newNumber, String ownNumber, String sequenceNumber) {
+    public Question(Long id, String questionDe, Category category, SubquestionContainer subquestionContainer, String questionEn, String page, String newNumber, String ownNumber, String sequenceNumber, String targetGroup) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -43,6 +44,7 @@ public class Question {
         this.newNumber = newNumber;
         this.ownNumber = ownNumber;
         this.sequenceNumber = sequenceNumber;
+        this.targetGroup = targetGroup;
     }
 
     public Question(String w) {
@@ -125,6 +127,7 @@ public class Question {
     public String toString() {
         return "Question{" +
                 "id=" + id +
+                ", targetGroup='" + targetGroup + '\'' +
                 ", newNumber='" + newNumber + '\'' +
                 ", questionDe='" + questionDe + '\'' +
                 ", category=" + category +
@@ -134,5 +137,13 @@ public class Question {
                 ", ownNumber='" + ownNumber + '\'' +
                 ", sequenceNumber='" + sequenceNumber + '\'' +
                 '}';
+    }
+
+    public void setTargetGroup(String targetGroup) {
+        this.targetGroup = targetGroup;
+    }
+
+    public String getTargetGroup() {
+        return targetGroup;
     }
 }
