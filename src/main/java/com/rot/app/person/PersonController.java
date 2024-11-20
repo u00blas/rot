@@ -47,7 +47,8 @@ public class PersonController {
     }
 
     @PostMapping("/save")
-    public String save(Person person) {
+    public String save(PersonDto personDto) {
+        Person person = PersonDto.fromDto(personDto);
         personRepository.save(person);
         return "redirect:/persons";
     }

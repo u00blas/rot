@@ -4,9 +4,9 @@
 <body>
 <nav th:replace="~{layout :: page_nav}"></nav>
 <div class="container py-3">
-    <h1 class="text-center my-4" th:if="${person.id == null}">Create Person</h1>
-    <h1 class="text-center my-4" th:if="${person.id != null}" th:text="'Edit Person ' + ${person.id}"></h1>
-    <form th:action="@{/persons/save}" th:object="${person}" method="post">
+    <h1 class="text-center my-4" th:if="${personDto.id == null}">Create Person</h1>
+    <h1 class="text-center my-4" th:if="${personDto.id != null}" th:text="'Edit Person ' + ${personDto.id}"></h1>
+    <form th:action="@{/persons/save}" th:object="${personDto}" method="post">
         <input type="hidden" th:field="*{id}"/>
         <div class="form-group row">
             <label class="col-form-label col-sm-4">Name</label>

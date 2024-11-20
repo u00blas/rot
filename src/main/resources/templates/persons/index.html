@@ -18,7 +18,7 @@
         </tr>
         </thead>
         <tbody class="table-group-divider">
-        <tr th:each="person : ${persons}">
+        <tr th:each="person : ${personDtos}">
             <td th:text="${person.id}"></td>
             <td th:text="${person.name}"></td>
             <td th:text="${person.email}"></td>
