@@ -28,7 +28,7 @@ public class ProposalController {
     @GetMapping("/create")
     public String showProposalsForm(Model model) {
         model.addAttribute("proposal", new Proposal());
-        return "proposals/create";
+        return "proposals/edit";
     }
 
     @PostMapping("/save")

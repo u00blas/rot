@@ -11,6 +11,8 @@ import com.rot.app.migration.MigrateRawData;
 import com.rot.app.migration.MigrationService;
 import com.rot.app.migration.raw.RawCsv;
 import com.rot.app.migration.raw.RawCsvRepository;
+import com.rot.app.person.Person;
+import com.rot.app.person.PersonRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import com.rot.app.question.Question;
@@ -55,8 +57,18 @@ public class App {
                              SessionProposalRepository sessionProposalRepository,
                              SubProposalRepository subProposalRepository,
                              RawCsvRepository rawCsvRepository, MigrationService migrationService,
-                             SubquestionContainerRepository subquestionContainerRepository) {
+                             SubquestionContainerRepository subquestionContainerRepository,
+                             PersonRepository personRepository) {
         return args -> {
+
+            List.of("Hans Meier","Olaf Huber","Max Mustermann").forEach(s -> {
+                Person person = new Person();
+                person.setName(s);
+                person.setEmail(s + "@test.de");
+                person.setPhone("1234567");
+                person.setComment(s + " is cool");
+                personRepository.save(person);
+            });
 
             List<Proposal> proposals = migrationService.createProposals();
             List<Subquestion> subquestions = migrationService.createSubquestions();
