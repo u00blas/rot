@@ -16,6 +16,7 @@
         <tr>
             <th>Id</th>
             <th>Session Name</th>
+            <th>Session Link</th>
             <th>Created At</th>
             <th>Expiration Date</th>
             <th>Last Update</th>
@@ -28,6 +29,9 @@
         <tr th:each="sessionDto : ${sessions}">
             <td th:text="${sessionDto.id}"></td>
             <td th:text="${sessionDto.sessionName}"></td>
+            <td >
+                <a th:href="${'http://localhost:8080/sessions/collect/'+sessionDto.sessionName}">Link</a>
+            </td>
             <td th:text="${sessionDto.creationDate}"></td>
             <td th:text="${sessionDto.expirationDate}"></td>
             <td th:text="${sessionDto.lastAccessDate}"></td>
