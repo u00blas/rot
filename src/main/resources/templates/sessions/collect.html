@@ -8,7 +8,8 @@
     <div class="card">
         <div class="card-header" th:text="${'Survey '+sessionDto.survey.name}"></div>
         <div class="card-body">
-            <h5 class="card-title" th:text="${'Participant '+sessionDto.participant.name}"></h5>
+            <h5 class="card-title"
+                th:text="${'Participant '+sessionDto.participant.name+', Session '+sessionDto.sessionName}"></h5>
             <p class="card-text" th:text="${'Survey '+sessionDto.survey.description}"></p>
         </div>
     </div>
@@ -17,27 +18,46 @@
              aria-valuemax="100">25%
         </div>
     </div>
-    <div class="card">
+    <div class="card mt-3">
         <div class="card-header" th:text="${'Questionnaire '+sessionDto.survey.questionnaire.name}"></div>
         <form action="#" th:action="@{/sessions/collect}" th:object="${sessionResultContainer}" method="post">
             <fieldset>
                 <div th:each="sessionResult, itemStat : *{sessionResults}">
                     <input type="hidden" th:field="*{sessionResults[__${itemStat.index}__].id}"/>
-                    <p th:text="${sessionResult.id}"></p>
-                    <p th:text="${sessionResult.sessionName}"></p>
-                    <p th:text="${sessionResult.subquestion}"></p>
-                    <ul class="list-group list-group-flush"
-                        th:each="replay, itemStat2 : ${sessionResult.subquestion.proposal.replayOptions}">
-                        <li class="form-check">
-                            <input class="form-check-input" type="radio" th:name="${sessionResult.subquestion.id}"
-                                   id="${replay.id}" th:value="${itemStat2.index + 1}"
-                                   th:field="*{sessionResults[__${itemStat.index}__].answer}">
-                            <label class="form-check-label" for="${replay.id}" th:text="${replay.name}"></label>
-                        </li>
-                    </ul>
-                    <!--<input type="text" th:field="*{sessionResults[__${itemStat.index}__].answer}"/>-->
+
+
+                    <div class="card p-3 m-3">
+                        <div class="card-header"
+                             th:if="${sessionResult.subquestion.header != null}"
+                             th:text="${sessionResult.subquestion.header}"></div>
+
+
+
+
+
+                        <div class="card p-3 m-3" >
+                            <div class="card-header"
+                                 th:if="${sessionResult.subquestion.questionDe != null}"
+                                 th:text="${sessionResult.subquestion.questionDe}"></div>
+
+                        <ul class="list-group list-group-flush"
+                            th:each="replay, itemStat2 : ${sessionResult.subquestion.proposal.replayOptions}">
+                            <li class="list-group-item">
+                                <input class="form-check-input" type="radio" th:name="${sessionResult.subquestion.id}"
+                                       id="${replay.id}" th:value="${itemStat2.index + 1}"
+                                       th:field="*{sessionResults[__${itemStat.index}__].answer}">
+                                <label class="form-check-label" for="${replay.id}" th:text="${replay.name}"></label>
+                            </li>
+                        </ul>
+                        </div>
+                    </div>
+
+
                 </div>
-                <button type="submit">Submit</button>
+                <div class="text-center p-3">
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                    <a th:href="@{/sessions/greetings}" class="btn btn-secondary">Cancel</a>
+                </div>
             </fieldset>
         </form>
     </div>

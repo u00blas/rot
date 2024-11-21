@@ -73,6 +73,12 @@ public class SessionController {
                             });
                 });
         model.addAttribute("conclusion", "Thank you for your answers!");
+        return "redirect:/sessions/greetings";
+    }
+
+    @GetMapping("/greetings")
+    public String results(Model model) {
+        model.addAttribute("conclusion", "Thank you for your answers!");
         return "sessions/greetings";
     }
 }
