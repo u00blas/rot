@@ -216,11 +216,14 @@ public class MigrationService {
 
         List<String> lines = MigrateRawData.getLinesFromCsv();
         {
+            int position = 1;
             for (int i = 2; i < 9; i++) {
                 String[] parts = lines.get(i).split(";");
                 SubquestionContainer subquestionContainer = new SubquestionContainer();
                 subquestionContainer.setQuestion(parts[22]);
                 Subquestion subquestion = new Subquestion();
+                subquestion.setQuestionDe("-");
+                subquestion.setPosition(position);
                 subquestion.setHeader(parts[22]);
                 subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                 Subquestion savedSubquestion = subquestionRepository.save(subquestion);
@@ -229,11 +232,11 @@ public class MigrationService {
             }
         }
         {
+            int position = 1;
             SubquestionContainer subquestionContainer = null;
             List<Subquestion> subquestions = new ArrayList<>();
             for (int i = 9; i < 16; i++) {
                 String[] parts = lines.get(i).split(";");
-
                 if (i == 9) {
                     subquestionContainer = new SubquestionContainer();
                     subquestionContainer.setQuestion(parts[22]);
@@ -241,20 +244,25 @@ public class MigrationService {
                     Subquestion subquestion = new Subquestion();
                     subquestion.setHeader(subquestionContainer.getQuestion());
                     subquestion.setQuestionDe(parts[22]);
+                    subquestion.setPosition(position);
                     subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                     Subquestion savedSubquestion = subquestionRepository.save(subquestion);
                     subquestions.add(savedSubquestion);
                 }
+                position++;
             }
             subquestionContainer.setSubquestions(subquestions);
             subquestionContainers.add(subquestionContainer);
         }
         {
+            int position = 1;
             for (int i = 16; i < 61; i++) {
                 String[] parts = lines.get(i).split(";");
                 SubquestionContainer subquestionContainer = new SubquestionContainer();
                 subquestionContainer.setQuestion(parts[22]);
                 Subquestion subquestion = new Subquestion();
+                subquestion.setQuestionDe("-");
+                subquestion.setPosition(position);
                 subquestion.setHeader(parts[22]);
                 subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                 Subquestion savedSubquestion = subquestionRepository.save(subquestion);
@@ -263,6 +271,7 @@ public class MigrationService {
             }
         }
         {
+            int position = 1;
             SubquestionContainer subquestionContainer = null;
             List<Subquestion> subquestions = new ArrayList<>();
             for (int i = 61; i < 71; i++) {
@@ -274,21 +283,26 @@ public class MigrationService {
                 } else {
                     Subquestion subquestion = new Subquestion();
                     subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setPosition(position);
                     subquestion.setQuestionDe(parts[22]);
                     subquestion.setProposal(proposalRepository.findByName("ja nein"));
                     Subquestion savedSubquestion = subquestionRepository.save(subquestion);
                     subquestions.add(savedSubquestion);
                 }
+                position++;
             }
             subquestionContainer.setSubquestions(subquestions);
             subquestionContainers.add(subquestionContainer);
         }
         {
+            int position = 1;
             for (int i = 71; i < 119; i++) {
                 String[] parts = lines.get(i).split(";");
                 SubquestionContainer subquestionContainer = new SubquestionContainer();
                 subquestionContainer.setQuestion(parts[22]);
                 Subquestion subquestion = new Subquestion();
+                subquestion.setQuestionDe("-");
+                subquestion.setPosition(position);
                 subquestion.setHeader(parts[22]);
                 subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                 Subquestion savedSubquestion = subquestionRepository.save(subquestion);
@@ -297,6 +311,7 @@ public class MigrationService {
             }
         }
         {
+            int position = 1;
             SubquestionContainer subquestionContainer = null;
             List<Subquestion> subquestions = new ArrayList<>();
             for (int i = 119; i < 127; i++) {
@@ -308,16 +323,19 @@ public class MigrationService {
                 } else {
                     Subquestion subquestion = new Subquestion();
                     subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setPosition(position);
                     subquestion.setQuestionDe(parts[22]);
                     subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                     Subquestion savedSubquestion = subquestionRepository.save(subquestion);
                     subquestions.add(savedSubquestion);
                 }
+                position++;
             }
             subquestionContainer.setSubquestions(subquestions);
             subquestionContainers.add(subquestionContainer);
         }
         {
+            int position = 1;
             SubquestionContainer subquestionContainer = null;
             List<Subquestion> subquestions = new ArrayList<>();
             for (int i = 127; i < 132; i++) {
@@ -329,16 +347,19 @@ public class MigrationService {
                 } else {
                     Subquestion subquestion = new Subquestion();
                     subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setPosition(position);
                     subquestion.setQuestionDe(parts[22]);
                     subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                     Subquestion savedSubquestion = subquestionRepository.save(subquestion);
                     subquestions.add(savedSubquestion);
                 }
+                position++;
             }
             subquestionContainer.setSubquestions(subquestions);
             subquestionContainers.add(subquestionContainer);
         }
         {
+            int position = 1;
             SubquestionContainer subquestionContainer = null;
             List<Subquestion> subquestions = new ArrayList<>();
             for (int i = 132; i < 143; i++) {
@@ -350,11 +371,13 @@ public class MigrationService {
                 } else {
                     Subquestion subquestion = new Subquestion();
                     subquestion.setHeader(subquestionContainer.getQuestion());
+                    subquestion.setPosition(position);
                     subquestion.setQuestionDe(parts[22]);
                     subquestion.setProposal(proposalRepository.findByName(parts[24] + " " + parts[25]));
                     Subquestion savedSubquestion = subquestionRepository.save(subquestion);
                     subquestions.add(savedSubquestion);
                 }
+                position++;
             }
             subquestionContainer.setSubquestions(subquestions);
             subquestionContainers.add(subquestionContainer);
@@ -405,6 +428,7 @@ public class MigrationService {
         List.of("Fragebogen 1", "Fragebogen 2", "Fragebogen 3").forEach(name -> {
             Questionnaire questionnaire = new Questionnaire();
             questionnaire.setName(name);
+            questionnaire.setDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.");
             questionnaires.add(questionnaire);
         });
         questionnaireRepository.saveAll(questionnaires);

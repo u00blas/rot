@@ -76,7 +76,7 @@ public class App {
             });
 
             List<Proposal> proposals = migrationService.createProposals();
-            List<Subquestion> subquestions = migrationService.createSubquestions();
+            //List<Subquestion> subquestions = migrationService.createSubquestions();
             List<SubquestionContainer> subquestionContainers = migrationService.createSubquestionContainers();
 
             List<String> lines = MigrateRawData.getLinesFromCsv();

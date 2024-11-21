@@ -16,15 +16,17 @@ public class Questionnaire {
     @GeneratedValue
     private Long id;
     private String name;
+    private String description;
     @ManyToMany
     private List<Question> questions;
 
     public Questionnaire() {
     }
 
-    public Questionnaire(Long id, String name, List<Question> questions) {
+    public Questionnaire(Long id, String name, String description, List<Question> questions) {
         this.id = id;
         this.name = name;
+        this.description = description;
         this.questions = questions;
     }
 
@@ -44,6 +46,14 @@ public class Questionnaire {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public List<Question> getQuestions() {
         return questions;
     }
@@ -57,6 +67,7 @@ public class Questionnaire {
         return "Questionnaire{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
                 ", questions=" + questions +
                 '}';
     }

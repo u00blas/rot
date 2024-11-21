@@ -11,7 +11,7 @@
         <tr>
             <th>ID</th>
             <th>Name</th>
-            <th>Questions</th>
+            <th>Questionnaire Description</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -19,7 +19,7 @@
         <tr th:each="questionnaire : ${questionnaires}">
             <td th:text="${questionnaire.id}"></td>
             <td th:text="${questionnaire.name}"></td>
-            <td th:text="${questionnaire.questions}"></td>
+            <td th:text="${questionnaire.description}"></td>
             <td style="white-space: nowrap">
                 <a class="btn btn-primary btn-sm" th:href="@{/questionnaires/edit(id=${questionnaire.id})}">Edit</a>
                 <a class="btn btn-danger btn-sm" th:href="@{/questionnaires/delete(id=${questionnaire.id})}">Delete</a>
