@@ -416,7 +416,7 @@ public class MigrationService {
         List.of("Umfrage 1", "Umfrage 2", "Umfrage 3").forEach(name -> {
             Survey survey = new Survey();
             survey.setName(name);
-            survey.setDescription(name + " Description");
+            survey.setDescription("Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum.");
             surveys.add(survey);
         });
         surveyRepository.saveAll(surveys);
