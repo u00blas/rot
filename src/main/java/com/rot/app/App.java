@@ -143,7 +143,7 @@ public class App {
                 try {
                     questionnaire.setQuestions(questionRepository.findAll().subList(0, 3));
                     questionRepository.findById(8L).ifPresent(q -> questionnaire.getQuestions().add(q));
-
+                    questionRepository.findById(48L).ifPresent(q -> questionnaire.getQuestions().add(q));
                     questionnaireRepository.save(questionnaire);
                 } catch (Exception e) {
                     System.out.println("Questionnaire already exists: " + questionnaire);

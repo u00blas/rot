@@ -185,31 +185,6 @@ public class MigrationService {
         return proposalRepository.findAll();
     }
 
-    public List<Subquestion> createSubquestions() {
-
-
-        List<Subquestion> subquestions = new ArrayList<>();
-
-        List<String> questions = new ArrayList<>();
-        questions.add("Die Zusammenarbeit…zwischen jüngeren und älteren Beschäftigten ist…");
-        questions.add("zwischen Leitungspersonal und Personal ohne Leitungsfunktion ist…");
-        questions.add("zwischen Frauen und Männern ist…");
-        questions.add("zwischen Akademikern und Nicht-Akademikern ist…");
-
-        for (int i = 0; i < questions.size(); i++) {
-            Subquestion subquestion = new Subquestion();
-            subquestion.setHeader("Wie würden Sie die Zusammenarbeit der unterschiedlichen Beschäftigungsgruppen beschreiben?");
-            subquestion.setPosition(i);
-            subquestion.setQuestionDe(questions.get(i));
-            subquestion.setProposal(proposalRepository.findByName("sehr schlecht sehr gut"));
-            subquestions.add(subquestion);
-        }
-
-        subquestionRepository.saveAll(subquestions);
-
-        return subquestionRepository.findAll();
-    }
-
     public List<SubquestionContainer> createSubquestionContainers() {
 
         List<SubquestionContainer> subquestionContainers = new ArrayList<>();
