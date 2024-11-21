@@ -14,5 +14,7 @@ Meine Adresse lautet: Am Dinkelfeld 12, 91056 Erlangen
 Anbei ein neue Masterdatei des RoT-Modells (Anlage 20241120_RoT Modell_Input fuer Frank_V2.xlsx
 Anbei Fragen und Antworten aus der ersten Basisstudie pro Firma – über die Spalte v_212 in den Dateien werden die einzelnen Firmen anonymisiert abgebildet. (Anlage Firmaxxxx.xls)
 
-
-21.11.2024: Using generated security password: 2771ba67-f273-487d-b2fa-7cd4ed4da831
+21.11.2024 09:56
+User: user
+Password: 2771ba67-f273-487d-b2fa-7cd4ed4da831
+21.11.2024: Using generated security password: 43f1a8cb-f898-4212-9046-1718cf0da9cb

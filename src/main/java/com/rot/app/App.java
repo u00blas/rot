@@ -1,9 +1,9 @@
 package com.rot.app;
 
-import com.rot.app.answer.Answer;
-import com.rot.app.answer.AnswerRepository;
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
+import com.rot.app.company.Company;
+import com.rot.app.company.CompanyRepository;
 import com.rot.app.contact.Contact;
 import com.rot.app.contact.ContactRepository;
 import com.rot.app.migration.MigrateData;
@@ -20,7 +20,6 @@ import com.rot.app.question.QuestionRepository;
 import com.rot.app.questionnaire.Questionnaire;
 import com.rot.app.questionnaire.QuestionnaireRepository;
 import com.rot.app.session.*;
-import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
 import com.rot.app.surveys.Survey;
@@ -36,6 +35,8 @@ import java.util.*;
 
 @SpringBootApplication
 public class App {
+
+
 
     public static void main(String[] args) {
 
@@ -59,9 +60,14 @@ public class App {
                              RawCsvRepository rawCsvRepository,
                              MigrationService migrationService,
                              SubquestionContainerRepository subquestionContainerRepository,
-                             PersonRepository personRepository) {
+                             PersonRepository personRepository, CompanyRepository companyRepository) {
         return args -> {
 
+            List.of("Mercedes", "Audi", "BMW").forEach(s -> {
+                Company company = new Company();
+                company.setName(s);
+                companyRepository.save(company);
+            });
             List.of("Hans Meier", "Olaf Huber", "Max Mustermann").forEach(s -> {
                 Person person = new Person();
                 person.setName(s);
