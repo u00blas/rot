@@ -24,6 +24,10 @@ How to dockerize your Spring Boot API | Docker Tutorial
 https://www.youtube.com/watch?v=3SNKdr3f9Io
 
 
+https://www.youtube.com/watch?v=3fALfjlkfuU
+How To Dockerize Spring Boot Application & PostgreSQL Database
+
+
 Troubleshooting
 https://stackoverflow.com/questions/73962529/spring-boot-2-7-0-gradle-docker-image-build-fails-with-unknown-error
 docker build -t rotspringapp . --platform=linux/amd64 --no-cache
@@ -34,3 +38,7 @@ View build details: docker-desktop://dashboard/build/desktop-linux/desktop-linux
 What's next:
 View a summary of image vulnerabilities and recommendations → docker scout quickview 
 
+Build and run docker image:
+docker rm -f springboot_rot_app
+docker build -t rotspringapp . --platform=linux/arm64 --no-cache
+docker run -d -p 8080:8080 --name springboot_rot_app rotspringapp

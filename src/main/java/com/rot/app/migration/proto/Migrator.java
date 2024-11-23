@@ -35,20 +35,7 @@ public class Migrator {
         return proposals;
     }
 
-    public static List<String> getRawLines() {
-        List<String> lines = new ArrayList<>();
-        Resource resource = new ClassPathResource("raw_data.csv");
-        try {
-            File file = resource.getFile();
-            lines = Files.readAllLines(file.toPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return lines;
-
-    }
-
-    public static List<ProtoSubquestion> createProtoSubquestions(List<String> lines) {
+        public static List<ProtoSubquestion> createProtoSubquestions(List<String> lines) {
         List<ProtoSubquestion> subquestions = new ArrayList<>();
         for (int i = 2; i < lines.size(); i++) {
             String line = lines.get(i);

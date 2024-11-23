@@ -188,18 +188,6 @@ public class MigrateData {
         return block;
     }
 
-    public static List<String> getRowsFromCsv(int startRow, int endRow) {
-        List<String> lines = new ArrayList<>();
-        Resource resource = new ClassPathResource("Teil 3 Masterdatei RoT-Modell Interviews.csv");
-        try {
-            File file = resource.getFile();
-            lines = Files.readAllLines(file.toPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return lines.subList(startRow - 1, endRow);
-    }
-
     public static List<List<String>> getColumnsFromCsv(List<String> lines, int startColumn) {
         return getColumnsFromCsv(lines, startColumn, startColumn + 1);
     }
@@ -224,40 +212,6 @@ public class MigrateData {
         return distinctColumns;
     }
 
-    public static List<String> getLinesFromCsv() {
-        List<String> lines = new ArrayList<>();
-        Resource resource = new ClassPathResource("Teil 3 Masterdatei RoT-Modell Interviews.csv");
-        try {
-            File file = resource.getFile();
-            lines = Files.readAllLines(file.toPath());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        return lines;
-    }
-
-    public static List<Proposal> getProposalsFromCsv() {
-        List<Proposal> possibleAnswersList = new ArrayList<>();
-        List<String> lines = getLinesFromCsv();
-        List<String> distinctLines = new ArrayList<>();
-        for (String line : lines) {
-            String[] parts = line.split(";");
-            if (parts.length < MigrateData.getColumnIndex("AE")) {
-                continue;
-            }
-            int distinctColumnIndex = MigrateData.getColumnIndex("Y");
-            if (distinctLines.contains(parts[distinctColumnIndex])) {
-                continue;
-            } else {
-                if (parts[distinctColumnIndex].isEmpty() || parts[distinctColumnIndex].equals("Skala min")) {
-                    continue;
-                }
-                distinctLines.add(parts[distinctColumnIndex]);
-                possibleAnswersList.add(createProposalFromCsvLine(parts));
-            }
-        }
-        return possibleAnswersList;
-    }
 
     private static Proposal createProposalFromCsvLine(String[] parts) {
         return new Proposal(null, "", parts[MigrateData.getColumnIndex("Y")].trim(),
@@ -270,28 +224,6 @@ public class MigrateData {
     }
 
 
-    public static List<Topic> getTopicListFromCsv() {
-        List<Topic> topicList = new ArrayList<>();
-        List<String> lines = getLinesFromCsv();
-        List<String> distinctLines = new ArrayList<>();
-        for (String line : lines) {
-            String[] parts = line.split(";");
-            if (parts.length < 4) {
-                continue;
-            }
-            if (distinctLines.contains(parts[3])) {
-                continue;
-            } else {
-                distinctLines.add(parts[3]);
-                if (parts[3].isEmpty() || parts[3].equals("Thema")) {
-                    continue;
-                }
-                topicList.add(createTopicFromCsvLine(parts));
-            }
-        }
-        return topicList;
-    }
-
     private static Topic createTopicFromCsvLine(String[] parts) {
         return new Topic(parts[3]);
     }
@@ -300,7 +232,7 @@ public class MigrateData {
         if (categoryList == null) {
             categoryList = new ArrayList<>();
 
-            List<String> lines = getLinesFromCsv();
+            List<String> lines = MigrateRawData.getLinesFromCsv();
             List<String> distinctLines = new ArrayList<>();
             for (String line : lines) {
                 String[] parts = line.split(";");

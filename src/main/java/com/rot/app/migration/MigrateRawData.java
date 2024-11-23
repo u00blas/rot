@@ -5,20 +5,24 @@ import com.rot.app.migration.raw.RawCsv;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class MigrateRawData {
 
     public static List<String> getLinesFromCsv() {
         List<String> lines = new ArrayList<>();
         Resource resource = new ClassPathResource("raw_data.csv");
+
         try {
-            File file = resource.getFile();
-            lines = Files.readAllLines(file.toPath());
+            InputStream inputStream = resource.getInputStream();
+
+            lines = new BufferedReader(new InputStreamReader(inputStream)).lines().toList();
+            //File file = resource.getFile();
+            //lines = Files.readAllLines(file.toPath());
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
