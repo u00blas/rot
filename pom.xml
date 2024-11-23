@@ -10,9 +10,9 @@
     </parent>
     <groupId>com.example</groupId>
     <artifactId>rot-application</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.11</version>
     <name>demo</name>
-    <description>Demo project for Spring Boot</description>
+    <description>Spring Boot RoT Application</description>
     <url/>
     <licenses>
         <license/>
