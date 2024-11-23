@@ -18,3 +18,9 @@ Anbei Fragen und Antworten aus der ersten Basisstudie pro Firma – über die Sp
 User: user
 Password: 2771ba67-f273-487d-b2fa-7cd4ed4da831
 21.11.2024: Using generated security password: 43f1a8cb-f898-4212-9046-1718cf0da9cb
+
+Tutorials:
+
+How to dockerize your Spring Boot API | Docker Tutorial
+https://www.youtube.com/watch?v=3SNKdr3f9Io
+
