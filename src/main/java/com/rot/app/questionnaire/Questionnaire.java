@@ -1,6 +1,6 @@
 package com.rot.app.questionnaire;
 
-import com.rot.app.answer.Answer;
+
 import com.rot.app.question.Question;
 import com.rot.app.user.User;
 import com.rot.app.surveys.Survey;

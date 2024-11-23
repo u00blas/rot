@@ -37,7 +37,6 @@ import java.util.*;
 public class App {
 
 
-
     public static void main(String[] args) {
 
         SpringApplication.run(App.class, args);
@@ -51,7 +50,6 @@ public class App {
                              SurveyRepository surveyRepository,
                              ProposalRepository proposalRepository,
                              QuestionnaireRepository questionnaireRepository,
-                             //AnswerRepository answerRepository,
                              SessionRepository sessionRepository,
                              //SessionPageRepository sessionPageRepository,
                              //SessionQuestionRepository sessionQuestionRepository,
@@ -135,7 +133,7 @@ public class App {
                         }
                     }
                 } catch (Exception e) {
-                   // System.out.println("Parts is null");
+                    // System.out.println("Parts is null");
                 }
                 try {
                     questionRepository.save(question);
@@ -167,7 +165,7 @@ public class App {
             }
 
             List<Session> sessions = migrationService.createSessions();
-            for (int i=0;i<sessions.size();i++) {
+            for (int i = 0; i < sessions.size(); i++) {
                 Session session = sessions.get(i);
                 try {
                     session.setParticipant(personRepository.findAll().get(i));
