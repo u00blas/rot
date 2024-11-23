@@ -64,11 +64,11 @@ public class MigrationService {
         for (int i = 2; i < lines.size(); i++) {
             String[] parts = lines.get(i).split(";");
             if (parts.length >= 30) {
-                System.out.println("ooo".repeat(80));
+                //System.out.println("ooo".repeat(80));
                 if (!parts[24].isEmpty() && !parts[25].isEmpty()) {
                     map.put(parts[24] + " " + parts[25], List.of(parts[24], parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
                 } else {
-                    System.out.println("+-+".repeat(80));
+                    //System.out.println("+-+".repeat(80));
                     if (parts[24].isEmpty() && parts[25].isEmpty()
                             && !parts[26].isEmpty() && !parts[27].isEmpty()
                             && parts[26].equals("ja") && parts[27].equals("nein")
@@ -78,7 +78,7 @@ public class MigrationService {
                 }
             } else {
                 if (parts.length >= 27) {
-                    System.out.println("+-+".repeat(80));
+                    //System.out.println("+-+".repeat(80));
                     if (parts[24].isEmpty() && parts[25].isEmpty()
                             && !parts[26].isEmpty() && !parts[27].isEmpty()
                             && parts[26].equals("ja") && parts[27].equals("nein")
@@ -128,11 +128,11 @@ public class MigrationService {
         for (int i = 2; i < lines.size(); i++) {
             String[] parts = lines.get(i).split(";");
             if (parts.length >= 30) {
-                System.out.println("ooo".repeat(80));
+                //System.out.println("ooo".repeat(80));
                 if (!parts[24].isEmpty() && !parts[25].isEmpty()) {
                     map.put(parts[24] + " " + parts[25], List.of(parts[24], parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
                 } else {
-                    System.out.println("+-+".repeat(80));
+                   // System.out.println("+-+".repeat(80));
                     if (parts[24].isEmpty() && parts[25].isEmpty()
                             && !parts[26].isEmpty() && !parts[27].isEmpty()
                             && parts[26].equals("ja") && parts[27].equals("nein")
@@ -142,7 +142,7 @@ public class MigrationService {
                 }
             } else {
                 if (parts.length >= 27) {
-                    System.out.println("+-+".repeat(80));
+                    //System.out.println("+-+".repeat(80));
                     if (parts[24].isEmpty() && parts[25].isEmpty()
                             && !parts[26].isEmpty() && !parts[27].isEmpty()
                             && parts[26].equals("ja") && parts[27].equals("nein")

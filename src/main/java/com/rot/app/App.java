@@ -135,7 +135,7 @@ public class App {
                         }
                     }
                 } catch (Exception e) {
-                    System.out.println("Parts is null");
+                   // System.out.println("Parts is null");
                 }
                 try {
                     questionRepository.save(question);
