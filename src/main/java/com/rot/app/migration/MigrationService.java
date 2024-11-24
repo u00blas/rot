@@ -57,71 +57,6 @@ public class MigrationService {
         return null;
     }
 
-    private List<ReplayOption> createReplayOptions() {
-
-        List<String> lines = MigrateRawData.getLinesFromCsv();
-        Map<String, List<String>> map = new HashMap<>();
-        for (int i = 2; i < lines.size(); i++) {
-            String[] parts = lines.get(i).split(";");
-            if (parts.length >= 30) {
-                //System.out.println("ooo".repeat(80));
-                if (!parts[24].isEmpty() && !parts[25].isEmpty()) {
-                    map.put(parts[24] + " " + parts[25], List.of(parts[24], parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
-                } else {
-                    //System.out.println("+-+".repeat(80));
-                    if (parts[24].isEmpty() && parts[25].isEmpty()
-                            && !parts[26].isEmpty() && !parts[27].isEmpty()
-                            && parts[26].equals("ja") && parts[27].equals("nein")
-                    ) {
-                        map.put(parts[26] + " " + parts[27], List.of(parts[26], parts[27], parts[26], parts[27], "", "", ""));
-                    }
-                }
-            } else {
-                if (parts.length >= 27) {
-                    //System.out.println("+-+".repeat(80));
-                    if (parts[24].isEmpty() && parts[25].isEmpty()
-                            && !parts[26].isEmpty() && !parts[27].isEmpty()
-                            && parts[26].equals("ja") && parts[27].equals("nein")
-                    ) {
-                        map.put(parts[26] + " " + parts[27], List.of(parts[26], parts[27], parts[26], parts[27], "", "", ""));
-                    }
-                }
-            }
-        }
-
-        map.forEach((key, value) -> {
-            Proposal proposal = new Proposal();
-            proposal.setName(key);
-            proposal.setMinScale(value.get(0));
-            proposal.setMaxScale(value.get(1));
-            proposal.setDescription1(value.get(2));
-            proposal.setDescription2(value.get(3));
-            proposal.setDescription3(value.get(4));
-            proposal.setDescription4(value.get(5));
-            proposal.setDescription5(value.get(6));
-            List<ReplayOption> list = new ArrayList<>();
-
-            for (int i = 2; i < value.size(); i++) {
-                if (value.get(i).isEmpty()) {
-                    continue;
-                }
-                if (replayOptionRepository.findByName(value.get(i)) == null) {
-                    ReplayOption replayOption = new ReplayOption(null, value.get(i));
-                    try {
-                        replayOptionRepository.save(replayOption);
-                    } catch (Exception e) {
-                        System.out.println(e.getMessage());
-                    }
-                }
-                list.add(replayOptionRepository.findByName(value.get(i)));
-            }
-            proposal.setReplayOptions(list);
-            proposalRepository.save(proposal);
-        });
-        return replayOptionRepository.findAll();
-
-    }
-
     public List<Proposal> createProposals() {
         List<String> lines = MigrateRawData.getLinesFromCsv();
         Map<String, List<String>> map = new HashMap<>();
@@ -132,7 +67,7 @@ public class MigrationService {
                 if (!parts[24].isEmpty() && !parts[25].isEmpty()) {
                     map.put(parts[24] + " " + parts[25], List.of(parts[24], parts[25], parts[26], parts[27], parts[28], parts[29], parts[30]));
                 } else {
-                   // System.out.println("+-+".repeat(80));
+                    // System.out.println("+-+".repeat(80));
                     if (parts[24].isEmpty() && parts[25].isEmpty()
                             && !parts[26].isEmpty() && !parts[27].isEmpty()
                             && parts[26].equals("ja") && parts[27].equals("nein")
@@ -158,11 +93,12 @@ public class MigrationService {
             proposal.setName(key);
             proposal.setMinScale(value.get(0));
             proposal.setMaxScale(value.get(1));
-            proposal.setDescription1(value.get(2));
-            proposal.setDescription2(value.get(3));
-            proposal.setDescription3(value.get(4));
-            proposal.setDescription4(value.get(5));
-            proposal.setDescription5(value.get(6));
+            proposal.setDescription("Description: " +
+                    (value.get(2) == null ? " " : value.get(2) + " ") +
+                    (value.get(3) == null ? " " : value.get(3) + " ") +
+                    (value.get(4) == null ? " " : value.get(4) + " ") +
+                    (value.get(5) == null ? " " : value.get(5) + " ") +
+                    (value.get(6) == null ? " " : value.get(6) + " "));
             List<ReplayOption> list = new ArrayList<>();
 
             for (int i = 2; i < value.size(); i++) {

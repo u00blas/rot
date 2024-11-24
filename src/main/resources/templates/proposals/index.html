@@ -5,15 +5,13 @@
 <nav th:replace="~{layout :: page_nav}"></nav>
 <div class="container py-3">
     <h1 class="text-center my-4">List of Proposals</h1>
-    <a class="btn btn-primary" th:href="@{/questions/create}">Create Proposal</a>
+    <a class="btn btn-primary" th:href="@{/proposals/create}">Create Proposal</a>
     <table class="table table-striped table-advanced table-hover">
         <thead>
         <tr>
             <th>Id</th>
             <th>Name</th>
-            <th>Min Scale</th>
-            <th>Max Scale</th>
-            <th>Replay Options</th>
+            <th>Description</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -21,12 +19,11 @@
         <tr th:each="proposal : ${proposals}">
             <td th:text="${proposal.id}"></td>
             <td th:text="${proposal.name}"></td>
-            <td th:text="${proposal.minScale}"></td>
-            <td th:text="${proposal.maxScale}"></td>
-            <td th:text="${proposal.replayOptions}"></td>
+            <td th:text="${proposal.description}"></td>
             <td style="white-space: nowrap">
                 <a class="btn btn-primary btn-sm" th:href="@{/proposals/edit(id=${proposal.id})}">Edit</a>
-                <a class="btn btn-danger btn-sm" th:href="@{/proposals/delete(id=${proposal.id})}">Delete</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/proposals/delete(id=${proposal.id})}"
+                onclick="return confirm('Are you sure?')">Delete</a>
             </td>
         </tr>
         </tbody>

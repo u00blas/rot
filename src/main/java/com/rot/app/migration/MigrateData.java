@@ -212,18 +212,6 @@ public class MigrateData {
         return distinctColumns;
     }
 
-
-    private static Proposal createProposalFromCsvLine(String[] parts) {
-        return new Proposal(null, "", parts[MigrateData.getColumnIndex("Y")].trim(),
-                parts[MigrateData.getColumnIndex("Z")].trim(), null,
-                parts[MigrateData.getColumnIndex("AA")].trim(),
-                parts[MigrateData.getColumnIndex("AB")].trim(),
-                parts[MigrateData.getColumnIndex("AC")].trim(),
-                parts[MigrateData.getColumnIndex("AD")].trim(),
-                parts[MigrateData.getColumnIndex("AE")].trim());
-    }
-
-
     private static Topic createTopicFromCsvLine(String[] parts) {
         return new Topic(parts[3]);
     }

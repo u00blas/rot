@@ -51,14 +51,11 @@ public class App {
                              ProposalRepository proposalRepository,
                              QuestionnaireRepository questionnaireRepository,
                              SessionRepository sessionRepository,
-                             //SessionPageRepository sessionPageRepository,
-                             //SessionQuestionRepository sessionQuestionRepository,
-                             //SessionProposalRepository sessionProposalRepository,
-                             //SubProposalRepository subProposalRepository,
                              RawCsvRepository rawCsvRepository,
                              MigrationService migrationService,
                              SubquestionContainerRepository subquestionContainerRepository,
-                             PersonRepository personRepository, CompanyRepository companyRepository) {
+                             PersonRepository personRepository,
+                             CompanyRepository companyRepository) {
         return args -> {
 
             List.of("Mercedes", "Audi", "BMW").forEach(s -> {
@@ -80,7 +77,6 @@ public class App {
             });
 
             List<Proposal> proposals = migrationService.createProposals();
-            //List<Subquestion> subquestions = migrationService.createSubquestions();
             List<SubquestionContainer> subquestionContainers = migrationService.createSubquestionContainers();
 
             List<String> lines = MigrateRawData.getLinesFromCsv();

@@ -4,6 +4,7 @@ package com.rot.app.proposal;
 import com.rot.app.category.Category;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -19,7 +20,7 @@ public class ProposalController {
     }
 
     @GetMapping
-    public String listAllProposals(Model model) {
+    public String listAll(Model model) {
         List<Proposal> proposals = proposalRepository.findAll();
         model.addAttribute("proposals", proposals);
         return "proposals/index";
@@ -32,7 +33,7 @@ public class ProposalController {
     }
 
     @PostMapping("/save")
-    public String saveProposal(Proposal proposal) {
+    public String saveProposal(@ModelAttribute Proposal proposal) {
         proposalRepository.save(proposal);
         return "redirect:/proposals";
     }
@@ -46,9 +47,13 @@ public class ProposalController {
         return "proposals/edit";
     }
 
-    @GetMapping("/proposals/delete")
+    @GetMapping("/delete")
     public String deleteProposal(@RequestParam Long id) {
-        proposalRepository.deleteById(id);
+
+        try {
+            proposalRepository.deleteById(id);
+        } catch (Exception e) {
+            return "redirect:/proposals";}
         return "redirect:/proposals";
     }
 }
