@@ -24,6 +24,7 @@ import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
 import com.rot.app.surveys.Survey;
 import com.rot.app.surveys.SurveyRepository;
+import com.rot.app.targetgroup.TargetGroup;
 import com.rot.app.user.User;
 import com.rot.app.user.UserRepository;
 import org.springframework.boot.CommandLineRunner;
@@ -104,6 +105,8 @@ public class App {
             for (Proposal proposal : proposalRepository.findAll()) {
                 proposalMap.put(proposal.getMinScale(), proposal);
             }
+
+            List<TargetGroup> targetGroups = migrationService.createTargetGroups();
 
             List<Category> categorys = MigrateData.getCategoriesFromCsv();
             for (Category category : categorys) {

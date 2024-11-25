@@ -18,6 +18,8 @@ import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.subquestioncontainer.SubquestionContainerRepository;
 import com.rot.app.surveys.Survey;
 import com.rot.app.surveys.SurveyRepository;
+import com.rot.app.targetgroup.TargetGroup;
+import com.rot.app.targetgroup.TargetGroupRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
@@ -35,11 +37,12 @@ public class MigrationService {
     private final QuestionnaireRepository questionnaireRepository;
     private final SurveyRepository surveyRepository;
     private final SessionRepository sessionRepository;
+    private final TargetGroupRepository targetGroupRepository;
 
     public MigrationService(ReplayOptionRepository replayOptionRepository,
                             ProposalRepository proposalRepository,
                             QuestionRepository questionRepository,
-                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository, CategoryRepository categoryRepository, QuestionnaireRepository questionnaireRepository, SurveyRepository surveyRepository, SessionRepository sessionRepository) {
+                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository, CategoryRepository categoryRepository, QuestionnaireRepository questionnaireRepository, SurveyRepository surveyRepository, SessionRepository sessionRepository, TargetGroupRepository targetGroupRepository) {
         this.replayOptionRepository = replayOptionRepository;
         this.proposalRepository = proposalRepository;
         this.questionRepository = questionRepository;
@@ -49,6 +52,7 @@ public class MigrationService {
         this.questionnaireRepository = questionnaireRepository;
         this.surveyRepository = surveyRepository;
         this.sessionRepository = sessionRepository;
+        this.targetGroupRepository = targetGroupRepository;
     }
 
 
@@ -386,6 +390,34 @@ public class MigrationService {
 
         sessionRepository.saveAll(sessions);
         return sessionRepository.findAll();
+    }
+
+    public List<TargetGroup> createTargetGroups() {
+
+        List<TargetGroup> targetGroups = new ArrayList<>();
+        List<String> lines = MigrateRawData.getLinesFromCsv();
+        List<String> groups = new ArrayList<>();
+        for (int i = 3; i < lines.size(); i++) {
+            String[] parts = lines.get(i).split(";");
+            if (parts.length >= 2) {
+                String group = parts[2];
+                if (groups.contains(group)) {
+                    continue;
+                } else {
+
+                    groups.add(group);
+                }
+            }
+        }
+
+        groups.stream().filter(group -> !group.isEmpty()).forEach(name -> {
+            TargetGroup targetGroup = new TargetGroup();
+            targetGroup.setName(name);
+            targetGroup.setDescription("Target group " + name);
+            targetGroups.add(targetGroup);
+        });
+        targetGroupRepository.saveAll(targetGroups);
+        return targetGroupRepository.findAll();
     }
 
     class Pair {
