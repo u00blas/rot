@@ -3,6 +3,7 @@ package com.rot.app.question;
 import com.rot.app.category.Category;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
+import com.rot.app.targetgroup.TargetGroup;
 import jakarta.validation.constraints.NotEmpty;
 
 public class QuestionDto {
@@ -17,7 +18,7 @@ public class QuestionDto {
     private String newNumber;
     private String ownNumber;
     private String sequenceNumber;
-    private String targetGroup;
+    private TargetGroup targetGroup;
     private String unipark;
     private String trust1v1;
 
@@ -27,7 +28,7 @@ public class QuestionDto {
     public QuestionDto(Long id, String questionDe, Category category,
                        SubquestionContainer subquestionContainer, String questionEn,
                        String page, String newNumber, String ownNumber,
-                       String sequenceNumber, String targetGroup, String unipark, String trust1v1) {
+                       String sequenceNumber, TargetGroup targetGroup, String unipark, String trust1v1) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -114,11 +115,11 @@ public class QuestionDto {
         this.sequenceNumber = sequenceNumber;
     }
 
-    public String getTargetGroup() {
+    public TargetGroup getTargetGroup() {
         return targetGroup;
     }
 
-    public void setTargetGroup(String targetGroup) {
+    public void setTargetGroup(TargetGroup targetGroup) {
         this.targetGroup = targetGroup;
     }
 

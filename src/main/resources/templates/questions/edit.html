@@ -48,6 +48,14 @@
                 </select></div>
         </div>
 
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">Target Group</label>
+            <div class="col-sm-8">
+                <select class="form-select" th:field="*{targetGroup}">
+                    <option th:each="targetGroupDto : ${targetGroupDtos}" th:value="${targetGroupDto.id}"
+                            th:text="${targetGroupDto.name}"></option>
+                </select></div>
+        </div>
         <div class="text-center p-3">
             <button type="submit" class="btn btn-primary">Submit</button>
             <a th:href="@{/questions}" class="btn btn-secondary">Cancel</a>

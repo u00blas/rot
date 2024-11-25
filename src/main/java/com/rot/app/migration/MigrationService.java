@@ -317,10 +317,15 @@ public class MigrationService {
                     question.setQuestionEn(parts[51]);
                     question.setPage(parts[7]);
                     Category category = categoryRepository.findByName(parts[3]);
+                    if (category != null) {
+                        question.setCategory(category);
+                    }
                     SubquestionContainer subquestionContainer = subquestionContainerRepository.findByQuestion(parts[22]);
                     question.setSubquestionContainer(subquestionContainer);
-                    question.setTargetGroup(parts[2]);
-                    question.setCategory(category);
+                    TargetGroup targetGroup = targetGroupRepository.findByName(parts[2]);
+                    if (targetGroup != null) {
+                        question.setTargetGroup(targetGroup);
+                    }
                     question.setNewNumber(parts[8]);
                     question.setUnipark(parts[14]);
                     question.setTrust1v1(parts[11]);

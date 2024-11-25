@@ -43,7 +43,8 @@ public class QuestionServiceImpl implements QuestionService {
         question.setNewNumber(questionDto.getNewNumber());
         question.setOwnNumber(questionDto.getOwnNumber());
         question.setSequenceNumber(questionDto.getSequenceNumber());
-        question.setTargetGroup(questionDto.getTargetGroup());*/
+        */
+        question.setTargetGroup(questionDto.getTargetGroup());
         question.setUnipark(questionDto.getUnipark());
         question.setTrust1v1(questionDto.getTrust1v1());
         questionRepository.save(question);

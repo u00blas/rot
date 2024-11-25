@@ -4,6 +4,7 @@ import com.rot.app.category.Category;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
+import com.rot.app.targetgroup.TargetGroup;
 import jakarta.persistence.*;
 
 @Entity
@@ -13,22 +14,19 @@ public class Question {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(name = "question_de")
     private String questionDe;
-
     @ManyToOne
     private Category category;
-
     @OneToOne
     private SubquestionContainer subquestionContainer;
-
     private String questionEn;
     private String page;
     private String newNumber;
     private String ownNumber;
     private String sequenceNumber;
-    private String targetGroup;
+    @ManyToOne
+    private TargetGroup targetGroup;
     private String unipark;
     private String trust1v1;
 
@@ -38,7 +36,7 @@ public class Question {
     public Question(Long id, String questionDe, Category category,
                     SubquestionContainer subquestionContainer, String questionEn,
                     String page, String newNumber, String ownNumber,
-                    String sequenceNumber, String targetGroup, String unipark, String trust1v1) {
+                    String sequenceNumber, TargetGroup targetGroup, String unipark, String trust1v1) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -61,11 +59,11 @@ public class Question {
         this.id = id;
     }
 
-    public void setTargetGroup(String targetGroup) {
+    public void setTargetGroup(TargetGroup targetGroup) {
         this.targetGroup = targetGroup;
     }
 
-    public String getTargetGroup() {
+    public TargetGroup getTargetGroup() {
         return targetGroup;
     }
 

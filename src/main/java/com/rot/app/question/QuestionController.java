@@ -5,6 +5,7 @@ import com.rot.app.category.CategoryRepository;
 import com.rot.app.category.CategoryServiceImpl;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
+import com.rot.app.targetgroup.TargetGroupServiceImpl;
 import jakarta.validation.Valid;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -24,10 +25,13 @@ public class QuestionController {
 
     private final CategoryServiceImpl categoryService;
 
+    private final TargetGroupServiceImpl targetGroupService;
 
-    public QuestionController(QuestionServiceImpl questionService, CategoryServiceImpl categoryService) {
+
+    public QuestionController(QuestionServiceImpl questionService, CategoryServiceImpl categoryService, TargetGroupServiceImpl targetGroupService) {
         this.questionService = questionService;
         this.categoryService = categoryService;
+        this.targetGroupService = targetGroupService;
     }
 
     @GetMapping
@@ -62,6 +66,7 @@ public class QuestionController {
     public String edit(@RequestParam Long id, Model model) {
         QuestionDto questionDto = questionService.findById(id);
         model.addAttribute("categories", categoryService.findAll());
+        model.addAttribute("targetGroupDtos", targetGroupService.findAll());
         model.addAttribute("questionDto", questionDto);
         return "questions/edit";
     }

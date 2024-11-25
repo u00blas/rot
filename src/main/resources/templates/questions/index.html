@@ -14,6 +14,7 @@
             <th>Trust 1 v1</th>
             <th>Unipark</th>
             <th>Category</th>
+            <th>Target Group</th>
             <th>Number of Subquestions</th>
             <th>Actions</th>
         </tr>
@@ -29,6 +30,8 @@
             <td th:text="${questionDto.unipark}"></td>
             <td th:if="${questionDto.category != null}" th:text="${questionDto.category.name}"></td>
             <td th:if="${questionDto.category == null}">None</td>
+            <td th:if="${questionDto.targetGroup != null}" th:text="${questionDto.targetGroup.name}"></td>
+            <td th:if="${questionDto.targetGroup == null}">None</td>
             <td th:text="${questionDto.subquestionContainer.subquestions.size()-1}"></td>
             <td style="white-space: nowrap">
                 <a class="btn btn-primary btn-sm" th:href="@{/questions/edit(id=${questionDto.id})}">Edit</a>
