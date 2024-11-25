@@ -46,5 +46,27 @@ public class QuestionController {
         return "questions/index";
     }
 
+    @GetMapping("/create")
+    public String create(Model model) {
+        model.addAttribute("questionDto", new QuestionDto());
+        return "questions/edit";
+    }
+
+
+    @GetMapping("/edit")
+    public String edit(@RequestParam Long id, Model model) {
+        QuestionDto questionDto = questionService.findById(id);
+        model.addAttribute("questionDto", questionDto);
+        return "questions/edit";
+    }
+
+    @PostMapping("/save")
+    public String update(@RequestParam Long id, @Valid @ModelAttribute QuestionDto questionDto, BindingResult result) {
+        if (result.hasErrors()) {
+            return "questions/edit";
+        }
+        questionService.update(id, questionDto);
+        return "redirect:/questions";
+    }
 
 }
