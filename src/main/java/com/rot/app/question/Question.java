@@ -30,11 +30,15 @@ public class Question {
     private String ownNumber;
     private String sequenceNumber;
     private String targetGroup;
+    private String unipark;
 
     public Question() {
     }
 
-    public Question(Long id, String questionDe, Category category, SubquestionContainer subquestionContainer, String questionEn, String page, String newNumber, String ownNumber, String sequenceNumber, String targetGroup) {
+    public Question(Long id, String questionDe, Category category,
+                    SubquestionContainer subquestionContainer, String questionEn,
+                    String page, String newNumber, String ownNumber,
+                    String sequenceNumber, String targetGroup, String unipark) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -45,6 +49,7 @@ public class Question {
         this.ownNumber = ownNumber;
         this.sequenceNumber = sequenceNumber;
         this.targetGroup = targetGroup;
+        this.unipark = unipark;
     }
 
     public Question(String w) {
@@ -123,6 +128,14 @@ public class Question {
         this.sequenceNumber = sequenceNumber;
     }
 
+    public String getUnipark() {
+        return unipark;
+    }
+
+    public void setUnipark(String unipark) {
+        this.unipark = unipark;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -136,6 +149,7 @@ public class Question {
                 ", page='" + page + '\'' +
                 ", ownNumber='" + ownNumber + '\'' +
                 ", sequenceNumber='" + sequenceNumber + '\'' +
+                ", unipark='" + unipark + '\'' +
                 '}';
     }
 

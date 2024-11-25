@@ -316,6 +316,7 @@ public class MigrationService {
                     question.setTargetGroup(parts[2]);
                     question.setCategory(category);
                     question.setNewNumber(parts[8]);
+                    question.setUnipark(parts[14]);
                     questions.add(question);
                 }
             }
