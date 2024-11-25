@@ -2,6 +2,8 @@ package com.rot.app.migration;
 
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
+import com.rot.app.key.Key;
+import com.rot.app.key.KeyRepository;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import com.rot.app.questionnaire.Questionnaire;
@@ -38,11 +40,12 @@ public class MigrationService {
     private final SurveyRepository surveyRepository;
     private final SessionRepository sessionRepository;
     private final TargetGroupRepository targetGroupRepository;
+    private final KeyRepository keyRepository;
 
     public MigrationService(ReplayOptionRepository replayOptionRepository,
                             ProposalRepository proposalRepository,
                             QuestionRepository questionRepository,
-                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository, CategoryRepository categoryRepository, QuestionnaireRepository questionnaireRepository, SurveyRepository surveyRepository, SessionRepository sessionRepository, TargetGroupRepository targetGroupRepository) {
+                            SubquestionRepository subquestionRepository, SubquestionContainerRepository subquestionContainerRepository, CategoryRepository categoryRepository, QuestionnaireRepository questionnaireRepository, SurveyRepository surveyRepository, SessionRepository sessionRepository, TargetGroupRepository targetGroupRepository, KeyRepository keyRepository) {
         this.replayOptionRepository = replayOptionRepository;
         this.proposalRepository = proposalRepository;
         this.questionRepository = questionRepository;
@@ -53,6 +56,7 @@ public class MigrationService {
         this.surveyRepository = surveyRepository;
         this.sessionRepository = sessionRepository;
         this.targetGroupRepository = targetGroupRepository;
+        this.keyRepository = keyRepository;
     }
 
 
@@ -329,6 +333,13 @@ public class MigrationService {
                     question.setNewNumber(parts[8]);
                     question.setUnipark(parts[14]);
                     question.setTrust1v1(parts[11]);
+
+                    if(parts.length > 35) {
+                        question.setKeyDe(parts[35]);
+                    }
+                    if(parts.length > 56) {
+                        question.setKeyEn(parts[56]);
+                    }
                     questions.add(question);
                 }
             }
@@ -423,6 +434,35 @@ public class MigrationService {
         });
         targetGroupRepository.saveAll(targetGroups);
         return targetGroupRepository.findAll();
+    }
+
+    public List<Key> createKeys() {
+
+        List<Key> keys = new ArrayList<>();
+
+        List<String> lines = MigrateRawData.getLinesFromCsv();
+
+        for (int i = 3; i < lines.size(); i++) {
+            String[] parts = lines.get(i).split(";");
+            if (parts.length > 35) {
+                Key key = new Key();
+                key.setName(parts[35]);
+
+                if (parts.length > 56) {
+                    key.setNameEn(parts[56]);
+                    key.setDescription("Key " + parts[35] + " (" + parts[56] + ")");
+                } else {
+                    key.setDescription("Key " + parts[35]);
+                }
+                if (keys.contains(key)) {
+                    continue;
+                }
+                keys.add(key);
+            }
+        }
+        keyRepository.saveAll(keys);
+        return keyRepository.findAll();
+
     }
 
     class Pair {

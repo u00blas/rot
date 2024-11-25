@@ -1,8 +1,6 @@
 package com.rot.app.question;
 
 import com.rot.app.category.Category;
-import com.rot.app.proposal.Proposal;
-import com.rot.app.subquestion.Subquestion;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.targetgroup.TargetGroup;
 import jakarta.persistence.*;
@@ -29,6 +27,8 @@ public class Question {
     private TargetGroup targetGroup;
     private String unipark;
     private String trust1v1;
+    private String keyDe;
+    private String keyEn;
 
     public Question() {
     }
@@ -36,7 +36,7 @@ public class Question {
     public Question(Long id, String questionDe, Category category,
                     SubquestionContainer subquestionContainer, String questionEn,
                     String page, String newNumber, String ownNumber,
-                    String sequenceNumber, TargetGroup targetGroup, String unipark, String trust1v1) {
+                    String sequenceNumber, TargetGroup targetGroup, String unipark, String trust1v1, String keyDe, String keyEn) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -49,6 +49,8 @@ public class Question {
         this.targetGroup = targetGroup;
         this.unipark = unipark;
         this.trust1v1 = trust1v1;
+        this.keyDe = keyDe;
+        this.keyEn = keyEn;
     }
 
     public Long getId() {
@@ -147,6 +149,22 @@ public class Question {
         this.trust1v1 = trust1v1;
     }
 
+    public String getKeyDe() {
+        return keyDe;
+    }
+
+    public void setKeyDe(String keyDe) {
+        this.keyDe = keyDe;
+    }
+
+    public String getKeyEn() {
+        return keyEn;
+    }
+
+    public void setKeyEn(String keyEn) {
+        this.keyEn = keyEn;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -162,6 +180,8 @@ public class Question {
                 ", sequenceNumber='" + sequenceNumber + '\'' +
                 ", unipark='" + unipark + '\'' +
                 ", trust1v1='" + trust1v1 + '\'' +
+                ", keyDe='" + keyDe + '\'' +
+                ", keyEn='" + keyEn + '\'' +
                 '}';
     }
 

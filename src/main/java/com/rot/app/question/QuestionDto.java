@@ -1,7 +1,6 @@
 package com.rot.app.question;
 
 import com.rot.app.category.Category;
-import com.rot.app.proposal.Proposal;
 import com.rot.app.subquestioncontainer.SubquestionContainer;
 import com.rot.app.targetgroup.TargetGroup;
 import jakarta.validation.constraints.NotEmpty;
@@ -21,6 +20,8 @@ public class QuestionDto {
     private TargetGroup targetGroup;
     private String unipark;
     private String trust1v1;
+    private String keyDe;
+    private String keyEn;
 
     public QuestionDto() {
     }
@@ -28,7 +29,7 @@ public class QuestionDto {
     public QuestionDto(Long id, String questionDe, Category category,
                        SubquestionContainer subquestionContainer, String questionEn,
                        String page, String newNumber, String ownNumber,
-                       String sequenceNumber, TargetGroup targetGroup, String unipark, String trust1v1) {
+                       String sequenceNumber, TargetGroup targetGroup, String unipark, String trust1v1, String keyDe, String keyEn) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -41,6 +42,8 @@ public class QuestionDto {
         this.targetGroup = targetGroup;
         this.unipark = unipark;
         this.trust1v1 = trust1v1;
+        this.keyDe = keyDe;
+        this.keyEn = keyEn;
     }
 
     public Long getId() {
@@ -139,6 +142,22 @@ public class QuestionDto {
         this.trust1v1 = trust1v1;
     }
 
+    public String getKeyDe() {
+        return keyDe;
+    }
+
+    public void setKeyDe(String keyDe) {
+        this.keyDe = keyDe;
+    }
+
+    public String getKeyEn() {
+        return keyEn;
+    }
+
+    public void setKeyEn(String keyEn) {
+        this.keyEn = keyEn;
+    }
+
     public static QuestionDto toDto(Question question) {
         return new QuestionDto(
                 question.getId(),
@@ -152,7 +171,9 @@ public class QuestionDto {
                 question.getSequenceNumber(),
                 question.getTargetGroup(),
                 question.getUnipark(),
-                question.getTrust1v1()
+                question.getTrust1v1(),
+                question.getKeyDe(),
+                question.getKeyEn()
         );
     }
 
@@ -169,7 +190,9 @@ public class QuestionDto {
                 questionDto.getSequenceNumber(),
                 questionDto.getTargetGroup(),
                 questionDto.getUnipark(),
-                questionDto.getTrust1v1()
+                questionDto.getTrust1v1(),
+                questionDto.getKeyDe(),
+                questionDto.getKeyEn()
         );
     }
 }

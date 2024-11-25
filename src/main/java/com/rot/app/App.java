@@ -6,6 +6,7 @@ import com.rot.app.company.Company;
 import com.rot.app.company.CompanyRepository;
 import com.rot.app.contact.Contact;
 import com.rot.app.contact.ContactRepository;
+import com.rot.app.key.Key;
 import com.rot.app.migration.MigrateData;
 import com.rot.app.migration.MigrateRawData;
 import com.rot.app.migration.MigrationService;
@@ -101,12 +102,11 @@ public class App {
                 contactRepository.save(contact);
             }
 
-            Map<String, Proposal> proposalMap = new HashMap<>();
-            for (Proposal proposal : proposalRepository.findAll()) {
-                proposalMap.put(proposal.getMinScale(), proposal);
-            }
+
 
             List<TargetGroup> targetGroups = migrationService.createTargetGroups();
+
+            List<Key> keys = migrationService.createKeys();
 
             List<Category> categorys = MigrateData.getCategoriesFromCsv();
             for (Category category : categorys) {

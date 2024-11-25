@@ -15,7 +15,9 @@
             <th>Unipark</th>
             <th>Category</th>
             <th>Target Group</th>
-            <th>Number of Subquestions</th>
+            <th>Key</th>
+            <th>KeyEn</th>
+            <th>Subquestions</th>
             <th>Actions</th>
         </tr>
         </thead>
@@ -32,6 +34,10 @@
             <td th:if="${questionDto.category == null}">None</td>
             <td th:if="${questionDto.targetGroup != null}" th:text="${questionDto.targetGroup.name}"></td>
             <td th:if="${questionDto.targetGroup == null}">None</td>
+            <td th:if="${questionDto.keyDe != null}" th:text="${questionDto.keyDe}"></td>
+            <td th:if="${questionDto.keyDe == null}">None</td>
+            <td th:if="${questionDto.keyEn != null}" th:text="${questionDto.keyEn}"></td>
+            <td th:if="${questionDto.keyEn == null}">None</td>
             <td th:text="${questionDto.subquestionContainer.subquestions.size()-1}"></td>
             <td style="white-space: nowrap">
                 <a class="btn btn-primary btn-sm" th:href="@{/questions/edit(id=${questionDto.id})}">Edit</a>
