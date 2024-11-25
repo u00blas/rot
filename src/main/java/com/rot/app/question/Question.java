@@ -31,6 +31,7 @@ public class Question {
     private String sequenceNumber;
     private String targetGroup;
     private String unipark;
+    private String trust1v1;
 
     public Question() {
     }
@@ -38,7 +39,7 @@ public class Question {
     public Question(Long id, String questionDe, Category category,
                     SubquestionContainer subquestionContainer, String questionEn,
                     String page, String newNumber, String ownNumber,
-                    String sequenceNumber, String targetGroup, String unipark) {
+                    String sequenceNumber, String targetGroup, String unipark, String trust1v1) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -50,6 +51,7 @@ public class Question {
         this.sequenceNumber = sequenceNumber;
         this.targetGroup = targetGroup;
         this.unipark = unipark;
+        this.trust1v1 = trust1v1;
     }
 
     public Question(String w) {
@@ -62,6 +64,14 @@ public class Question {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public void setTargetGroup(String targetGroup) {
+        this.targetGroup = targetGroup;
+    }
+
+    public String getTargetGroup() {
+        return targetGroup;
     }
 
     public String getQuestionDe() {
@@ -136,6 +146,14 @@ public class Question {
         this.unipark = unipark;
     }
 
+    public String getTrust1v1() {
+        return trust1v1;
+    }
+
+    public void setTrust1v1(String trust1v1) {
+        this.trust1v1 = trust1v1;
+    }
+
     @Override
     public String toString() {
         return "Question{" +
@@ -150,14 +168,8 @@ public class Question {
                 ", ownNumber='" + ownNumber + '\'' +
                 ", sequenceNumber='" + sequenceNumber + '\'' +
                 ", unipark='" + unipark + '\'' +
+                ", trust1v1='" + trust1v1 + '\'' +
                 '}';
     }
 
-    public void setTargetGroup(String targetGroup) {
-        this.targetGroup = targetGroup;
-    }
-
-    public String getTargetGroup() {
-        return targetGroup;
-    }
 }

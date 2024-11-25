@@ -19,6 +19,7 @@ public class QuestionDto {
     private String sequenceNumber;
     private String targetGroup;
     private String unipark;
+    private String trust1v1;
 
     public QuestionDto() {
     }
@@ -26,7 +27,7 @@ public class QuestionDto {
     public QuestionDto(Long id, String questionDe, Category category,
                        SubquestionContainer subquestionContainer, String questionEn,
                        String page, String newNumber, String ownNumber,
-                       String sequenceNumber, String targetGroup, String unipark) {
+                       String sequenceNumber, String targetGroup, String unipark, String trust1v1) {
         this.id = id;
         this.questionDe = questionDe;
         this.category = category;
@@ -38,6 +39,7 @@ public class QuestionDto {
         this.sequenceNumber = sequenceNumber;
         this.targetGroup = targetGroup;
         this.unipark = unipark;
+        this.trust1v1 = trust1v1;
     }
 
     public Long getId() {
@@ -128,7 +130,15 @@ public class QuestionDto {
         this.unipark = unipark;
     }
 
-    public static QuestionDto fromQuestion(Question question) {
+    public String getTrust1v1() {
+        return trust1v1;
+    }
+
+    public void setTrust1v1(String trust1v1) {
+        this.trust1v1 = trust1v1;
+    }
+
+    public static QuestionDto toDto(Question question) {
         return new QuestionDto(
                 question.getId(),
                 question.getQuestionDe(),
@@ -140,11 +150,12 @@ public class QuestionDto {
                 question.getOwnNumber(),
                 question.getSequenceNumber(),
                 question.getTargetGroup(),
-                question.getUnipark()
+                question.getUnipark(),
+                question.getTrust1v1()
         );
     }
 
-    public static Question fromQuestionDto(QuestionDto questionDto) {
+    public static Question fromDto(QuestionDto questionDto) {
         return new Question(
                 questionDto.getId(),
                 questionDto.getQuestionDe(),
@@ -156,7 +167,8 @@ public class QuestionDto {
                 questionDto.getOwnNumber(),
                 questionDto.getSequenceNumber(),
                 questionDto.getTargetGroup(),
-                questionDto.getUnipark()
+                questionDto.getUnipark(),
+                questionDto.getTrust1v1()
         );
     }
 }

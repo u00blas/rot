@@ -18,4 +18,8 @@ public class QuestionServiceImpl implements QuestionService {
         return questionRepository.findAll(pageable);
     }
 
+    @Override
+    public Page<Question> findAll(PageRequest pageRequest) {
+        return questionRepository.findAll(pageRequest);
+    }
 }

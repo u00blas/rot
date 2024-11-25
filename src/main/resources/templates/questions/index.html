@@ -11,25 +11,29 @@
         <tr>
             <th>ID</th>
             <th>QuestionDe</th>
+            <th>Trust 1 v1</th>
             <th>Unipark</th>
             <th>Category</th>
-            <th>Subquestion Container</th>
+            <th>Number of Subquestions</th>
             <th>Actions</th>
         </tr>
         </thead>
         <tbody class="table-group-divider">
-        <tr th:each="question : ${questions}">
-            <td th:text="${question.id}"></td>
-            <td th:if="${question.questionDe != null&& question.questionDe.length() > 40}" th:text="${question.questionDe.substring(0, 40)+'...'}"></td>
-            <td th:if="${question.questionDe != null&& question.questionDe.length() <= 40}" th:text="${question.questionDe}"></td>
-            <td th:text="${question.unipark}"></td>
-            <td th:if="${question.category != null}" th:text="${question.category.name}"></td>
-            <td th:if="${question.category == null}">None</td>
-            <td th:text="${question.subquestionContainer.subquestions}"></td>
+        <tr th:each="questionDto : ${questionDtos}">
+            <td th:text="${questionDto.id}"></td>
+            <td th:if="${questionDto.questionDe != null&& questionDto.questionDe.length() > 40}"
+                th:text="${questionDto.questionDe.substring(0, 40)+'...'}"></td>
+            <td th:if="${questionDto.questionDe != null&& questionDto.questionDe.length() <= 40}"
+                th:text="${questionDto.questionDe}"></td>
+            <td th:text="${questionDto.trust1v1}"></td>
+            <td th:text="${questionDto.unipark}"></td>
+            <td th:if="${questionDto.category != null}" th:text="${questionDto.category.name}"></td>
+            <td th:if="${questionDto.category == null}">None</td>
+            <td th:text="${questionDto.subquestionContainer.subquestions.size()-1}"></td>
             <td style="white-space: nowrap">
-                <a class="btn btn-primary btn-sm" th:href="@{/questions/edit(id=${question.id})}">Edit</a>
-                <a class="btn btn-primary btn-sm" th:href="@{/questions/details(id=${question.id})}">Details</a>
-                <a class="btn btn-danger btn-sm" th:href="@{/questions/delete(id=${question.id})}">Delete</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/questions/edit(id=${questionDto.id})}">Edit</a>
+                <a class="btn btn-primary btn-sm" th:href="@{/questions/details(id=${questionDto.id})}">Details</a>
+                <a class="btn btn-danger btn-sm" th:href="@{/questions/delete(id=${questionDto.id})}" onclick="return confirm('Are you sure?')">Delete</a>
             </td>
         </tr>
         </tbody>
