@@ -18,7 +18,6 @@ public class Question {
     private String questionDe;
 
     @ManyToOne
-    @JoinColumn(name = "category_id")
     private Category category;
 
     @OneToOne

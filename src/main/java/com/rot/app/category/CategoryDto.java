@@ -1,25 +1,19 @@
 package com.rot.app.category;
 
-import jakarta.persistence.*;
-
 import java.util.Date;
 
-@Entity
-@Table(name = "categories")
-public class Category {
+public class CategoryDto {
 
-    @Id
-    @GeneratedValue
     private Long id;
     private String name;
     private String description;
     private Date creationDate;
     private Date lastUpdate;
 
-    public Category() {
+    public CategoryDto() {
     }
 
-    public Category(Long id, String name, String description, Date creationDate, Date lastUpdate) {
+    public CategoryDto(Long id, String name, String description, Date creationDate, Date lastUpdate) {
         this.id = id;
         this.name = name;
         this.description = description;
@@ -69,12 +63,20 @@ public class Category {
 
     @Override
     public String toString() {
-        return "Category{" +
+        return "CategoryDto{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", description='" + description + '\'' +
                 ", creationDate=" + creationDate +
                 ", lastUpdate=" + lastUpdate +
                 '}';
+    }
+
+    public static CategoryDto from(Category category) {
+        return new CategoryDto(category.getId(), category.getName(), category.getDescription(), category.getCreationDate(), category.getLastUpdate());
+    }
+
+    public static Category to(CategoryDto categoryDto) {
+        return new Category(categoryDto.getId(), categoryDto.getName(), categoryDto.getDescription(), categoryDto.getCreationDate(), categoryDto.getLastUpdate());
     }
 }

@@ -248,7 +248,11 @@ public class MigrateData {
     }
 
     private static Category createCategoryFromCsvLine(String[] parts) {
-        return new Category(parts[MigrateData.getColumnIndex("D") - 1]);
+        Category category = new Category();
+        category.setName(parts[MigrateData.getColumnIndex("D") - 1]);
+        category.setDescription("Description:");
+        category.setCreationDate(new Date());
+        return category;
     }
 
     public static Optional<Category> getCategoryByName(String name) {

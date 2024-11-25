@@ -35,8 +35,8 @@ public class QuestionServiceImpl implements QuestionService {
             return;
         }
         question.setQuestionDe(questionDto.getQuestionDe());
-        /*question.setCategory(questionDto.getCategory());
-        question.setSubquestionContainer(questionDto.getSubquestionContainer());
+        question.setCategory(questionDto.getCategory());
+        /*question.setSubquestionContainer(questionDto.getSubquestionContainer());
         question.setQuestionEn(questionDto.getQuestionEn());
         question.setPage(questionDto.getPage());
         question.setNewNumber(questionDto.getNewNumber());

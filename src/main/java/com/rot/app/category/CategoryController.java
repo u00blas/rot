@@ -3,59 +3,63 @@ package com.rot.app.category;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.Date;
 import java.util.List;
 
 @Controller
+@RequestMapping("/categories")
 public class CategoryController {
 
-    private final CategoryRepository categoryRepository;
+    private final CategoryServiceImpl categoryService;
 
-    public CategoryController(CategoryRepository categoryRepository) {
-        this.categoryRepository = categoryRepository;
+    public CategoryController(CategoryServiceImpl categoryService) {
+        this.categoryService = categoryService;
     }
 
-    @GetMapping("/categories")
-    public String categories(Model model) {
-        List<Category> categories = categoryRepository.findAll();
+    @GetMapping
+    public String listCategories(Model model) {
+        List<Category> categories = categoryService.findAll();
         model.addAttribute("categories", categories);
-        return "categories";
+        return "categories/index";
     }
 
-    @GetMapping("/categories/new")
-    public String newCategory(Model model) {
-        model.addAttribute("category", new Category());
-        return "category_form";
-    }
-
-    @PostMapping("/categories/save")
-    public String saveCategory(Category category) {
-        categoryRepository.save(category);
-        return "redirect:/categories";
-    }
-
-    @GetMapping("/categories/{id}/edit")
-    public String editCategory(Model model, @PathVariable("id") Long id) {
-        Category category = categoryRepository.findById(id).get();
-        model.addAttribute("category", category);
-        return "category_form";
-    }
-
-    @GetMapping("/categories/{id}/delete")
-    public String deleteCategory(@PathVariable("id") Long id, BindingResult result) {
-        if (result.hasErrors()) {
-            return "category_form";
+    @GetMapping("/edit")
+    public String showEditForm(@RequestParam Long id, Model model) {
+        Category category = categoryService.findById(id);
+        if (category == null) {
+            return "redirect:/categories";
         }
-        categoryRepository.deleteById(id);
-        return "redirect:/categories";
+        model.addAttribute("categoryDto", CategoryDto.from(category));
+        return "categories/edit";
     }
 
-    @GetMapping("/categories/{id}/view")
-    public String viewCategory(@PathVariable("id") Long id, Model model) {
-        model.addAttribute("category", categoryRepository.findById(id).get());
-        return "category_view";
+    @GetMapping("/create")
+    public String showCreateForm(Model model) {
+        model.addAttribute("categoryDto", new CategoryDto());
+        return "categories/edit";
+    }
+
+    @PostMapping("/save")
+    public String saveCategory(@ModelAttribute("categoryDto") CategoryDto categoryDto, BindingResult bindingResult) {
+
+        if (categoryDto.getId() == null) {
+            Category newCategory = new Category();
+            newCategory.setDescription(categoryDto.getDescription());
+            newCategory.setName(categoryDto.getName());
+            newCategory.setCreationDate(new Date());
+            categoryService.save(newCategory);
+            return "redirect:/categories";
+        }
+        Category category = categoryService.findById(categoryDto.getId());
+        if (category == null) {
+            return "redirect:/categories";
+        }
+        category.setLastUpdate(new Date());
+        category.setDescription(categoryDto.getDescription());
+        category.setName(categoryDto.getName());
+        categoryService.save(category);
+        return "redirect:/categories";
     }
 }

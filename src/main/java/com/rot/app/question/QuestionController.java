@@ -2,6 +2,7 @@ package com.rot.app.question;
 
 import com.rot.app.category.Category;
 import com.rot.app.category.CategoryRepository;
+import com.rot.app.category.CategoryServiceImpl;
 import com.rot.app.proposal.Proposal;
 import com.rot.app.proposal.ProposalRepository;
 import jakarta.validation.Valid;
@@ -21,8 +22,12 @@ public class QuestionController {
 
     private final QuestionServiceImpl questionService;
 
-    public QuestionController(QuestionServiceImpl questionService) {
+    private final CategoryServiceImpl categoryService;
+
+
+    public QuestionController(QuestionServiceImpl questionService, CategoryServiceImpl categoryService) {
         this.questionService = questionService;
+        this.categoryService = categoryService;
     }
 
     @GetMapping
@@ -56,6 +61,7 @@ public class QuestionController {
     @GetMapping("/edit")
     public String edit(@RequestParam Long id, Model model) {
         QuestionDto questionDto = questionService.findById(id);
+        model.addAttribute("categories", categoryService.findAll());
         model.addAttribute("questionDto", questionDto);
         return "questions/edit";
     }
