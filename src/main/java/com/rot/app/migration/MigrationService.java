@@ -308,7 +308,9 @@ public class MigrationService {
             {
                 for (int i = pair.start; i < pair.end; i++) {
                     String[] parts = lines.get(i).split(";");
-                    Question question = new Question(parts[22]);
+                    Question question = new Question();
+                    question.setQuestionDe(parts[22]);
+                    question.setQuestionEn(parts[51]);
                     question.setPage(parts[7]);
                     Category category = categoryRepository.findByName(parts[3]);
                     SubquestionContainer subquestionContainer = subquestionContainerRepository.findByQuestion(parts[22]);

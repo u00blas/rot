@@ -53,10 +53,6 @@ public class Question {
         this.trust1v1 = trust1v1;
     }
 
-    public Question(String w) {
-        this.questionDe = w;
-    }
-
     public Long getId() {
         return id;
     }

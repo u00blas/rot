@@ -265,13 +265,7 @@ public class MigrateData {
         return Optional.empty();
     }
 
-    private static Question createQuestionFromCsvLine(String[] parts) {
-        if (questionParts == null) {
-            questionParts = new ArrayList<>();
-        }
-        questionParts.add(parts);
-        return new Question(parts[getColumnIndex("W")].trim());
-    }
+
 
     public static List<String[]> getQuestionParts() {
         return questionParts;
