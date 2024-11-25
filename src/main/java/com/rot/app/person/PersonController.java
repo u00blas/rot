@@ -5,6 +5,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.List;
 
@@ -47,7 +48,7 @@ public class PersonController {
 
     @PostMapping("/save")
     public String save(@Valid @ModelAttribute PersonDto personDto, BindingResult result) {
-        if(result.hasErrors()) {
+        if (result.hasErrors()) {
             return "persons/edit";
         }
         Person person = PersonDto.fromDto(personDto);
@@ -56,8 +57,13 @@ public class PersonController {
     }
 
     @GetMapping("/delete")
-    public String delete(@RequestParam Long id) {
-        personRepository.deleteById(id);
+    public String delete(@RequestParam Long id, RedirectAttributes redirectAttributes) {
+        try {
+            personRepository.deleteById(id);
+        } catch (Exception e) {
+            redirectAttributes.addFlashAttribute("message", e.getMessage());
+            //return "redirect:/persons";
+        }
         return "redirect:/persons";
     }
 }

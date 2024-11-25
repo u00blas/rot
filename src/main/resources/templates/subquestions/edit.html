@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: page_head}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: page_nav}"></nav>
+<div class="container py-3">
+    <h1 class="text-center my-4" th:if="${subquestion.id == null}">Create Subquestion</h1>
+    <h1 class="text-center my-4" th:if="${subquestion.id != null}" th:text="'Edit Subquestion ' + ${subquestion.id}"></h1>
+
+    <form th:action="@{/subquestions/save}" th:object="${subquestion}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">Header</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{header}" required placeholder="Header"/>
+                <p th:if="${#fields.hasErrors('header')}" th:errorClass="text-danger" th:errors="*{header}"></p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">Position</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{position}" required placeholder="Position"/>
+                <p th:if="${#fields.hasErrors('position')}" th:errorClass="text-danger" th:errors="*{position}"></p>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">QuestionDe</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{questionDe}" placeholder="Question de"/>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label class="col-form-label col-sm-4">Proposal</label>
+            <div class="col-sm-8">
+                <input type="text" class="form-control" th:field="*{proposal}" placeholder="Proposal"/>
+            </div>
+        </div>
+        <div class="text-center p-3">
+            <button type="submit" class="btn btn-primary">Submit</button>
+            <a th:href="@{/subquestions}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+<footer th:replace="~{fragments/layout :: page_footer}"></footer>
+</body>
+</html>

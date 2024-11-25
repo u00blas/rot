@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: page_head}"></head>
+<head th:replace="~{fragments/layout :: page_head}"></head>
 <body>
-<nav th:replace="~{layout :: page_nav}"></nav>
+<nav th:replace="~{fragments/layout :: page_nav}"></nav>
 <div class="container py-3">
     <h1 class="text-center my-4">Question Details</h1>
     <a th:href="@{/questions}" class="btn btn-primary">Back</a>
@@ -33,6 +33,6 @@
         </div>
     </div>
 </div>
-<footer th:replace="~{layout :: page_footer}"></footer>
+<footer th:replace="~{fragments/layout :: page_footer}"></footer>
 </body>
 </html>

@@ -1,14 +1,14 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: page_head}"></head>
+<head th:replace="~{fragments/layout :: page_head}"></head>
 <body>
-<nav th:replace="~{layout :: page_nav}"></nav>
+<nav th:replace="~{fragments/layout :: page_nav}"></nav>
 <div class="container py-3">
     <h1 class="text-center my-4">RoT Application Administration</h1>
     <div class="progress">
         <div class="progress-bar" role="progressbar" style="width: 25%;" aria-valuenow="25" aria-valuemin="0" aria-valuemax="100">25%</div>
     </div>
 </div>
-<footer th:replace="~{layout :: page_footer}"></footer>
+<footer th:replace="~{fragments/layout :: page_footer}"></footer>
 </body>
 </html>

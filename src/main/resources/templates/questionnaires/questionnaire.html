@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.thymeleaf.org">
-<head th:replace="~{layout :: page_head}"></head>
+<head th:replace="~{fragments/layout :: page_head}"></head>
 <body>
-<nav th:replace="~{layout :: page_nav}"></nav>
+<nav th:replace="~{fragments/layout :: page_nav}"></nav>
 <div class="container py-3">
     <div class="row">
         <div class="col-md-8 mx-auto rounded border p-4 m-4">
@@ -35,6 +35,6 @@
         </div>
     </div>
 </div>
-<footer th:replace="~{layout :: page_footer}"></footer>
+<footer th:replace="~{fragments/layout :: page_footer}"></footer>
 </body>
 </html>
